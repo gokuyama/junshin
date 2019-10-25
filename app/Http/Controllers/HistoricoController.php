@@ -4,11 +4,9 @@ namespace junshin\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use junshin\Http\Requests\HistoricoRequest;
-use junshin\Http\Requests\LocalizaHistoricoRequest;
 use junshin\Historico;
 use junshin\Aluno;
 use Request;
-use Carbon\Carbon;
 
 class HistoricoController  extends Controller
 {

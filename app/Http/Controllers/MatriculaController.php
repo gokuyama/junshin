@@ -4,7 +4,6 @@ namespace junshin\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use junshin\Http\Requests\MatriculaRequest;
-use junshin\Http\Requests\LocalizaMatriculaRequest;
 use junshin\Matricula;
 use junshin\Mensalidade;
 use junshin\Turma;

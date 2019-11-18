@@ -2,6 +2,8 @@
 
 namespace junshin\Http\Controllers;
 
+use Request;
+use junshin\Http\Requests\SelecionaMesRequest;
 use Illuminate\Support\Facades\DB;
 use Eduardokum\LaravelBoleto\Pessoa;
 use Eduardokum\LaravelBoleto\Boleto\Banco\Caixa;
@@ -17,6 +19,11 @@ use Eduardokum\LaravelBoleto\Util;
 class BoletoController  extends Controller
 {
 
+    const OUTPUT_STANDARD = 'I';
+    const OUTPUT_DOWNLOAD = 'D';
+    const OUTPUT_SAVE = 'F';
+    const OUTPUT_STRING = 'S';
+
     public function __construct()
     {
         $this->middleware(
@@ -24,9 +31,17 @@ class BoletoController  extends Controller
         );
     }
 
-    public function listaPorAluno()
-    {
+    public function selecionarOpcao(){
+        if (view()->exists('boleto.Boleto')) {
+            return view('boleto.Boleto');
+        }
 
+    }
+
+
+    public function listaPorAluno(SelecionaMesRequest $request)
+    {
+        $params = Request::all();    
         $listagemBoletos = DB::select('
         SELECT 
             alunos.aluno_nome,
@@ -39,14 +54,12 @@ class BoletoController  extends Controller
             pagadores.pagador_cidade AS cidade,
             pagadores.pagador_cpf AS documento,
             FORMAT((pagadores.pagador_percentual * mensalidades.mensalidade_valor) / 100,2) AS valor,
-            pagadores.pagador_id as pagador_id,
-            boletos.ativo as boleto_ativo
+            pagadores.pagador_id as pagador_id
         FROM alunos
                 JOIN    matriculas ON alunos.aluno_id = matriculas.aluno_id
                 JOIN    mensalidades ON matriculas.matricula_id = mensalidades.matricula_id
                 JOIN    responsaveis ON alunos.aluno_id = responsaveis.aluno_id
                 JOIN    pagadores ON responsaveis.responsavel_id = pagadores.responsavel_id
-                LEFT JOIN boletos ON pagadores.pagador_id = boletos.pagador_id
         WHERE    matriculas.matricula_data_ini > DATE_FORMAT(NOW(), "%Y-01-01")
                 AND matriculas.matricula_data_fim > NOW()
                 AND matriculas.ativo = 1
@@ -70,24 +83,37 @@ class BoletoController  extends Controller
 
         foreach ($listagemBoletos as $b)
         {
-            DB::table('boletos')->insert(
-                [
-                    'remessa_id' => $remessaId,
-                    'boleto_id' => $nossonumero,
-                    'boleto_valor' => $b->valor,
-                    'data_competencia' => new \Carbon\Carbon(),
-                    'boleto_vencimento' => new \Carbon\Carbon(),
-                    'boleto_observacao' => 'Teste demonstrativo',
-                    'boleto_pago' => 0,
-                    'email_enviado' => 0,
-                    'ativo' => 1,
-                    'userid_insert' => $usuarioLogado
-                ]
-            );
-            $boleto=$this->preencheBoleto($beneficiario, $b,  $nossonumero);
-            $boletos[] = $boleto;
-            $nossonumero++;
-            
+            $verificaBoletos = DB::select('
+            SELECT 
+                boletos.boleto_id as boleto_id,
+                pagadores.pagador_id as pagador_id,
+                boletos.data_competencia as data_competencia
+            FROM    boletos
+                    JOIN pagadores ON pagadores.pagador_id = boletos.pagador_id
+            WHERE   
+                    MONTH(boletos.data_competencia) = '.$params['mesCompetencia'] . 
+                    ' AND pagadores.pagador_id = ' . $b->pagador_id);
+
+            if(empty($verificaBoletos)){
+                DB::table('boletos')->insert(
+                    [
+                        'remessa_id' => $remessaId,
+                        'boleto_id' => $nossonumero,
+                        'pagador_id' => $b->pagador_id,
+                        'boleto_valor' => $b->valor,
+                        'data_competencia' => new \Carbon\Carbon($params['mesCompetencia'].'/01/'.date('y')),
+                        'boleto_vencimento' => new \Carbon\Carbon(),
+                        'boleto_observacao' => 'Teste demonstrativo',
+                        'boleto_pago' => 0,
+                        'email_enviado' => 0,
+                        'ativo' => 1,
+                        'userid_insert' => $usuarioLogado
+                    ]
+                );
+                $boleto=$this->preencheBoleto($beneficiario, $b,  $nossonumero, $this::OUTPUT_SAVE);
+                $boletos[] = $boleto;
+                $nossonumero++;
+            }
         }
         if(!empty($boletos)){
             $this->geraRemessa($beneficiario, $remessaId, $boletos);
@@ -114,8 +140,8 @@ class BoletoController  extends Controller
         return $beneficiario;
     }
 
-    public function preencheBoleto($beneficiario, $b, $nossonumero){
-            $pagador = new Pessoa(
+    public function preencheBoleto($beneficiario, $b, $nossonumero, $tipoSaida){
+        $pagador = new Pessoa(
             [
                 'nome'      => 'Aluno:' . $b->aluno_nome . ' | Reponsável:' . $b->nome_responsavel,
                 'endereco'  => $b->endereco,
@@ -150,8 +176,12 @@ class BoletoController  extends Controller
         );
         $pdf = new PdfCaixa();
         $pdf->addBoleto($boleto);
-        $pdf->gerarBoleto($pdf::OUTPUT_SAVE, __DIR__ . DIRECTORY_SEPARATOR . 'arquivos' . DIRECTORY_SEPARATOR . $nossonumero . '.pdf');
-
+        if($tipoSaida==$this::OUTPUT_SAVE){
+            $pdf->gerarBoleto($pdf::OUTPUT_SAVE, __DIR__ . DIRECTORY_SEPARATOR . 'arquivos' . DIRECTORY_SEPARATOR . $nossonumero . '.pdf');    
+        }
+        else{
+            $pdf->gerarBoleto($pdf::OUTPUT_DOWNLOAD, null,  $nossonumero . '.pdf');
+        } 
         return $boleto;
     }
 
@@ -199,6 +229,40 @@ class BoletoController  extends Controller
                         
         }
 
+    }
+
+    public function imprimeBoleto($aluno_id)
+    {
+        $listagemBoletos = DB::select('
+        SELECT 
+            alunos.aluno_nome,
+            responsaveis.responsavel_nome AS nome_responsavel,
+            CONCAT(pagadores.pagador_rua,",",pagadores.pagador_numero," ",
+            pagadores.pagador_complemento) AS endereco,
+            pagadores.pagador_bairro AS bairro,
+            pagadores.pagador_cep AS cep,
+            pagadores.pagador_estado AS UF,
+            pagadores.pagador_cidade AS cidade,
+            pagadores.pagador_cpf AS documento,
+            FORMAT((pagadores.pagador_percentual * mensalidades.mensalidade_valor) / 100,2) AS valor,
+            pagadores.pagador_id as pagador_id,
+            boletos.boleto_id as boletos_id
+        FROM alunos
+                JOIN    matriculas ON alunos.aluno_id = matriculas.aluno_id
+                JOIN    mensalidades ON matriculas.matricula_id = mensalidades.matricula_id
+                JOIN    responsaveis ON alunos.aluno_id = responsaveis.aluno_id
+                JOIN    pagadores ON responsaveis.responsavel_id = pagadores.responsavel_id
+                JOIN    boletos ON pagadores.pagador_id = boletos.pagador_id
+        WHERE    alunos.aluno_id='.$aluno_id.
+                ' and MONTH(boletos.data_competencia)=1');
+
+        $beneficiario = $this->geraBeneficiario();
+        
+        foreach ($listagemBoletos as $b)
+        {
+            $nossonumero=$b->boletos_id;
+            $boleto=$this->preencheBoleto($beneficiario, $b,  $nossonumero, $this::OUTPUT_DOWNLOAD);
+        }
     }
 
 }

@@ -171,4 +171,8 @@ Route::get('/turnos/exclui/{turno_id}', 'TurnoController@exclui');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/boletos', ['as' => 'boletos.lista', 'uses' => 'BoletoController@listaPorAluno']);
+//Route::get('/boletos', ['as' => 'boletos.lista', 'uses' => 'BoletoController@listaPorAluno']);
+Route::get('/boletos/seleciona', ['as' => 'boletos.seleciona', 'uses' => 'BoletoController@selecionarOpcao']);
+Route::get('/boletos/retorno', ['as' => 'boletos.retorno', 'uses' => 'BoletoController@processaRetorno']);
+Route::get('/boletos/imprimeBoleto/{aluno_id}', 'BoletoController@imprimeBoleto');
+Route::get('/boletos', 'BoletoController@listaPorAluno');

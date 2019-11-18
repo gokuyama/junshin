@@ -24,6 +24,7 @@
                 <ul>
                     <li><a href="{{route('alunos')}}">Localizar Aluno</a></li>
                     <li><a href='{{route('alunos.novo')}}'>Novo Aluno</a></li>
+                    <li><a href="{{route('boletos.seleciona') }}">Boletos</a></li>
                 </ul>
             </li>
             <li><a href="#">Turmas</a>
@@ -42,7 +43,6 @@
                     <li><a href="{{ route('tiposResponsavel.lista') }}">Tipos de Responsável</a></li>
                     <li><a href="{{ route('tiposTurma.lista') }}">Tipos de Turma</a></li>
                     <li><a href="{{ route('turnos.lista') }}">Turnos</a></li>
-                    <li><a href="{{ route('boletos.lista') }}">boletos</a></li>
                 </ul>
             </li>
             @guest

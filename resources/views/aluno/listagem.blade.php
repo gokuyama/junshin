@@ -28,14 +28,15 @@
 <h1>Listagem de alunos</h1>
 <table class="table table-striped table-bordered table-hover">
     <tr class="d-flex">
-        <th class="col-9">Nome do Aluno</th>
+        <th class="col-8">Nome do Aluno</th>
         <th class="col-1">Editar</th>
         <th class="col-1">Matricula</th>
         <th class="col-1">Relatórios</th>
+        <th class="col-1">Boletos</th>
     </tr>
     @foreach ($alunos as $p)
     <tr class="d-flex">
-        <td class="col-sm-9">{{$p->aluno_nome}} </td>
+        <td class="col-sm-8">{{$p->aluno_nome}} </td>
         <td class="col-sm-1"> <a href="{{action('AlunoController@edita', $p->aluno_id)}}">
                 <span class="fas fa-edit"></span>
             </a>
@@ -51,7 +52,12 @@
         </td>
         <td class="col-sm-1">
             <a href="{{action('RelatorioController@listaPorAluno', $p->aluno_id)}}">
-                <span class="fas fa-file-pdf"></span> </td>
+                <span class="fas fa-file-pdf"></span> 
+        </td>
+        <td class="col-sm-1">
+            <a href="{{action('BoletoController@imprimeBoleto', $p->aluno_id)}}">
+                <span class="fa fa-barcode"></span> 
+        </td>
         </a>
     </tr>
     @endforeach

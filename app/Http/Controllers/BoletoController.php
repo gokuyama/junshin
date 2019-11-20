@@ -4,6 +4,8 @@ namespace junshin\Http\Controllers;
 
 use Request;
 use junshin\Http\Requests\SelecionaMesRequest;
+use junshin\Mail\enviaEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Eduardokum\LaravelBoleto\Pessoa;
 use Eduardokum\LaravelBoleto\Boleto\Banco\Caixa;
@@ -24,11 +26,18 @@ class BoletoController  extends Controller
     const OUTPUT_SAVE = 'F';
     const OUTPUT_STRING = 'S';
 
+    const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho',
+                   'Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+    
     public function __construct()
     {
         $this->middleware(
             'nosso-middleware'
         );
+    }
+
+    public static function meses() {
+        return self::MESES;
     }
 
     public function selecionarOpcao(){
@@ -111,6 +120,9 @@ class BoletoController  extends Controller
                     ]
                 );
                 $boleto=$this->preencheBoleto($beneficiario, $b,  $nossonumero, $this::OUTPUT_SAVE);
+                $meses = $this::meses();
+                $mes = $meses[$params['mesCompetencia']];
+                $this->attachment_email('eduardo.uemura@gmail.com',$nossonumero, $b->nome_responsavel, $mes);
                 $boletos[] = $boleto;
                 $nossonumero++;
             }
@@ -177,7 +189,8 @@ class BoletoController  extends Controller
         $pdf = new PdfCaixa();
         $pdf->addBoleto($boleto);
         if($tipoSaida==$this::OUTPUT_SAVE){
-            $pdf->gerarBoleto($pdf::OUTPUT_SAVE, __DIR__ . DIRECTORY_SEPARATOR . 'arquivos' . DIRECTORY_SEPARATOR . $nossonumero . '.pdf');    
+            $pdf->gerarBoleto($pdf::OUTPUT_SAVE, __DIR__ . DIRECTORY_SEPARATOR . 'arquivos' . DIRECTORY_SEPARATOR . $nossonumero . '.pdf'); 
+
         }
         else{
             $pdf->gerarBoleto($pdf::OUTPUT_DOWNLOAD, null,  $nossonumero . '.pdf');
@@ -263,6 +276,12 @@ class BoletoController  extends Controller
             $nossonumero=$b->boletos_id;
             $boleto=$this->preencheBoleto($beneficiario, $b,  $nossonumero, $this::OUTPUT_DOWNLOAD);
         }
+    }
+    
+    public function attachment_email($mail_receiver, $nossonumero, $nome_responsavel, $mes) {
+        $data = array('name'=>"Escola Junshin");
+        $arq = __DIR__ . DIRECTORY_SEPARATOR . 'arquivos' . DIRECTORY_SEPARATOR . $nossonumero . '.pdf';
+        Mail::to($mail_receiver)->send(new enviaEmail($arq,$nome_responsavel,$mes));
     }
 
 }

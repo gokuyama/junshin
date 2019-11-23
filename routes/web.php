@@ -176,3 +176,25 @@ Route::get('/boletos/seleciona', ['as' => 'boletos.seleciona', 'uses' => 'Boleto
 Route::get('/boletos/retorno', ['as' => 'boletos.retorno', 'uses' => 'BoletoController@processaRetorno']);
 Route::get('/boletos/imprimeBoleto/{aluno_id}', 'BoletoController@imprimeBoleto');
 Route::get('/boletos', 'BoletoController@listaPorAluno');
+
+Route::get('/tiposMovimentacao', ['as' => 'tiposMovimentacao.lista','uses' => 'TipoMovimentacaoController@lista']);
+Route::post('/tiposMovimentacao/adiciona', [ 'as' => 'tiposMovimentacao.adiciona', 'uses' => 'TipoMovimentacaoController@adiciona']);
+Route::get('/tiposMovimentacao/novo', [ 'as' => 'tiposMovimentacao.novo', 'uses' => 'TipoMovimentacaoController@novo']);
+Route::get('/tiposMovimentacao/edita/{tipo_movimentacao_id}', 'TipoMovimentacaoController@edita');
+Route::get('/tiposMovimentacao/altera/{tipo_movimentacao_id}', 'TipoMovimentacaoController@altera');
+Route::get('/tiposMovimentacao/exclui/{tipo_movimentacao_id}', 'TipoMovimentacaoController@exclui');
+
+Route::get('/movimentacoes', ['as' => 'movimentacoes.lista','uses' => 'MovimentacaoController@lista']);
+Route::get('/movimentacoes/entradas', ['as' => 'movimentacoes.lista.entradas','uses' => 'MovimentacaoController@listaEntradas']);
+Route::get('/movimentacoes/saidas', ['as' => 'movimentacoes.lista.saidas','uses' => 'MovimentacaoController@listaSaidas']);
+Route::post('/movimentacoes/adiciona/entrada', [ 'as' => 'movimentacoes.adiciona.entrada', 'uses' => 'MovimentacaoController@adicionaEntrada']);
+Route::post('/movimentacoes/adiciona/saida', [ 'as' => 'movimentacoes.adiciona.saida', 'uses' => 'MovimentacaoController@adicionaSaida']);
+Route::get('/movimentacoes/nova/entrada', [ 'as' => 'movimentacoes.nova.entrada', 'uses' => 'MovimentacaoController@novaEntrada']);
+Route::get('/movimentacoes/nova/saida', [ 'as' => 'movimentacoes.nova.saida', 'uses' => 'MovimentacaoController@novaSaida']);
+Route::get('/movimentacoes/edita/entrada/{movimentacao_id}', 'MovimentacaoController@editaEntrada');
+Route::get('/movimentacoes/edita/saida/{movimentacao_id}', 'MovimentacaoController@editaSaida');
+Route::get('/movimentacoes/altera/entrada/{movimentacao_id}', 'MovimentacaoController@alteraEntrada');
+Route::get('/movimentacoes/altera/saida/{movimentacao_id}', 'MovimentacaoController@alteraSaida');
+Route::get('/movimentacoes/exclui/entrada/{movimentacao_id}', 'MovimentacaoController@excluiEntrada');
+Route::get('/movimentacoes/exclui/saida/{movimentacao_id}', 'MovimentacaoController@excluiSaida');
+Route::get('/movimentacoes/pdf', ['as' => 'movimentacoes.pdf','uses' => 'MovimentacaoController@relatorioMovimentacao']);

@@ -2,6 +2,9 @@ vendor/*
 !vendor/eduardokum/
 node_modules/
 npm-debug.log
+_remoto/public/phpmyadmin/js/vendor/
+phpmyadmin/js/vendor/
+resources/views/vendor/
 
 # Laravel 4 specific
 bootstrap/compiled.php

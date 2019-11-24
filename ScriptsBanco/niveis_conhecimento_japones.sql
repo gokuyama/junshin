@@ -1,0 +1,9 @@
+use junshi46_secretaria;
+insert into niveis_conhecimento_japones (nivel_conhecimento_japones_id,nivel_conhecimento_japones_descricao,ativo,userid_insert,datahora_insert) values (0,"Não Informado",1,"Administrador",sysdate());
+insert into niveis_conhecimento_japones (nivel_conhecimento_japones_id,nivel_conhecimento_japones_descricao,ativo,userid_insert,datahora_insert) values (1,"Iniciante",1,"Administrador",sysdate());
+insert into niveis_conhecimento_japones (nivel_conhecimento_japones_id,nivel_conhecimento_japones_descricao,ativo,userid_insert,datahora_insert) values (2,"Básico",1,"Administrador",sysdate());
+insert into niveis_conhecimento_japones (nivel_conhecimento_japones_id,nivel_conhecimento_japones_descricao,ativo,userid_insert,datahora_insert) values (3,"Elementar",1,"Administrador",sysdate());
+insert into niveis_conhecimento_japones (nivel_conhecimento_japones_id,nivel_conhecimento_japones_descricao,ativo,userid_insert,datahora_insert) values (4,"Intermediário",1,"Administrador",sysdate());
+insert into niveis_conhecimento_japones (nivel_conhecimento_japones_id,nivel_conhecimento_japones_descricao,ativo,userid_insert,datahora_insert) values (5,"Avançado",1,"Administrador",sysdate());
+insert into niveis_conhecimento_japones (nivel_conhecimento_japones_id,nivel_conhecimento_japones_descricao,ativo,userid_insert,datahora_insert) values (6,"Fluente",1,"Administrador",sysdate());
+insert into niveis_conhecimento_japones (nivel_conhecimento_japones_id,nivel_conhecimento_japones_descricao,ativo,userid_insert,datahora_insert) values (7,"Acadêmico",1,"Administrador",sysdate());

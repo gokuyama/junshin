@@ -1,0 +1,13 @@
+use junshi46_secretaria;
+insert into niveis_escolaridade (nivel_escolaridade_id,nivel_escolaridade_descricao,ativo,userid_insert,datahora_insert) values(0,"Não Informado",1,"Administrador",sysdate());
+insert into niveis_escolaridade (nivel_escolaridade_id,nivel_escolaridade_descricao,ativo,userid_insert,datahora_insert) values(1,"Analfabeto",1,"Administrador",sysdate());
+insert into niveis_escolaridade (nivel_escolaridade_id,nivel_escolaridade_descricao,ativo,userid_insert,datahora_insert) values(2,"Ensino fundamental incompleto",1,"Administrador",sysdate());
+insert into niveis_escolaridade (nivel_escolaridade_id,nivel_escolaridade_descricao,ativo,userid_insert,datahora_insert) values(3,"Ensino fundamental completo",1,"Administrador",sysdate());
+insert into niveis_escolaridade (nivel_escolaridade_id,nivel_escolaridade_descricao,ativo,userid_insert,datahora_insert) values(4,"Ensino médio incompleto",1,"Administrador",sysdate());
+insert into niveis_escolaridade (nivel_escolaridade_id,nivel_escolaridade_descricao,ativo,userid_insert,datahora_insert) values(5,"Ensino médio completo",1,"Administrador",sysdate());
+insert into niveis_escolaridade (nivel_escolaridade_id,nivel_escolaridade_descricao,ativo,userid_insert,datahora_insert) values(6,"Superior incompleto",1,"Administrador",sysdate());
+insert into niveis_escolaridade (nivel_escolaridade_id,nivel_escolaridade_descricao,ativo,userid_insert,datahora_insert) values(7,"Superior completo",1,"Administrador",sysdate());
+insert into niveis_escolaridade (nivel_escolaridade_id,nivel_escolaridade_descricao,ativo,userid_insert,datahora_insert) values(8,"Mestrado",1,"Administrador",sysdate());
+insert into niveis_escolaridade (nivel_escolaridade_id,nivel_escolaridade_descricao,ativo,userid_insert,datahora_insert) values(9,"Doutorado",1,"Administrador",sysdate());
+insert into niveis_escolaridade (nivel_escolaridade_id,nivel_escolaridade_descricao,ativo,userid_insert,datahora_insert) values(10,"Pós-Doutorado",1,"Administrador",sysdate());
+insert into niveis_escolaridade (nivel_escolaridade_id,nivel_escolaridade_descricao,ativo,userid_insert,datahora_insert) values(11,"Pós Graduação",1,"Administrador",sysdate());

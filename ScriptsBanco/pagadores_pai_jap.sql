@@ -1,0 +1,1 @@
+insert into pagadores (responsavel_id , pagador_id , pagador_percentual , pagador_data_ini , pagador_data_fim , pagador_cpf, pagador_rua,pagador_numero,pagador_complemento,pagador_bairro, pagador_cidade, pagador_estado, pagador_cep, ativo , userid_insert , datahora_insert ) values(

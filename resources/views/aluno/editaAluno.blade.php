@@ -151,6 +151,7 @@
                 <div class="form-group">
                     <label>Estado</label>
                     <select class="form-control" id="aluno_endereco_estado" name="aluno_endereco_estado">
+                        <option value="--">--</option>
                         <option value="AC" {{$a->aluno_endereco_estado == "AC" ? 'selected' : ''}}>AC</option>
                         <option value="AL" {{$a->aluno_endereco_estado == "AL" ? 'selected' : ''}}>AL</option>
                         <option value="AP" {{$a->aluno_endereco_estado == "AP" ? 'selected' : ''}}>AP</option>

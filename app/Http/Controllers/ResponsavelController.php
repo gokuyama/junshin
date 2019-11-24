@@ -207,6 +207,11 @@ class ResponsavelController  extends Controller
         if (empty($responsavel)) {
             return "Esse responsável não existe";
         }
+
+        if ($responsavel['responsavel_data_nascimento'] == '0000-00-00') {
+            $responsavel['responsavel_data_nascimento'] = '--';
+        }
+
         return view('responsavel.editaResponsavel')
             ->with('r', $responsavel)
             ->with('alunos', $alunos)

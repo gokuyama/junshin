@@ -23,7 +23,8 @@ class MoradorController  extends Controller
     {
         $listaMoradores = null;
         if (view()->exists('morador.listagemMorador')) {
-            return view('morador.listagemMorador')->with('listaMoradores', $listaMoradores);
+            return view('morador.listagemMorador')->with('listaMoradores', $listaMoradores)
+                ->with('mensagemOk', null);
         }
     }
 
@@ -40,7 +41,8 @@ class MoradorController  extends Controller
         if (view()->exists('morador.listagemMorador')) {
             return view('morador.listagemMorador')
                 ->with('listaMoradores', $listaMoradores)
-                ->with('aluno_id', $aluno_id);
+                ->with('aluno_id', $aluno_id)
+                ->with('mensagemOk', null);
         }
     }
 

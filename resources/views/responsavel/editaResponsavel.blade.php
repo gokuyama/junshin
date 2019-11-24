@@ -50,6 +50,7 @@
                     <input name="responsavel_nome" class="form-control" value="{{ $r->responsavel_nome }}" />
                 </div>
             </div>
+            @if (count($pagadores) > 0)
             <div class="col-2">
                 <div class="form-group">
                     <label>CPF</label>
@@ -63,6 +64,7 @@
                         value="{{ $pagadores[0]->pagador_percentual }}" />
                 </div>
             </div>
+            @endif
         </div>
         <div class="row">
             <div class="col-8">
@@ -142,6 +144,7 @@
                 </div>
             </div>
         </div>
+        @if (count($pagadores) > 0)
         <div class="row">
             <div class="col-10">
                 <div class="form-group">
@@ -218,6 +221,7 @@
             </div>
         </div>
     </div>
+    @endif
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CadastrarModal">
         Alterar
     </button>

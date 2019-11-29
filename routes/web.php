@@ -1,5 +1,6 @@
 <?php
 
+use junshin\UserPorPerfil;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,7 +13,38 @@
 */
 
 Route::get('/', function () {
-    return view('home');
+    $usuario = \Auth::user();
+    $manutencao = false;
+    $administrador = false;
+    $secretaria = false;
+    $balancete = false;
+    $professor = false;
+    if ($usuario) {
+        $perfis = UserPorPerfil::where('user_id', $usuario->id)->get(['perfil_id']);
+        if ($perfis->contains('perfil_id', '1')) {
+            $manutencao = true;
+        }
+        if ($perfis->contains('perfil_id', '2')) {
+            $administrador = true;
+        }
+        if ($perfis->contains('perfil_id', '3')) {
+            $secretaria = true;
+        }
+        if ($perfis->contains('perfil_id', '4')) {
+            $balancete = true;
+        }
+        if ($perfis->contains('perfil_id', '5')) {
+            $professor = true;
+        }
+        return view('home')
+            ->with('manutencao', $manutencao)
+            ->with('administrador', $administrador)
+            ->with('secretaria', $secretaria)
+            ->with('balancete', $balancete)
+            ->with('professor', $professor);
+    } else {
+        return view('home');
+    }
 });
 
 Route::get('/alunos', ['as' => 'alunos', 'uses' => 'AlunoController@lista']);
@@ -136,9 +168,15 @@ Route::get('/turnos/exclui/{turno_id}', 'TurnoController@exclui');
 //desabilita o registro de novos usuários
 //Disable Reset Password
 Auth::routes(['reset' => false]);
+Route::get('/usuario/edita', ['as' => 'usuario.edita', 'uses' => 'UsuarioController@edita']);
+Route::get('/usuario/seleciona', 'UsuarioController@seleciona');
+Route::get('/usuario/alteraUsuario/{id}', 'UsuarioController@alteraUsuario');
+Route::get('/usuario/exclui/{id}', 'UsuarioController@exclui');
+Route::get('/usuario/alteraSenha',  ['as' => 'usuario.alteraSenha', 'uses' => 'UsuarioController@alteraSenha']);
+Route::get('/usuario/editaSenha',  'UsuarioController@editaSenha');
+Route::get('/usuario/redefineSenha/{id}', 'UsuarioController@redefineSenha');
 
 Route::get('/home', 'HomeController@index')->name('home');
-
 
 Route::get('/tiposTurma', ['as' => 'tiposTurma.lista', 'uses' => 'TipoTurmaController@lista']);
 Route::post('/tiposTurma/adiciona', ['as' => 'tiposTurma.adiciona', 'uses' => 'TipoTurmaController@adiciona']);
@@ -177,24 +215,24 @@ Route::get('/boletos/retorno', ['as' => 'boletos.retorno', 'uses' => 'BoletoCont
 Route::get('/boletos/imprimeBoleto/{aluno_id}', 'BoletoController@imprimeBoleto');
 Route::get('/boletos', 'BoletoController@listaPorAluno');
 
-Route::get('/tiposMovimentacao', ['as' => 'tiposMovimentacao.lista','uses' => 'TipoMovimentacaoController@lista']);
-Route::post('/tiposMovimentacao/adiciona', [ 'as' => 'tiposMovimentacao.adiciona', 'uses' => 'TipoMovimentacaoController@adiciona']);
-Route::get('/tiposMovimentacao/novo', [ 'as' => 'tiposMovimentacao.novo', 'uses' => 'TipoMovimentacaoController@novo']);
+Route::get('/tiposMovimentacao', ['as' => 'tiposMovimentacao.lista', 'uses' => 'TipoMovimentacaoController@lista']);
+Route::post('/tiposMovimentacao/adiciona', ['as' => 'tiposMovimentacao.adiciona', 'uses' => 'TipoMovimentacaoController@adiciona']);
+Route::get('/tiposMovimentacao/novo', ['as' => 'tiposMovimentacao.novo', 'uses' => 'TipoMovimentacaoController@novo']);
 Route::get('/tiposMovimentacao/edita/{tipo_movimentacao_id}', 'TipoMovimentacaoController@edita');
 Route::get('/tiposMovimentacao/altera/{tipo_movimentacao_id}', 'TipoMovimentacaoController@altera');
 Route::get('/tiposMovimentacao/exclui/{tipo_movimentacao_id}', 'TipoMovimentacaoController@exclui');
 
-Route::get('/movimentacoes', ['as' => 'movimentacoes.lista','uses' => 'MovimentacaoController@lista']);
-Route::get('/movimentacoes/entradas', ['as' => 'movimentacoes.lista.entradas','uses' => 'MovimentacaoController@listaEntradas']);
-Route::get('/movimentacoes/saidas', ['as' => 'movimentacoes.lista.saidas','uses' => 'MovimentacaoController@listaSaidas']);
-Route::post('/movimentacoes/adiciona/entrada', [ 'as' => 'movimentacoes.adiciona.entrada', 'uses' => 'MovimentacaoController@adicionaEntrada']);
-Route::post('/movimentacoes/adiciona/saida', [ 'as' => 'movimentacoes.adiciona.saida', 'uses' => 'MovimentacaoController@adicionaSaida']);
-Route::get('/movimentacoes/nova/entrada', [ 'as' => 'movimentacoes.nova.entrada', 'uses' => 'MovimentacaoController@novaEntrada']);
-Route::get('/movimentacoes/nova/saida', [ 'as' => 'movimentacoes.nova.saida', 'uses' => 'MovimentacaoController@novaSaida']);
+Route::get('/movimentacoes', ['as' => 'movimentacoes.lista', 'uses' => 'MovimentacaoController@lista']);
+Route::get('/movimentacoes/entradas', ['as' => 'movimentacoes.lista.entradas', 'uses' => 'MovimentacaoController@listaEntradas']);
+Route::get('/movimentacoes/saidas', ['as' => 'movimentacoes.lista.saidas', 'uses' => 'MovimentacaoController@listaSaidas']);
+Route::post('/movimentacoes/adiciona/entrada', ['as' => 'movimentacoes.adiciona.entrada', 'uses' => 'MovimentacaoController@adicionaEntrada']);
+Route::post('/movimentacoes/adiciona/saida', ['as' => 'movimentacoes.adiciona.saida', 'uses' => 'MovimentacaoController@adicionaSaida']);
+Route::get('/movimentacoes/nova/entrada', ['as' => 'movimentacoes.nova.entrada', 'uses' => 'MovimentacaoController@novaEntrada']);
+Route::get('/movimentacoes/nova/saida', ['as' => 'movimentacoes.nova.saida', 'uses' => 'MovimentacaoController@novaSaida']);
 Route::get('/movimentacoes/edita/entrada/{movimentacao_id}', 'MovimentacaoController@editaEntrada');
 Route::get('/movimentacoes/edita/saida/{movimentacao_id}', 'MovimentacaoController@editaSaida');
 Route::get('/movimentacoes/altera/entrada/{movimentacao_id}', 'MovimentacaoController@alteraEntrada');
 Route::get('/movimentacoes/altera/saida/{movimentacao_id}', 'MovimentacaoController@alteraSaida');
 Route::get('/movimentacoes/exclui/entrada/{movimentacao_id}', 'MovimentacaoController@excluiEntrada');
 Route::get('/movimentacoes/exclui/saida/{movimentacao_id}', 'MovimentacaoController@excluiSaida');
-Route::get('/movimentacoes/pdf', ['as' => 'movimentacoes.pdf','uses' => 'MovimentacaoController@relatorioMovimentacao']);
+Route::get('/movimentacoes/pdf', ['as' => 'movimentacoes.pdf', 'uses' => 'MovimentacaoController@relatorioMovimentacao']);

@@ -7,6 +7,8 @@ use junshin\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Support\Facades\DB;
+use junshin\UserPorPerfil;
 
 class RegisterController extends Controller
 {
@@ -53,6 +55,10 @@ class RegisterController extends Controller
             'username' => ['required', 'string', 'max:45', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:3', 'confirmed'],
+            'administrador' => [],
+            'secretaria' => [],
+            'balancete' => [],
+            'professor' => [],
         ]);
     }
 
@@ -64,18 +70,61 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $usuarioLogado=\Auth::user()->username;
+        $usuarioLogado = \Auth::user()->username;
+        $usuario = \Auth::user();
 
-        if($usuarioLogado == 'junshin') {
-            return User::create([
+        $perfis = UserPorPerfil::where('user_id', $usuario->id)->get(['perfil_id']);
+
+        if ($perfis->contains('perfil_id', '1', '2')) {
+            $novoUsuario = User::create([
                 'name' => $data['name'],
                 'username' => $data['username'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
             ]);
-        }
-        else{
-            back()->withErrors('Somente o usuario Junshin pode cadastrar novos usuários')->withInput();
+
+            if (array_key_exists("administrador", $data)) {
+                DB::table('users_por_perfis')->insert(
+                    [
+                        'user_id' => $novoUsuario->id,
+                        'perfil_id' => $data['administrador'],
+                        'userid_insert' => $usuarioLogado
+                    ]
+                );
+            }
+            if (array_key_exists("secretaria", $data)) {
+                DB::table('users_por_perfis')->insert(
+                    [
+                        'user_id' => $novoUsuario->id,
+                        'perfil_id' => $data['secretaria'],
+                        'userid_insert' => $usuarioLogado
+                    ]
+                );
+            }
+            if (array_key_exists("balancete", $data)) {
+                DB::table('users_por_perfis')->insert(
+                    [
+                        'user_id' => $novoUsuario->id,
+                        'perfil_id' => $data['balancete'],
+                        'userid_insert' => $usuarioLogado
+                    ]
+                );
+            }
+            if (array_key_exists("professor", $data)) {
+                DB::table('users_por_perfis')->insert(
+                    [
+                        'user_id' => $novoUsuario->id,
+                        'perfil_id' => $data['professor'],
+                        'userid_insert' => $usuarioLogado
+                    ]
+                );
+            }
+
+            session()->flash('message', "Usuário {$novoUsuario->name} cadastrado com sucesso");
+            return $usuario;
+        } else {
+            session()->flash('message', 'Somente usuário com perfil Administrador pode cadastrar usuário');
+            return $usuario;
         }
     }
 }

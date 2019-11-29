@@ -22,35 +22,47 @@
 <body>
     <div id="app">
         <ul id="main-menu" class="sm sm-blue">
-            <li><a href="/">Página Inicial</a>
+            @guest
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('login') }}"><span class="fas fa-sign-in-alt"></span>
+                    {{ __('Login') }}</a>
             </li>
-            <li><a href="#">Alunos</a>
+            @endguest
+            @auth
+            <li><a href="/"><span class="fas fa-home"></span> Página Inicial</a>
+            </li>
+            @if ($manutencao||$administrador||$secretaria||$professor)
+            <li><a href="#"> <span class="fas fa-user-graduate"></span> Alunos</a>
                 <ul>
                     <li><a href="{{route('alunos')}}">Localizar Aluno</a></li>
                     <li><a href='{{route('alunos.novo')}}'>Novo Aluno</a></li>
                     <li><a href="{{route('boletos.seleciona') }}">Boletos</a></li>
                 </ul>
             </li>
-            <li><a href="#">Turmas</a>
+            <li><a href="#"><span class="fas fa-school"></span> Turmas</a>
                 <ul>
                     <li><a href='{{route('turmas.lista')}}'>Listar Turmas</a></li>
                     <li><a href='{{route('turmas.novo')}}'>Nova Turma</a></li>
                 </ul>
             </li>
-            <li><a href="#">Balancete</a>
+            @endif
+            @if ($manutencao||$administrador||$balancete)
+            <li><a href="#"><span class="fas fa-money-check-alt"></span> Balancete</a>
                 <ul>
                     <li><a href="{{ route('movimentacoes.nova.entrada') }}">Nova entrada</a></li>
-                    <li><a href="{{ route('movimentacoes.nova.saida') }}">Nova saída</a></li>                
+                    <li><a href="{{ route('movimentacoes.nova.saida') }}">Nova saída</a></li>
                     <li>____________________________</li>
                     <li><a href="{{ route('movimentacoes.lista.entradas') }}">Lista entradas</a></li>
-                    <li><a href="{{ route('movimentacoes.lista.saidas') }}">Lista saídas</a></li>                
+                    <li><a href="{{ route('movimentacoes.lista.saidas') }}">Lista saídas</a></li>
                     <li>____________________________</li>
-                    <li><a href="#" data-toggle="modal" data-target="#frmReport02">Relatórios</a></li>                
+                    <li><a href="#" data-toggle="modal" data-target="#frmReport02">Relatórios</a></li>
                     <li>____________________________</li>
                     <li><a href="{{ route('tiposMovimentacao.lista') }}">Tipos de Movimentacoes</a></li>
                 </ul>
             </li>
-            <li><a href="#">Tabelas de Domínio</a>
+            @endif
+            @if ($manutencao||$administrador)
+            <li><a href="#"><span class="fas fa-table"></span> Tabelas de Domínio</a>
                 <ul>
                     <li><a href="{{ route('niveisConhecimentoJapones.lista') }}">Níveis de Conhecimento de Japonês</a>
                     </li>
@@ -62,27 +74,33 @@
                     <li><a href="{{ route('turnos.lista') }}">Turnos</a></li>
                 </ul>
             </li>
-            @guest
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-            </li>
-            @endguest
-            @auth
-            @if (Auth::user()->username == 'junshin')
-            <li class="nav-item">
-                <a class="nav-link" href="{{ route('register') }}">{{ __('Cadastrar Usuário') }}</a>
+            @endif
+            @if ($manutencao||$administrador)
+            <li><a href="#"><span class="fas fa-users"></span> Usuários</a>
+                <ul>
+                    <li><a class="nav-link" href="{{ route('register') }}">{{ __('Cadastrar Usuário') }}</a>
+                    </li>
+                    <li><a href="{{ route('usuario.edita') }}">Alterar Usuários</a></li>
+                </ul>
             </li>
             @endif
-            <li><a href="{{ route('logout') }}"
-                    onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
-                    Logout (Usuário:{{ Auth::user()->username }})
-                </a>
-                <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    {{ csrf_field() }}
-                </form>
+            <li><a href="#"> <span class="fas fa-user"></span>
+                    {{ Auth::user()->username }}</a>
+                <ul>
+                    <li><a href="{{ route('usuario.alteraSenha') }}"><span class="fas fa-key"></span>Altera Senha</a>
+                    </li>
+                    <li> <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('frm-logout').submit();">
+                            <span class="fas fa-sign-out-alt"></span>
+                            Sair
+                        </a>
+                        <form id="frm-logout" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
+                    </li>
+                    @endauth
+                </ul>
             </li>
-            @endauth
-        </ul>
     </div>
 
 
@@ -109,99 +127,103 @@
 
     <!-- Modal 1 -->
     <div class="modal fade" id="frmReport02" role="dialog">
-      <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Movimentações</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form name="frmReport001" id="frmReport001" method="get" action="{{ route('movimentacoes.pdf') }}">
-              <div class="form-row align-items-center">
-                <div class="form-group col-md-4">
-                  <div class="form-check form-check-inline col-md-4">
-                    <input class="form-check-input" type="radio" name="radioTipoPeriodo" id="radioDia" value="option1" checked>
-                    <label class="form-check-label" for="inlineRadio1">Dia</label>
-                  </div>
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Movimentações</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <div class="form-group col-md-4">
-                  <input type="text" class="form-control" name="dtpDia" id="dtpDia" placeholder="Dia">
+                <div class="modal-body">
+                    <form name="frmReport001" id="frmReport001" method="get" action="{{ route('movimentacoes.pdf') }}">
+                        <div class="form-row align-items-center">
+                            <div class="form-group col-md-4">
+                                <div class="form-check form-check-inline col-md-4">
+                                    <input class="form-check-input" type="radio" name="radioTipoPeriodo" id="radioDia"
+                                        value="option1" checked>
+                                    <label class="form-check-label" for="inlineRadio1">Dia</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" name="dtpDia" id="dtpDia" placeholder="Dia">
+                            </div>
+                        </div>
+                        <div class="form-row align-items-center">
+                            <div class="form-group col-md-4">
+                                <div class="form-check form-check-inline col-md-4">
+                                    <input class="form-check-input" type="radio" name="radioTipoPeriodo"
+                                        id="radioSemanaAno" value="option2">
+                                    <label class="form-check-label" for="inlineRadio1">Semana</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="txtSemana" placeholder="Semana">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select class="form-control" id="longAnoSemana">
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row align-items-center">
+                            <div class="form-group col-md-4">
+                                <div class="form-check form-check-inline col-md-4">
+                                    <input class="form-check-input" type="radio" name="radioTipoPeriodo"
+                                        id="radioMesAno" value="option3">
+                                    <label class="form-check-label" for="inlineRadio1">Mês</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select class="form-control" id="longMesAno">
+                                    <option value="1">JANEIRO</option>
+                                    <option value="2">FEVEREIRO</option>
+                                    <option value="3">MARÇO</option>
+                                    <option value="4">ABRIL</option>
+                                    <option value="5">MAIO</option>
+                                    <option value="6">JUNHO</option>
+                                    <option value="7">JULHO</option>
+                                    <option value="8">AGOSTO</option>
+                                    <option value="9">SETEMBRO</option>
+                                    <option value="10">OUTUBRO</option>
+                                    <option value="10">NOVEMBRO</option>
+                                    <option value="10">DEZEMBRO</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <select class="form-control" id="longAnoMes">
+                                    <option value="2019">2019</option>
+                                    <option value="2020">2020</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-row align-items-center">
+                            <div class="form-group col-md-4">
+                                <div class="form-check form-check-inline col-md-4">
+                                    <input class="form-check-input" type="radio" name="radioTipoPeriodo"
+                                        id="radioPeriodo" value="option4">
+                                    <label class="form-check-label" for="inlineRadio1">Período</label>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="dtpDiaIni" placeholder="Dia ini">
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="dtpDiaFim" placeholder="Dia fim">
+                            </div>
+                        </div>
                 </div>
-              </div>
-              <div class="form-row align-items-center">
-                <div class="form-group col-md-4">
-                  <div class="form-check form-check-inline col-md-4">
-                    <input class="form-check-input" type="radio" name="radioTipoPeriodo" id="radioSemanaAno" value="option2">
-                    <label class="form-check-label" for="inlineRadio1">Semana</label>
-                  </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Abrir</button>
                 </div>
-                <div class="form-group col-md-4">
-                  <input type="text" class="form-control" id="txtSemana" placeholder="Semana">
-                </div>
-                <div class="form-group col-md-4">
-                  <select class="form-control" id="longAnoSemana">
-                    <option value="2019">2019</option>
-                    <option value="2020">2020</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-row align-items-center">
-                <div class="form-group col-md-4">
-                  <div class="form-check form-check-inline col-md-4">
-                    <input class="form-check-input" type="radio" name="radioTipoPeriodo" id="radioMesAno" value="option3">
-                    <label class="form-check-label" for="inlineRadio1">Mês</label>
-                  </div>
-                </div>
-                <div class="form-group col-md-4">
-                  <select class="form-control" id="longMesAno">
-                    <option value="1">JANEIRO</option>
-                    <option value="2">FEVEREIRO</option>
-                    <option value="3">MARÇO</option>
-                    <option value="4">ABRIL</option>
-                    <option value="5">MAIO</option>
-                    <option value="6">JUNHO</option>
-                    <option value="7">JULHO</option>
-                    <option value="8">AGOSTO</option>
-                    <option value="9">SETEMBRO</option>
-                    <option value="10">OUTUBRO</option>
-                    <option value="10">NOVEMBRO</option>
-                    <option value="10">DEZEMBRO</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-4">
-                  <select class="form-control" id="longAnoMes">
-                    <option value="2019">2019</option>
-                    <option value="2020">2020</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-row align-items-center">
-                <div class="form-group col-md-4">
-                  <div class="form-check form-check-inline col-md-4">
-                    <input class="form-check-input" type="radio" name="radioTipoPeriodo" id="radioPeriodo" value="option4">
-                    <label class="form-check-label" for="inlineRadio1">Período</label>
-                  </div>
-                </div>
-                <div class="form-group col-md-4">
-                  <input type="text" class="form-control" id="dtpDiaIni" placeholder="Dia ini">
-                </div>
-                <div class="form-group col-md-4">
-                  <input type="text" class="form-control" id="dtpDiaFim" placeholder="Dia fim">
-                </div>
-              </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-            <button type="submit" class="btn btn-primary">Abrir</button>
-          </div>
-          </form>
+                </form>
+            </div>
         </div>
-      </div>
     </div>
- 
+
     <!-- ------------------------------------------------------------------------------------ -->
 
     <!-- Optional JavaScript -->
@@ -228,13 +250,13 @@ jQuery(function($) {
     $('#main-menu').smartmenus();
 
     $('#dtpDia').datepicker({
-    weekStart: 1,
-    todayBtn: true,
-    clearBtn: true,
-    language: "pt-BR",
-    daysOfWeekHighlighted: "0,6",
-    calendarWeeks: true,
-    todayHighlight: true
+        weekStart: 1,
+        todayBtn: true,
+        clearBtn: true,
+        language: "pt-BR",
+        daysOfWeekHighlighted: "0,6",
+        calendarWeeks: true,
+        todayHighlight: true
     });
 
 });

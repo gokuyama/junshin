@@ -31,6 +31,7 @@
             @auth
             <li><a href="/"><span class="fas fa-home"></span> Página Inicial</a>
             </li>
+            @isset($manutencao)
             @if ($manutencao||$administrador||$secretaria||$professor)
             <li><a href="#"> <span class="fas fa-user-graduate"></span> Alunos</a>
                 <ul>
@@ -84,6 +85,7 @@
                 </ul>
             </li>
             @endif
+            @endisset
             <li><a href="#"> <span class="fas fa-user"></span>
                     {{ Auth::user()->username }}</a>
                 <ul>

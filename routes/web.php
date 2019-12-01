@@ -1,6 +1,7 @@
 <?php
 
 use junshin\UserPorPerfil;
+use Illuminate\Support\Facades\Session;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,21 +21,26 @@ Route::get('/', function () {
     $balancete = false;
     $professor = false;
     if ($usuario) {
-        $perfis = UserPorPerfil::where('user_id', $usuario->id)->get(['perfil_id']);
+        $perfis = UserPorPerfil::where('user_id', $usuario->id)->where('ativo', 1)->get(['perfil_id']);
         if ($perfis->contains('perfil_id', '1')) {
             $manutencao = true;
+            Session::put('manutencao', $manutencao);
         }
         if ($perfis->contains('perfil_id', '2')) {
             $administrador = true;
+            Session::put('administrador', $administrador);
         }
         if ($perfis->contains('perfil_id', '3')) {
             $secretaria = true;
+            Session::put('secretaria', $secretaria);
         }
         if ($perfis->contains('perfil_id', '4')) {
             $balancete = true;
+            Session::put('balancete', $balancete);
         }
         if ($perfis->contains('perfil_id', '5')) {
             $professor = true;
+            Session::put('professor', $professor);
         }
         return view('home')
             ->with('manutencao', $manutencao)

@@ -31,8 +31,8 @@
             @auth
             <li><a href="/"><span class="fas fa-home"></span> Página Inicial</a>
             </li>
-            @isset($manutencao)
-            @if ($manutencao||$administrador||$secretaria||$professor)
+            @if (
+            Session::get('manutencao')||Session::get('administrador')||Session::get('secretaria')||Session::get('professor'))
             <li><a href="#"> <span class="fas fa-user-graduate"></span> Alunos</a>
                 <ul>
                     <li><a href="{{route('alunos')}}">Localizar Aluno</a></li>
@@ -47,7 +47,7 @@
                 </ul>
             </li>
             @endif
-            @if ($manutencao||$administrador||$balancete)
+            @if (Session::get('manutencao')||Session::get('administrador')||Session::get('balancete'))
             <li><a href="#"><span class="fas fa-money-check-alt"></span> Balancete</a>
                 <ul>
                     <li><a href="{{ route('movimentacoes.nova.entrada') }}">Nova entrada</a></li>
@@ -62,7 +62,7 @@
                 </ul>
             </li>
             @endif
-            @if ($manutencao||$administrador)
+            @if (Session::get('manutencao')||Session::get('administrador')||Session::get('secretaria'))
             <li><a href="#"><span class="fas fa-table"></span> Tabelas de Domínio</a>
                 <ul>
                     <li><a href="{{ route('niveisConhecimentoJapones.lista') }}">Níveis de Conhecimento de Japonês</a>
@@ -76,7 +76,7 @@
                 </ul>
             </li>
             @endif
-            @if ($manutencao||$administrador)
+            @if (Session::get('manutencao')||Session::get('administrador'))
             <li><a href="#"><span class="fas fa-users"></span> Usuários</a>
                 <ul>
                     <li><a class="nav-link" href="{{ route('register') }}">{{ __('Cadastrar Usuário') }}</a>
@@ -85,7 +85,6 @@
                 </ul>
             </li>
             @endif
-            @endisset
             <li><a href="#"> <span class="fas fa-user"></span>
                     {{ Auth::user()->username }}</a>
                 <ul>

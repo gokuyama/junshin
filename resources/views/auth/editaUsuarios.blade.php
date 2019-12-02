@@ -10,7 +10,11 @@
             @endif
 
             <div class="card">
-                <div class="card-header">{{ __('Edita Usuário') }}</div>
+                <div class="card-header">{{ __('Edita Usuário') }}
+                    <span style="display: flex; justify-content: flex-end">
+                        <a href="{{ url('/') }}" class="btn btn-secondary">Inicio</a>
+                    </span>
+                </div>
                 <div class="card-body">
                     @csrf
                     <div class="col-md-6">

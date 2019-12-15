@@ -132,6 +132,8 @@ class RelatorioController  extends Controller
             ->where('matriculas.ativo', 1)
             ->where('turmas.ativo', 1)
             ->where('alunos.ativo', 1)
+            ->whereDate('matricula_data_ini','<=', Carbon::now()->toDateString())
+            ->whereDate('matricula_data_fim','>=', Carbon::now()->toDateString())
             ->where('turmas.turma_id', $turma_id)
             ->orderBy('alunos.aluno_nome')
             ->get();

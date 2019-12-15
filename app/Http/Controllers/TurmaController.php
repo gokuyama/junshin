@@ -7,6 +7,7 @@ use junshin\TipoTurma;
 use junshin\Turno;
 use junshin\TipoFrequencia;
 use Request;
+use Carbon\Carbon;
 
 class TurmaController  extends Controller
 {
@@ -36,6 +37,8 @@ class TurmaController  extends Controller
         ->where('turmas.ativo',1)
         ->where('alunos.ativo',1)
         ->where('turmas.turma_id',$turma_id)
+        ->whereDate('matricula_data_ini','<=', Carbon::now()->toDateString())
+        ->whereDate('matricula_data_fim','>=', Carbon::now()->toDateString())
         ->orderBy('alunos.aluno_nome')
         ->get();
 

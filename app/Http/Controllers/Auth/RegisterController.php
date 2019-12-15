@@ -81,6 +81,7 @@ class RegisterController extends Controller
                 'username' => $data['username'],
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
+                'userid_insert' => $usuarioLogado
             ]);
 
             if (array_key_exists("administrador", $data)) {

@@ -10,7 +10,7 @@ use junshin\Turma;
 use junshin\Aluno;
 use Request;
 use Carbon\Carbon;
-use DateTimeZone;
+use Illuminate\Support\Collection;
 
 class MatriculaController  extends Controller
 {
@@ -65,7 +65,6 @@ class MatriculaController  extends Controller
         $usuarioLogado = \Auth::user()->username;
         $turma_id = Request::input('turma_id');
         $aluno_id = Request::input('aluno_id');
-        $mensalidade_valor = Request::input('mensalidade_valor');
         $matricula_data_ini = Request::input('matricula_data_ini');
         $matricula_dt_ini = str_replace('/', '-', $matricula_data_ini);
         if ($matricula_dt_ini != null) {
@@ -80,34 +79,24 @@ class MatriculaController  extends Controller
             ->get();
 
         if (count($matriculaAnterior) > 0) {
+            if ($matriculaAnterior[0]->matricula_data_ini >= $matricula_dt_ini) {
+                session()->flash('mensagemErro', "Data Início menor que a Data Início anterior");
+                return $this->localizaMatriculaPorAluno($aluno_id);
+            }
             $matriculaAnterior[0]->matricula_data_fim = Carbon::createFromFormat('d/m/Y', $matricula_data_ini, 'America/Sao_Paulo')->subdays(1);
             $matriculaAnterior[0]->userid_insert = $usuarioLogado;
             $matriculaAnterior[0]->save();
         }
 
-        $ultimoDiaAno = Carbon::createFromDate(null, 12, 31)->startOfDay();
-
-        $matricula_id = DB::table('matriculas')->insertGetId(
+        DB::table('matriculas')->insert(
             [
                 'turma_id' => $turma_id,
                 'aluno_id' => $aluno_id,
                 'matricula_data_ini' => $matricula_dt_ini,
-                'matricula_data_fim' => $ultimoDiaAno,
                 'userid_insert' => $usuarioLogado
             ]
         );
-
-        //cadastra a mensalidade
-        $mensalidade_id = DB::table('mensalidades')->insertGetId(
-            [
-                'matricula_id' => $matricula_id,
-                'mensalidade_data_ini' => Carbon::now(new DateTimeZone('America/Sao_Paulo'))->toDateTimeString(),
-                'mensalidade_data_fim' => $ultimoDiaAno,
-                'mensalidade_valor' => str_replace(",", ".", str_replace(".", "", $mensalidade_valor)),
-                'userid_insert' => $usuarioLogado
-            ]
-        );
-
+        session()->flash('mensagemSucesso', "Matrícula adicionada com sucesso");
         return $this->localizaMatriculaPorAluno($aluno_id);
     }
 
@@ -120,14 +109,12 @@ class MatriculaController  extends Controller
         $matricula->ativo = 0;
         $matricula->userid_insert = $usuarioLogado;
         $matricula->save();
-
+        session()->flash('mensagemSucesso', "Matrícula excluída com sucesso");
         return $this->localizaMatriculaPorAluno($matricula['aluno_id']);
     }
 
     public function edita($matricula_id)
     {
-        $ultimoDiaAno = Carbon::createFromDate(null, 12, 31)->startOfDay();
-
         $listagemMatriculas = DB::table('matriculas')
             ->join('alunos', 'alunos.aluno_id', '=', 'matriculas.aluno_id')
             ->join('turmas', 'turmas.turma_id', '=', 'matriculas.turma_id')
@@ -138,61 +125,54 @@ class MatriculaController  extends Controller
 
         $turmas = Turma::where('ativo', 1)->orderBy('turma_descricao')->get();
 
-        $mensalidade = Mensalidade::where('matricula_id', $matricula_id)->where('mensalidade_data_fim', $ultimoDiaAno)->first();
+        $listaMensalidades = Mensalidade::where('matricula_id', $matricula_id)->orderBy('mensalidade_data_ini', 'desc')->get();
 
         if (empty($listagemMatriculas)) {
             return "Essa matrícula não existe";
         }
+
         return view('matricula.editaMatricula')
             ->with('listagemMatriculas', $listagemMatriculas)
             ->with('turmas', $turmas)
-            ->with('mensalidade', $mensalidade);
+            ->with('listaMensalidades', $listaMensalidades);
     }
 
     public function altera(MatriculaRequest $request, $matricula_id)
     {
-        $ultimoDiaAno = Carbon::createFromDate(null, 12, 31)->startOfDay();
         $usuarioLogado = \Auth::user()->username;
         $params = Request::all();
         $matricula = Matricula::find($matricula_id);
         $matricula_data_ini = $params['matricula_data_ini'];
-        $matricula_data_fim = $params['matricula_data_fim'];
+        $aluno_id = $params['aluno_id'];
         $matricula_dt_ini = str_replace('/', '-', $matricula_data_ini);
         if ($matricula_dt_ini != null) {
             $matricula_dt_ini = date("Y-m-d", strtotime($matricula_dt_ini));
         } else {
             $matricula_dt_ini = null;
         }
-        $matricula_dt_fim = str_replace('/', '-', $matricula_data_fim);
-        if ($matricula_dt_fim != null) {
-            $matricula_dt_fim = date("Y-m-d", strtotime($matricula_dt_fim));
-        } else {
-            $matricula_dt_fim = null;
-        }
         $params['matricula_data_ini'] = $matricula_dt_ini;
-        $params['matricula_data_fim'] = $matricula_dt_fim;
+
+        //pega a matrícula anterior
+        $matriculaAnterior = Matricula::where('ativo', 1)
+            ->where('aluno_id', $aluno_id)
+            ->orderBy('matricula_id', 'desc')
+            ->get();
+
+        if (count($matriculaAnterior) > 1) {
+            if ($matriculaAnterior[1]->matricula_data_ini >= $matricula_dt_ini) {
+                session()->flash('mensagemErro', "Data Início menor que a Data Início anterior");
+                return $this->localizaMatriculaPorAluno($aluno_id);
+            }
+            $matriculaAnterior[1]->matricula_data_fim = Carbon::createFromFormat('d/m/Y', $matricula_data_ini, 'America/Sao_Paulo')->subdays(1);
+            $matriculaAnterior[1]->userid_insert = $usuarioLogado;
+            $matriculaAnterior[1]->save();
+        }
+
         $matricula->update($params);
         $matricula->userid_insert = $usuarioLogado;
         $matricula->save();
 
-        $mensalidadeValorNova = $params['mensalidade_valor'];
-        $mensalidadeOld = Mensalidade::where('matricula_id', '=', $matricula_id)->where('mensalidade_data_fim', $ultimoDiaAno)->first();
-
-        if ($mensalidadeValorNova != $mensalidadeOld->mensalidade_valor) {
-            $mensalidadeOld->mensalidade_data_fim = Carbon::now(new DateTimeZone('America/Sao_Paulo'))->toDateTimeString();
-            $mensalidadeOld->save();
-
-            DB::table('mensalidades')->insert(
-                [
-                    'matricula_id' =>  $matricula_id,
-                    'mensalidade_data_ini' => Carbon::now(new DateTimeZone('America/Sao_Paulo'))->toDateTimeString(),
-                    'mensalidade_valor' => str_replace(",", ".", str_replace(".", "", $mensalidadeValorNova)),
-                    'mensalidade_data_fim' => $ultimoDiaAno,
-                    'userid_insert' => $usuarioLogado
-                ]
-            );
-        }
-
+        session()->flash('mensagemSucesso', "Matrícula alterada com sucesso");
         return $this->localizaMatriculaPorAluno($params['aluno_id']);
     }
 }

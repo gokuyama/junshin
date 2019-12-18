@@ -54,14 +54,8 @@
                     <label>Data Inicio</label>
                     <input name="matricula_data_ini" class="form-control mask-date" id="matricula_data_ini"
                         value="{{ old('matricula_data_ini') }}" />
-                    <input type="hidden" name="mensalidade_data_ini" class="form-control mask-date" id="mensalidade_data_ini"
-                        value="{{ old('mensalidade_data_ini') }}" />
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="form-group">
-                    <label>Mensalidade R$</label>
-                    <input name="mensalidade_valor" class="form-control money" value="{{ old('mensalidade_valor') }}" />
+                    <input type="hidden" name="mensalidade_data_ini" class="form-control mask-date"
+                        id="mensalidade_data_ini" value="{{ old('mensalidade_data_ini') }}" />
                 </div>
             </div>
         </div>
@@ -99,7 +93,7 @@ jQuery(function($) {
         reverse: true
     });
 });
-$('#matricula_data_ini').keyup(function (){
+$('#matricula_data_ini').keyup(function() {
     $('#mensalidade_data_ini').val($(this).val()); // <-- reverse your selectors here
 });
 </script>

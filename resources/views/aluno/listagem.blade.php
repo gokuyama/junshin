@@ -1,11 +1,11 @@
 @extends('layout.principal')
 @section('conteudo')
 <!--mostra a mensagem de sucesso -->
-@if(session()->has('mensagemOk'))
-<div class="alert alert-success">
-    <strong>Sucesso!</strong>
-    {{ session()->get('mensagemOk') }}
-</div>
+@if(Session::has('mensagemErro'))
+<p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('mensagemErro') }}</p>
+@endif
+@if(Session::has('mensagemSucesso'))
+<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('mensagemSucesso') }}</p>
 @endif
 
 <button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
@@ -52,11 +52,11 @@
         </td>
         <td class="col-sm-1">
             <a href="{{action('RelatorioController@listaPorAluno', $p->aluno_id)}}">
-                <span class="fas fa-file-pdf"></span> 
+                <span class="fas fa-file-pdf"></span>
         </td>
         <td class="col-sm-1">
             <a href="{{action('BoletoController@imprimeBoleto', $p->aluno_id)}}">
-                <span class="fa fa-barcode"></span> 
+                <span class="fa fa-barcode"></span>
         </td>
         </a>
     </tr>

@@ -110,6 +110,9 @@ Route::get('/matriculas/exclui/{matricula_id}', 'MatriculaController@exclui');
 Route::get('/matriculas/localizaPorAluno/{aluno_id}', 'MatriculaController@localizaMatriculaPorAluno');
 Route::get('/matriculas/novaMatriculaPorAluno/{aluno_id}', 'MatriculaController@novaMatriculaPorAluno');
 
+Route::post('/mensalidades/adiciona', ['as' => 'mensalidades.adiciona', 'uses' => 'MensalidadeController@adiciona']);
+Route::get('/mensalidades/novo/{matricula_id}', 'MensalidadeController@novo');
+
 Route::get('/relatorios/relatoriosPorAluno/{aluno_id}', 'RelatorioController@listaPorAluno');
 Route::get('/relatorios/relatoriosPorTurma/{turma_id}', 'RelatorioController@listaPorTurma');
 Route::get('/relatorios/print-pdf', ['as' => 'relatorio.printpdf', 'uses' => 'RelatorioController@printPDF']);

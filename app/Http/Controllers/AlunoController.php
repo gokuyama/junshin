@@ -119,8 +119,8 @@ class AlunoController  extends Controller
                 'userid_insert' => $usuarioLogado
             ]
         );
-        return redirect()->action('AlunoController@lista')->withInput(Request::only('aluno_nome'))
-            ->with('mensagemOk', 'O aluno ' . $aluno_nome . ' foi cadastrado com sucesso!');
+        session()->flash('mensagemSucesso', 'O aluno ' . $aluno_nome . ' foi cadastrado com sucesso!');
+        return redirect()->action('AlunoController@lista')->withInput(Request::only('aluno_nome'));
     }
 
     //exclui um aluno
@@ -131,8 +131,8 @@ class AlunoController  extends Controller
         $aluno->ativo = 0;
         $aluno->userid_insert = $usuarioLogado;
         $aluno->save();
-        return redirect()->action('AlunoController@lista')
-            ->with('mensagemOk', 'O aluno ' . $aluno->aluno_nome . ' foi excluído com sucesso!');
+        session()->flash('mensagemSucesso', 'O aluno ' . $aluno->aluno_nome . ' foi excluído com sucesso!');
+        return redirect()->action('AlunoController@lista');
     }
 
     public function edita($aluno_id)
@@ -142,7 +142,7 @@ class AlunoController  extends Controller
         $niveisEscolaridade = NivelEscolaridade::where('ativo', 1)->orderBy('nivel_escolaridade_descricao')->get();
         $niveisConhecimentoJapones = NivelConhecimentoJapones::where('ativo', 1)->orderBy('nivel_conhecimento_japones_descricao')->get();
         if (empty($aluno)) {
-            return "Esse aluno não existe";
+            session()->flash('mensagemErro', 'Esse aluno não existe');
         }
         return view('aluno.editaAluno')->with('a', $aluno)
             ->with('tiposDocumento', $tiposDocumento)
@@ -161,8 +161,8 @@ class AlunoController  extends Controller
         $aluno->update($params);
         $aluno->userid_insert = $usuarioLogado;
         $aluno->save();
+        session()->flash('mensagemSucesso', 'O aluno ' . $aluno->aluno_nome . ' foi alterado com sucesso!');
         return redirect()->action('AlunoController@lista')
-            ->withInput(Request::only('aluno_nome'))
-            ->with('mensagemOk', 'O aluno ' . $aluno->aluno_nome . ' foi alterado com sucesso!');
+            ->withInput(Request::only('aluno_nome'));
     }
 }

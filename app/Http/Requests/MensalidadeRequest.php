@@ -4,7 +4,7 @@ namespace junshin\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class MatriculaRequest extends FormRequest
+class MensalidadeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class MatriculaRequest extends FormRequest
     public function rules()
     {
         return [
-            'turma_id' => 'required',
-            'aluno_id' => 'required',
-            'matricula_data_ini' => 'required|date_format:d/m/Y'
+            'matricula_id' => 'required',
+            'mensalidade_valor' => 'required',
+            'mensalidade_data_ini' => 'required|date_format:d/m/Y',
         ];
     }
 
@@ -34,7 +34,7 @@ class MatriculaRequest extends FormRequest
     {
         return [
             'required' => 'O campo :attribute não pode ser vazio.',
-            'date_format' => 'O campo Data de Início está incorreto.'
+            'date_format' => 'O campo Data de Início está incorreto.',
         ];
     }
 }

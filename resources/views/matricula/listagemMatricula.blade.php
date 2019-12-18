@@ -1,6 +1,18 @@
 @extends('layout.principal')
 @section('conteudo')
 
+<button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
+    onclick="location.href='{{action('MatriculaController@novaMatriculaPorAluno',$aluno_id)}}'">Adicionar
+    Matrícula</button>
+
+@if(Session::has('mensagemErro'))
+<p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('mensagemErro') }}</p>
+@endif
+@if(Session::has('mensagemSucesso'))
+<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('mensagemSucesso') }}</p>
+@endif
+
+
 @if(is_null($listagemMatriculas))
 <div class="alert alert-primary">
     Bem Vindo! Selecione uma das opções acima.
@@ -8,13 +20,10 @@
 
 @elseif(count($listagemMatriculas)==0)
 <div class="alert alert-danger">
-    Nenhum Matrícula encontrado.
+    Nenhuma Matrícula encontrada.
 </div>
 
 @else
-<button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
-    onclick="location.href='{{action('MatriculaController@novaMatriculaPorAluno',$aluno_id)}}'">Adicionar
-    Matrícula</button>
 
 <h1>Matrículas do Aluno:{{$listagemMatriculas[0]->aluno_nome}} </h1>
 <table class="table table-striped table-bordered table-hover">
@@ -25,14 +34,20 @@
         <th class="col-1">Ações</th>
     </tr>
     @foreach ($listagemMatriculas as $p)
-    <tr class="{{ $p->matricula_data_fim <= date('Y-m-d H:i:s') ? 'table table-dark' : ''}}">
+    <tr class="{{ $p->matricula_data_fim != null ? 'table table-dark' : ''}}">
         <td class="col-sm-7">{{$p->turma_descricao}} </td>
         <td class="col-sm-2">{{date( 'd/m/Y' , strtotime($p->matricula_data_ini))}} </td>
-        <td class="col-sm-2">
-            {{$p->matricula_data_fim < date('Y-12-31') ? date( 'd/m/Y' , strtotime($p->matricula_data_fim)) : '' }}
-        </td>
+        @if($p->matricula_data_fim != null)
+        <td class="col-sm-2"> {{date( 'd/m/Y' , strtotime($p->matricula_data_fim))}} </td>
+        @else
+        <td class="col-sm-2"> </td>
+        @endif
         <td class="col-sm-1"> <a href="{{action('MatriculaController@edita', $p->matricula_id)}}">
+                @if($p->matricula_data_fim == null)
                 <span class="fas fa-edit"></span>
+                @else
+                <span class="fas fa-search"></span>
+                @endif
             </a>
         </td>
     </tr>

@@ -11,6 +11,13 @@
 </div>
 @endif
 
+@if(Session::has('mensagemSucesso'))
+<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('mensagemSucesso') }}</p>
+@endif
+@if(Session::has('mensagemErro'))
+<p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('mensagemErro') }}</p>
+@endif
+
 <h1>Editando a Matrícula do Aluno: {{$listagemMatriculas->aluno_nome}} </h1>
 <form action="{{action('MatriculaController@altera',$listagemMatriculas->matricula_id)}}" method="get">
     <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
@@ -47,6 +54,7 @@
                         value="{{ date( 'd/m/Y' , strtotime($listagemMatriculas->matricula_data_ini)) }}" />
                 </div>
             </div>
+            @if($listagemMatriculas->matricula_data_fim != null)
             <div class="col-2">
                 <div class="form-group">
                     <label>Data Fim</label>
@@ -54,20 +62,55 @@
                         value="{{ date( 'd/m/Y' , strtotime($listagemMatriculas->matricula_data_fim)) }}" />
                 </div>
             </div>
-            <div class="col-2">
-                <div class="form-group">
-                    <label>Mensalidade R$</label>
-                    <input name="mensalidade_valor" class="form-control money" value="{{ $mensalidade->mensalidade_valor }}" />
-                </div>
-            </div>
+            @endif
         </div>
+        @if($listagemMatriculas->matricula_data_fim == null)
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CadastrarModal">
+            Alterar
+        </button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ExcluirModal">
+            Excluir
+        </button>
+        @endif
+        <br><br>
+        <h3>Mensalidade</h3>
+        <table style="width: 700px;">
+            <tr>
+                <td>
+                    <table class="table table-striped table-bordered table-hover">
+                        <tr>
+                            <th class="col-4">Valor</th>
+                            <th class="col-4">Inicio</th>
+                            <th class="col-4">Fim</th>
+                        </tr>
+                        @foreach ($listaMensalidades as $mensalidade)
+                        <tr class="{{ $mensalidade->mensalidade_data_fim != null ? 'table table-dark' : ''}}">
+                            <td class="col-sm-4 money">{{$mensalidade->mensalidade_valor}}</td>
+                            <td class="col-sm-4">{{date( 'd/m/Y' , strtotime($mensalidade->mensalidade_data_ini))}}</td>
+                            @if($mensalidade->mensalidade_data_fim != null)
+                            <td class="col-sm-4">{{date( 'd/m/Y' , strtotime($mensalidade->mensalidade_data_fim))}}</td>
+                            @else
+                            <td class="col-sm-4"></td>
+                            @endif
+                        </tr>
+                        @endforeach
+                    </table>
+                </td>
+                <td align="right" style="vertical-align: top;">
+                    @if($listagemMatriculas->matricula_data_fim == null)
+                    <button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
+                        onclick="location.href='{{action('MensalidadeController@novo', $listagemMatriculas->matricula_id)}}'">
+                        @if ($listaMensalidades->count() > 0)
+                        Alterar Mensalidade
+                        @else
+                        Incluir Mensalidade
+                        @endif
+                    </button>
+                    @endif
+                </td>
+            </tr>
+        </table>
     </div>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CadastrarModal">
-        Alterar
-    </button>
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ExcluirModal">
-        Excluir
-    </button>
 
     <!-- Cadastrar Modal -->
     <div class="modal fade" id="CadastrarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCadastrar"

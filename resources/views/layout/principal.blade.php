@@ -118,6 +118,13 @@
                 </div>
             </div>
         </nav>
+        <!--mostra a mensagens ao usuário -->
+        @if(Session::has('mensagemErro'))
+        <p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('mensagemErro') }}</p>
+        @endif
+        @if(Session::has('mensagemSucesso'))
+        <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('mensagemSucesso') }}</p>
+        @endif
         @yield('conteudo')
         <footer class="footer">
             <p>© Brhadoky</p>

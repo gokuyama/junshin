@@ -1,4 +1,6 @@
-<?php namespace junshin\Http\Controllers;
+<?php
+
+namespace junshin\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use junshin\NivelEscolaridade;
@@ -13,10 +15,10 @@ class NivelEscolaridadeController extends Controller
             'nosso-middleware'
         );
     }
-    
+
     public function lista()
     {
-        $niveisEscolaridade = NivelEscolaridade::where('ativo',1)->get();
+        $niveisEscolaridade = NivelEscolaridade::where('ativo', 1)->get();
 
         if (view()->exists('dominio.listagemNivelEscolaridade')) {
             return view('dominio.listagemNivelEscolaridade')->with('niveisEscolaridade', $niveisEscolaridade);
@@ -30,7 +32,7 @@ class NivelEscolaridadeController extends Controller
 
     public function adiciona(NivelEscolaridadeRequest $request)
     {
-        $usuarioLogado=\Auth::user()->username;
+        $usuarioLogado = \Auth::user()->username;
         $NivelEscolaridadeDescricao = Request::input('nivel_escolaridade_descricao');
         DB::table('niveis_escolaridade')->insert(
             [
@@ -38,39 +40,43 @@ class NivelEscolaridadeController extends Controller
                 'userid_insert' => $usuarioLogado
             ]
         );
+        session()->flash('mensagemSucesso', "Nível de escolaridade adicionado com sucesso");
         return redirect()->action('NivelEscolaridadeController@lista')->withInput(Request::only('nivel_escolaridade_descricao'));
     }
 
     //exclui um nivel_escolaridade
-	public function exclui($nivel_escolaridade_id)
-	{
-        $usuarioLogado=\Auth::user()->username;
-		$nivel_escolaridade = NivelEscolaridade::find($nivel_escolaridade_id);
+    public function exclui($nivel_escolaridade_id)
+    {
+        $usuarioLogado = \Auth::user()->username;
+        $nivel_escolaridade = NivelEscolaridade::find($nivel_escolaridade_id);
         $nivel_escolaridade->ativo = 0;
-        $nivel_escolaridade->userid_insert=$usuarioLogado;
+        $nivel_escolaridade->userid_insert = $usuarioLogado;
         $nivel_escolaridade->save();
-		return redirect()->action('NivelEscolaridadeController@lista');
-	}
+        session()->flash('mensagemSucesso', "Nível de escolaridade excluído com sucesso");
+        return redirect()->action('NivelEscolaridadeController@lista');
+    }
 
     public function edita($nivel_escolaridade_id)
-	{
-		$nivel_escolaridade = NivelEscolaridade::find($nivel_escolaridade_id);
+    {
+        $nivel_escolaridade = NivelEscolaridade::find($nivel_escolaridade_id);
 
-		if (empty($nivel_escolaridade)) {
-			return "Esse nível de escolaridade não existe";
-		}
+        if (empty($nivel_escolaridade)) {
+            session()->flash('mensagemErro', "Essa nível de escolaridade não existe");
+            return redirect()->action('NivelEscolaridadeController@lista');
+        }
+
         return view('dominio.editaNivelEscolaridade')->with('n', $nivel_escolaridade);
+    }
 
-	}
-
-    public function altera(NivelEscolaridadeRequest $request,$nivel_escolaridade_id)
-	{
-        $usuarioLogado=\Auth::user()->username;
-		$params = Request::all();
+    public function altera(NivelEscolaridadeRequest $request, $nivel_escolaridade_id)
+    {
+        $usuarioLogado = \Auth::user()->username;
+        $params = Request::all();
         $nivel_escolaridade = NivelEscolaridade::find($nivel_escolaridade_id);
         $nivel_escolaridade->update($params);
-        $nivel_escolaridade->userid_insert=$usuarioLogado;
+        $nivel_escolaridade->userid_insert = $usuarioLogado;
         $nivel_escolaridade->save();
-		return redirect()->action('NivelEscolaridadeController@lista')->withInput(Request::only('nivel_escolaridade_descricao'));
-	}
+        session()->flash('mensagemSucesso', "Nível de escolaridade alterado com sucesso");
+        return redirect()->action('NivelEscolaridadeController@lista')->withInput(Request::only('nivel_escolaridade_descricao'));
+    }
 }

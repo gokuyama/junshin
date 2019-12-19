@@ -27,12 +27,4 @@
     @endforeach
 </table>
 @endif
-<!--mostra a mensagem de sucesso em caso de inserção-->
-@if(old('tipo_turma_descricao'))
-<div class="alert alert-success">
-    <strong>Sucesso!</strong>
-    O tipo {{old('tipo_turma_descricao')}} foi adicionado / alterado!
-</div>
-@endif
-
 @stop

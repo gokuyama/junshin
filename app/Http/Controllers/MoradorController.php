@@ -23,8 +23,7 @@ class MoradorController  extends Controller
     {
         $listaMoradores = null;
         if (view()->exists('morador.listagemMorador')) {
-            return view('morador.listagemMorador')->with('listaMoradores', $listaMoradores)
-                ->with('mensagemOk', null);
+            return view('morador.listagemMorador')->with('listaMoradores', $listaMoradores);
         }
     }
 
@@ -41,8 +40,7 @@ class MoradorController  extends Controller
         if (view()->exists('morador.listagemMorador')) {
             return view('morador.listagemMorador')
                 ->with('listaMoradores', $listaMoradores)
-                ->with('aluno_id', $aluno_id)
-                ->with('mensagemOk', null);
+                ->with('aluno_id', $aluno_id);
         }
     }
 
@@ -84,9 +82,8 @@ class MoradorController  extends Controller
                 'userid_insert' => $usuarioLogado
             ]
         );
-
-        return  $this->localizaMoradorPorAluno($aluno_id)
-            ->with('mensagemOk', 'O morador ' . $morador_nome . ' foi adicionado com sucesso!');
+        session()->flash('mensagemSucesso', "O morador ' . $morador_nome . ' foi adicionado com sucesso!");
+        return  $this->localizaMoradorPorAluno($aluno_id);
     }
 
     //exclui um Morador
@@ -98,8 +95,8 @@ class MoradorController  extends Controller
         $morador->userid_insert = $usuarioLogado;
         $morador->save();
 
-        return  $this->localizaMoradorPorAluno($morador->aluno_id)
-            ->with('mensagemOk', 'O morador ' . $morador->morador_nome . ' foi excluído com sucesso!');
+        session()->flash('mensagemSucesso', "O morador ' . $morador->morador_nome . ' foi excluído com sucesso!");
+        return  $this->localizaMoradorPorAluno($morador->aluno_id);
     }
 
     public function edita($morador_id)
@@ -107,7 +104,8 @@ class MoradorController  extends Controller
         $morador = Morador::find($morador_id);
         $alunos = Aluno::where('ativo', 1)->orderBy('aluno_nome')->get();
         if (empty($morador)) {
-            return "Esse responsável não existe";
+            session()->flash('mensagemErro', "Esse morador não existe");
+            return  $this->localizaMoradorPorAluno($morador->aluno_id);
         }
         return view('morador.editaMorador')
             ->with('m', $morador)
@@ -126,7 +124,7 @@ class MoradorController  extends Controller
         $morador->userid_insert = $usuarioLogado;
         $morador->save();
 
-        return  $this->localizaMoradorPorAluno($params['aluno_id'])
-            ->with('mensagemOk', 'O morador ' . $morador->morador_nome . ' foi alterado com sucesso!');
+        session()->flash('mensagemSucesso', 'O morador ' . $morador->morador_nome . ' foi alterado com sucesso!');
+        return  $this->localizaMoradorPorAluno($params['aluno_id']);
     }
 }

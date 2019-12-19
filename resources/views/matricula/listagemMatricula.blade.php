@@ -54,13 +54,6 @@
     @endforeach
 </table>
 @endif
-<!--mostra a mensagem de sucesso em caso de inserção-->
-@if(old('responsavel_nome'))
-<div class="alert alert-success">
-    <strong>Sucesso!</strong>
-    O Matrícula foi alterada!
-</div>
-@endif
 @if (count($errors) > 0)
 <div class="alert alert-danger">
     <ul>

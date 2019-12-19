@@ -73,7 +73,7 @@ class HistoricoController  extends Controller
                 'userid_insert' => $usuarioLogado
             ]
         );
-
+        session()->flash('mensagemSucesso', "Histórico adicionado com sucesso");
         return  $this->localizaHistoricoPorAluno($aluno_id);
     }
 
@@ -87,6 +87,7 @@ class HistoricoController  extends Controller
         $historico->save();
         $listaHistoricos = null;
 
+        session()->flash('mensagemSucesso', "Histórico excluído com sucesso");
         return  $this->localizaHistoricoPorAluno($historico->aluno_id);
     }
 
@@ -95,7 +96,8 @@ class HistoricoController  extends Controller
         $historico = Historico::find($historico_instituicao_id);
         $alunos = Aluno::where('ativo', 1)->orderBy('aluno_nome')->get();
         if (empty($historico)) {
-            return "Esse Histórico não existe";
+            session()->flash('mensagemErro', "Esse hiestórico não existe");
+            return  $this->localizaHistoricoPorAluno($historico->aluno_id);
         }
         return view('historico.editaHistorico')
             ->with('h', $historico)
@@ -111,6 +113,7 @@ class HistoricoController  extends Controller
         $historico->userid_insert = $usuarioLogado;
         $historico->save();
 
+        session()->flash('mensagemSucesso', "Histórico alterado com sucesso");
         return  $this->localizaHistoricoPorAluno($params['aluno_id']);
     }
 }

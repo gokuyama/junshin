@@ -1,4 +1,6 @@
-<?php namespace junshin\Http\Controllers;
+<?php
+
+namespace junshin\Http\Controllers;
 
 use Illuminate\Support\Facades\DB;
 use junshin\TipoResponsavel;
@@ -13,10 +15,10 @@ class TipoResponsavelController extends Controller
             'nosso-middleware'
         );
     }
-    
+
     public function lista()
     {
-        $tiposResponsavel = TipoResponsavel::where('ativo',1)->get();
+        $tiposResponsavel = TipoResponsavel::where('ativo', 1)->get();
 
         if (view()->exists('dominio.listagemTipoResponsavel')) {
             return view('dominio.listagemTipoResponsavel')->with('tiposResponsavel', $tiposResponsavel);
@@ -30,7 +32,7 @@ class TipoResponsavelController extends Controller
 
     public function adiciona(TipoResponsavelRequest $request)
     {
-        $usuarioLogado=\Auth::user()->username;
+        $usuarioLogado = \Auth::user()->username;
         $TipoResponsavelDescricao = Request::input('tipo_responsavel_descricao');
         DB::table('tipos_responsavel')->insert(
             [
@@ -38,39 +40,42 @@ class TipoResponsavelController extends Controller
                 'userid_insert' => $usuarioLogado
             ]
         );
+        session()->flash('mensagemSucesso', "Tipo de responsável adicionado com sucesso");
         return redirect()->action('TipoResponsavelController@lista')->withInput(Request::only('tipo_responsavel_descricao'));
     }
 
     //exclui um tipo de responsável
-	public function exclui($tipo_responsavel_id)
-	{
-        $usuarioLogado=\Auth::user()->username;
-		$tipo_responsavel = TipoResponsavel::find($tipo_responsavel_id);
+    public function exclui($tipo_responsavel_id)
+    {
+        $usuarioLogado = \Auth::user()->username;
+        $tipo_responsavel = TipoResponsavel::find($tipo_responsavel_id);
         $tipo_responsavel->ativo = 0;
-        $tipo_responsavel->userid_insert=$usuarioLogado;
+        $tipo_responsavel->userid_insert = $usuarioLogado;
         $tipo_responsavel->save();
-		return redirect()->action('TipoResponsavelController@lista');
-	}
+        session()->flash('mensagemSucesso', "Tipo de responsável excluído com sucesso");
+        return redirect()->action('TipoResponsavelController@lista');
+    }
 
     public function edita($tipo_responsavel_id)
-	{
-		$tipo_responsavel = TipoResponsavel::find($tipo_responsavel_id);
+    {
+        $tipo_responsavel = TipoResponsavel::find($tipo_responsavel_id);
 
-		if (empty($tipo_responsavel)) {
-			return "Esse tipo de responsável não existe";
-		}
+        if (empty($tipo_responsavel)) {
+            session()->flash('mensagemErro', "Essa tipo de responsável não existe");
+            return redirect()->action('TipoResponsavelController@lista');
+        }
         return view('dominio.editaTipoResponsavel')->with('t', $tipo_responsavel);
+    }
 
-	}
-
-    public function altera(TipoResponsavelRequest $request,$tipo_responsavel_id)
-	{
-        $usuarioLogado=\Auth::user()->username;
-		$params = Request::all();
+    public function altera(TipoResponsavelRequest $request, $tipo_responsavel_id)
+    {
+        $usuarioLogado = \Auth::user()->username;
+        $params = Request::all();
         $tipo_responsavel = TipoResponsavel::find($tipo_responsavel_id);
         $tipo_responsavel->update($params);
-        $tipo_responsavel->userid_insert=$usuarioLogado;
+        $tipo_responsavel->userid_insert = $usuarioLogado;
         $tipo_responsavel->save();
-		return redirect()->action('TipoResponsavelController@lista')->withInput(Request::only('tipo_responsavel_descricao'));
-	}
+        session()->flash('mensagemSucesso', "Tipo de responsável alterado com sucesso");
+        return redirect()->action('TipoResponsavelController@lista')->withInput(Request::only('tipo_responsavel_descricao'));
+    }
 }

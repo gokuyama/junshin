@@ -1,12 +1,6 @@
 @extends('layout.principal')
 @section('conteudo')
 <!--mostra a mensagem de sucesso -->
-@if(!is_null($mensagemOk))
-<div class="alert alert-success">
-    <strong>Sucesso!</strong>
-    {{ $mensagemOk }}
-</div>
-@endif
 <button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
     onclick="location.href='{{action('MoradorController@novoMoradorPorAluno',$aluno_id)}}'">Adicionar
     Morador</button>
@@ -38,21 +32,5 @@
     </tr>
     @endforeach
 </table>
-@endif
-<!--mostra a mensagem de sucesso em caso de inserção-->
-@if(old('morador_nome'))
-<div class="alert alert-success">
-    <strong>Sucesso!</strong>
-    O Morador {{old('morador_nome')}} foi adicionado / alterado!
-</div>
-@endif
-@if (count($errors) > 0)
-<div class="alert alert-danger">
-    <ul>
-        @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-</div>
 @endif
 @stop

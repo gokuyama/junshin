@@ -1,12 +1,5 @@
 @extends('layout.principal')
 @section('conteudo')
-<!--mostra a mensagem de sucesso -->
-@if(Session::has('mensagemErro'))
-<p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('mensagemErro') }}</p>
-@endif
-@if(Session::has('mensagemSucesso'))
-<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('mensagemSucesso') }}</p>
-@endif
 
 <button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
     onclick="location.href='{{route('alunos.novo')}}'">Adicionar Aluno</button>

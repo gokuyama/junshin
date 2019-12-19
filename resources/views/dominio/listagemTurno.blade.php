@@ -27,12 +27,4 @@
     @endforeach
 </table>
 @endif
-<!--mostra a mensagem de sucesso em caso de inserção-->
-@if(old('$turno'))
-<div class="alert alert-success">
-    <strong>Sucesso!</strong>
-    O tipo {{old('$turno')}} foi adicionado / alterado!
-</div>
-@endif
-
 @stop

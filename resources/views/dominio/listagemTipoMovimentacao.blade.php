@@ -29,12 +29,4 @@
     @endforeach
 </table>
 @endif
-<!--mostra a mensagem de sucesso em caso de inserção-->
-@if(old('$tipoMovimentacao'))
-<div class="alert alert-success">
-    <strong>Sucesso!</strong>
-    O tipo {{old('$tipoMovimentacao')}} foi adicionado / alterado!
-</div>
-@endif
-
 @stop

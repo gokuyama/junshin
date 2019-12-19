@@ -27,12 +27,4 @@
     @endforeach
 </table>
 @endif
-<!--mostra a mensagem de sucesso em caso de inserção-->
-@if(old('nivel_escolaridade_descricao'))
-<div class="alert alert-success">
-    <strong>Sucesso!</strong>
-    O nível de escolaridade {{old('nivel_escolaridade_descricao')}} foi adicionado / alterado!
-</div>
-@endif
-
 @stop

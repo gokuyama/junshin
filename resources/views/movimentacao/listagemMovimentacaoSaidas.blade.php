@@ -37,18 +37,10 @@
 </table>
 
 <div class="row">
-  <div class="col-12 d-flex justify-content-center">
-    {{ $movimentacao->links() }}  
-  </div>
+    <div class="col-12 d-flex justify-content-center">
+        {{ $movimentacao->links() }}
+    </div>
 </div>
 
 @endif
-<!--mostra a mensagem de sucesso em caso de inserção-->
-@if(old('$movimentacao'))
-<div class="alert alert-success">
-    <strong>Sucesso!</strong>
-    O tipo {{old('$Movimentacao')}} foi adicionado / alterado!
-</div>
-@endif
-
 @stop

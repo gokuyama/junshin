@@ -42,13 +42,6 @@
     @endforeach
 </table>
 @endif
-<!--mostra a mensagem de sucesso em caso de inserção-->
-@if(old('turma_descricao'))
-<div class="alert alert-success">
-    <strong>Sucesso!</strong>
-    A turma {{old('turma_descricao')}} foi adicionada / alterada!
-</div>
-@endif
 @if (count($errors) > 0)
 <div class="alert alert-danger">
     <ul>

@@ -170,6 +170,7 @@ class ResponsavelController  extends Controller
             ->orderBy('responsaveis.responsavel_nome')
             ->get();
 
+        session()->flash('mensagemSucesso', "Responsável adicionado com sucesso");
         if (view()->exists('responsavel.listagemResponsavel')) {
             return view('responsavel.listagemResponsavel')->with('listaResponsaveis', $listaResponsaveis);
         }
@@ -192,6 +193,7 @@ class ResponsavelController  extends Controller
             ->orderBy('responsaveis.responsavel_nome')
             ->get();
 
+        session()->flash('mensagemSucesso', "Responsável excluído com sucesso");
         if (view()->exists('responsavel.listagemResponsavel')) {
             return view('responsavel.listagemResponsavel')->with('listaResponsaveis', $listaResponsaveis);
         }
@@ -274,6 +276,7 @@ class ResponsavelController  extends Controller
             ->orderBy('responsaveis.responsavel_nome')
             ->get();
 
+        session()->flash('mensagemSucesso', "Responsável alterado com sucesso");
         if (view()->exists('responsavel.listagemResponsavel')) {
             return view('responsavel.listagemResponsavel')->with('listaResponsaveis', $listaResponsaveis);
         }

@@ -37,13 +37,6 @@
     @endforeach
 </table>
 @endif
-<!--mostra a mensagem de sucesso em caso de inserção-->
-@if(old('historico_instituicao_nome'))
-<div class="alert alert-success">
-    <strong>Sucesso!</strong>
-    O Histórico {{old('historico_instituicao_nome')}} foi adicionado / alterado!
-</div>
-@endif
 @if (count($errors) > 0)
 <div class="alert alert-danger">
     <ul>

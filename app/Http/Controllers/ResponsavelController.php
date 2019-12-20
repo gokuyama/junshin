@@ -164,7 +164,7 @@ class ResponsavelController  extends Controller
 
         $listaResponsaveis = DB::table('responsaveis')
             ->join('alunos', 'alunos.aluno_id', '=', 'responsaveis.aluno_id')
-            ->select('responsaveis.responsavel_id', 'responsaveis.responsavel_nome', 'alunos.aluno_nome')
+            ->select('responsaveis.responsavel_id', 'responsaveis.responsavel_nome', 'alunos.aluno_nome', 'alunos.aluno_id')
             ->where('responsaveis.ativo', 1)
             ->where('alunos.aluno_id', $aluno_id)
             ->orderBy('responsaveis.responsavel_nome')
@@ -187,7 +187,7 @@ class ResponsavelController  extends Controller
         $listaResponsaveis = null;
         $listaResponsaveis = DB::table('responsaveis')
             ->join('alunos', 'alunos.aluno_id', '=', 'responsaveis.aluno_id')
-            ->select('responsaveis.responsavel_id', 'responsaveis.responsavel_nome', 'alunos.aluno_nome')
+            ->select('responsaveis.responsavel_id', 'responsaveis.responsavel_nome', 'alunos.aluno_nome', 'alunos.aluno_id')
             ->where('responsaveis.ativo', 1)
             ->where('alunos.aluno_id', $responsavel->aluno_id)
             ->orderBy('responsaveis.responsavel_nome')
@@ -210,7 +210,7 @@ class ResponsavelController  extends Controller
             return "Esse responsável não existe";
         }
 
-        if ($responsavel['responsavel_data_nascimento'] == '0000-00-00') {
+        if ($responsavel['responsavel_data_nascimento'] == '0000-00-00' || $responsavel['responsavel_data_nascimento'] == null) {
             $responsavel['responsavel_data_nascimento'] = '--';
         }
 
@@ -270,7 +270,7 @@ class ResponsavelController  extends Controller
         }
         $listaResponsaveis = DB::table('responsaveis')
             ->join('alunos', 'alunos.aluno_id', '=', 'responsaveis.aluno_id')
-            ->select('responsaveis.responsavel_id', 'responsaveis.responsavel_nome', 'alunos.aluno_nome')
+            ->select('responsaveis.responsavel_id', 'responsaveis.responsavel_nome', 'alunos.aluno_nome', 'alunos.aluno_id')
             ->where('responsaveis.ativo', 1)
             ->where('alunos.aluno_id', $params['aluno_id'])
             ->orderBy('responsaveis.responsavel_nome')

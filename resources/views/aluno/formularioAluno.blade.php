@@ -272,6 +272,8 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CadastrarModal">
         Cadastrar
     </button>
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{action('AlunoController@lista')}}'">Voltar</button>
 
     <!-- Modal -->
     <div class="modal fade" id="CadastrarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCadastrar"

@@ -32,6 +32,7 @@
             <div class="col-10">
                 <div class="form-group">
                     <label>Responsável do Aluno</label>
+                    <input type="hidden" name="aluno_id" class="form-control" value="{{ $aluno->aluno_id }}" />
                     <input name="aluno_nome" class="form-control" value="{{ $aluno->aluno_nome }}" disabled />
                 </div>
             </div>
@@ -106,8 +107,12 @@
             <div class="col-2">
                 <div class="form-group">
                     <label>Data de Nascimento</label>
+                    @if($r->responsavel_data_nascimento == '--')
+                    <input name="responsavel_data_nascimento" class="form-control" id="responsavel_data_nascimento" />
+                    @else
                     <input name="responsavel_data_nascimento" class="form-control" id="responsavel_data_nascimento"
                         value="{{ date( 'd/m/Y' , strtotime($r->responsavel_data_nascimento)) }}" />
+                    @endif
                 </div>
             </div>
             <div class="col-1">

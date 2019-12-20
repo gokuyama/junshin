@@ -82,7 +82,7 @@ class MoradorController  extends Controller
                 'userid_insert' => $usuarioLogado
             ]
         );
-        session()->flash('mensagemSucesso', "O morador ' . $morador_nome . ' foi adicionado com sucesso!");
+        session()->flash('mensagemSucesso', "O morador '  $morador_nome  ' foi adicionado com sucesso!");
         return  $this->localizaMoradorPorAluno($aluno_id);
     }
 
@@ -95,7 +95,7 @@ class MoradorController  extends Controller
         $morador->userid_insert = $usuarioLogado;
         $morador->save();
 
-        session()->flash('mensagemSucesso', "O morador ' . $morador->morador_nome . ' foi excluído com sucesso!");
+        session()->flash('mensagemSucesso', "O morador ' $morador->morador_nome ' foi excluído com sucesso!");
         return  $this->localizaMoradorPorAluno($morador->aluno_id);
     }
 

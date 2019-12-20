@@ -4,6 +4,8 @@
 <button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
     onclick="location.href='{{action('MoradorController@novoMoradorPorAluno',$aluno_id)}}'">Adicionar
     Morador</button>
+<button type="button" class="btn btn-secondary" style="margin-bottom: 10px;"
+    onclick="location.href='{{action('AlunoController@edita',$aluno_id)}}'">Voltar</button>
 
 @if(is_null($listaMoradores))
 <div class="alert alert-primary">

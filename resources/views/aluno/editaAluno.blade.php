@@ -23,6 +23,8 @@
 <button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
     onclick="location.href='{{action('HistoricoController@localizaHistoricoPorAluno', $a->aluno_id)}}'">Histórico
     Instituições</button>
+<button type="button" class="btn btn-secondary" style="margin-bottom: 10px;"
+    onclick="location.href='{{action('AlunoController@lista')}}'">Voltar</button>
 
 <h1>Editando o Aluno: {{$a->aluno_nome}} </h1>
 

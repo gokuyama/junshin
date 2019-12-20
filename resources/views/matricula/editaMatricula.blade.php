@@ -11,13 +11,6 @@
 </div>
 @endif
 
-@if(Session::has('mensagemSucesso'))
-<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('mensagemSucesso') }}</p>
-@endif
-@if(Session::has('mensagemErro'))
-<p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('mensagemErro') }}</p>
-@endif
-
 <h1>Editando a Matrícula do Aluno: {{$listagemMatriculas->aluno_nome}} </h1>
 <form action="{{action('MatriculaController@altera',$listagemMatriculas->matricula_id)}}" method="get">
     <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
@@ -71,6 +64,8 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ExcluirModal">
             Excluir
         </button>
+        <button type="button" class="btn btn-secondary"
+            onclick="location.href='{{action('MatriculaController@localizaMatriculaPorAluno', $listagemMatriculas->aluno_id)}}'">Voltar</button>
         @endif
         <br><br>
         <h3>Mensalidade</h3>

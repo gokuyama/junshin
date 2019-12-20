@@ -167,8 +167,7 @@
             <div class="col-2">
                 <div class="form-group">
                     <label>Complemento</label>
-                    <input name="pagador_complemento" class="form-control"
-                        value="{{ old('pagador_complemento') }}" />
+                    <input name="pagador_complemento" class="form-control" value="{{ old('pagador_complemento') }}" />
                 </div>
             </div>
             <div class="col-3">
@@ -180,7 +179,7 @@
             <div class="col-2">
                 <div class="form-group">
                     <label>CEP</label>
-                    <input name="pagador_cep" class="form-control" value="{{ old('pagador_cep') }}"  id="cep" />
+                    <input name="pagador_cep" class="form-control" value="{{ old('pagador_cep') }}" id="cep" />
                 </div>
             </div>
             <div class="col-3">
@@ -229,6 +228,9 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CadastrarModal">
         Cadastrar
     </button>
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{action('ResponsavelController@localizaResponsavelPorAluno', $alunos[0]->aluno_id)}}'">Voltar</button>
+
 
     <!-- Modal -->
     <div class="modal fade" id="CadastrarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCadastrar"

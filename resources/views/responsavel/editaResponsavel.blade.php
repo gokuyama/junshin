@@ -32,14 +32,7 @@
             <div class="col-10">
                 <div class="form-group">
                     <label>Responsável do Aluno</label>
-                    <select class="form-control" id="aluno_id" name="aluno_id">
-                        <option value="">--</option>
-                        @foreach ($alunos as $aluno)
-                        <option value="{{ $aluno->aluno_id }}"
-                            {{ ($aluno->aluno_id == $r->aluno_id ? 'selected="selected"' : '') }}>
-                            {{ $aluno->aluno_nome }}</option>
-                        @endforeach
-                    </select>
+                    <input name="aluno_nome" class="form-control" value="{{ $aluno->aluno_nome }}" disabled />
                 </div>
             </div>
         </div>
@@ -228,6 +221,8 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ExcluirModal">
         Excluir
     </button>
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{action('ResponsavelController@localizaResponsavelPorAluno', $r->aluno_id)}}'">Voltar</button>
 
     <!-- Cadastrar Modal -->
     <div class="modal fade" id="CadastrarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCadastrar"

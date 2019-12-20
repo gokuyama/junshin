@@ -19,6 +19,9 @@
         <input name="tipo_turma_descricao" class="form-control" value="{{ old('tipo_turma_descricao') }}" />
     </div>
     <button class="btn btn-primary" type="submit">Cadastrar</button>
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{action('TipoTurmaController@lista')}}'">Voltar</button>
+
 </form>
 
 @stop

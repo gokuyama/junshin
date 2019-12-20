@@ -4,14 +4,8 @@
 <button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
     onclick="location.href='{{action('MatriculaController@novaMatriculaPorAluno',$aluno_id)}}'">Adicionar
     Matrícula</button>
-
-@if(Session::has('mensagemErro'))
-<p class="alert {{ Session::get('alert-class', 'alert-danger') }}">{{ Session::get('mensagemErro') }}</p>
-@endif
-@if(Session::has('mensagemSucesso'))
-<p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('mensagemSucesso') }}</p>
-@endif
-
+<button type="button" class="btn btn-secondary" style="margin-bottom: 10px;"
+    onclick="location.href='{{action('AlunoController@edita',$aluno_id)}}'">Voltar</button>
 
 @if(is_null($listagemMatriculas))
 <div class="alert alert-primary">

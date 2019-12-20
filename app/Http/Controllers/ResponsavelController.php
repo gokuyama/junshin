@@ -41,7 +41,7 @@ class ResponsavelController  extends Controller
 
         $listaResponsaveis = DB::table('responsaveis')
             ->join('alunos', 'alunos.aluno_id', '=', 'responsaveis.aluno_id')
-            ->select('responsaveis.responsavel_id', 'responsaveis.responsavel_nome', 'alunos.aluno_nome')
+            ->select('responsaveis.responsavel_id', 'responsaveis.responsavel_nome', 'alunos.aluno_nome', 'alunos.aluno_id')
             ->where('responsaveis.ativo', 1)
             ->where('responsavel_nome', 'like', '%' . $params['responsavel_nome_localiza'] . '%')
             ->orderBy('responsaveis.responsavel_nome')
@@ -56,7 +56,7 @@ class ResponsavelController  extends Controller
     {
         $listaResponsaveis = DB::table('responsaveis')
             ->join('alunos', 'alunos.aluno_id', '=', 'responsaveis.aluno_id')
-            ->select('responsaveis.responsavel_id', 'responsaveis.responsavel_nome', 'alunos.aluno_nome')
+            ->select('responsaveis.responsavel_id', 'responsaveis.responsavel_nome', 'alunos.aluno_nome', 'alunos.aluno_id')
             ->where('responsaveis.ativo', 1)
             ->where('alunos.aluno_id', $aluno_id)
             ->orderBy('responsaveis.responsavel_nome')
@@ -203,7 +203,7 @@ class ResponsavelController  extends Controller
     {
         $responsavel = Responsavel::find($responsavel_id);
         $tiposResponsavel = TipoResponsavel::where('ativo', 1)->orderBy('tipo_responsavel_descricao')->get();
-        $alunos = Aluno::where('ativo', 1)->orderBy('aluno_nome')->get();
+        $aluno = Aluno::where('ativo', 1)->where('aluno_id', $responsavel->aluno_id)->first();
         $niveisEscolaridade = NivelEscolaridade::where('ativo', 1)->orderBy('nivel_escolaridade_descricao')->get();
         $pagadores = Pagador::where('responsavel_id', $responsavel_id)->where('pagador_data_fim', null)->get();
         if (empty($responsavel)) {
@@ -216,7 +216,7 @@ class ResponsavelController  extends Controller
 
         return view('responsavel.editaResponsavel')
             ->with('r', $responsavel)
-            ->with('alunos', $alunos)
+            ->with('aluno', $aluno)
             ->with('niveisEscolaridade', $niveisEscolaridade)
             ->with('tiposResponsavel', $tiposResponsavel)
             ->with('pagadores', $pagadores);

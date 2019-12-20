@@ -19,6 +19,9 @@
         <input name="tipo_documento_descricao" class="form-control" value="{{ old('tipo_documento_descricao') }}" />
     </div>
     <button class="btn btn-primary" type="submit">Cadastrar</button>
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{action('TipoDocumentoController@lista')}}'">Voltar</button>
+
 </form>
 
 @stop

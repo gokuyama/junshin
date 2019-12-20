@@ -19,6 +19,9 @@
         <input name="turno_descricao" class="form-control" value="{{ old('turno_descricao') }}" />
     </div>
     <button class="btn btn-primary" type="submit">Cadastrar</button>
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{action('TurnoController@lista')}}'">Voltar</button>
+
 </form>
 
 @stop

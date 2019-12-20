@@ -31,6 +31,9 @@
     </div>
     <input type="hidden" name="matricula_id" class="form-control" value="{{ $matricula_id }}" />
     <button class="btn btn-primary" type="submit">Cadastrar</button>
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{action('MatriculaController@edita',$matricula_id)}}'">Voltar</button>
+
 </form>
 <script>
 jQuery(function($) {

@@ -56,6 +56,8 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ExcluirModal">
         Excluir
     </button>
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{action('MoradorController@localizaMoradorPorAluno', $m->aluno_id)}}'">Voltar</button>
 
     <!-- Cadastrar Modal -->
     <div class="modal fade" id="CadastrarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCadastrar"

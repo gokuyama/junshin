@@ -19,6 +19,9 @@
         <input name="tipos_frequencia_descricao" class="form-control" value="{{ old('tipos_frequencia_descricao') }}" />
     </div>
     <button class="btn btn-primary" type="submit">Cadastrar</button>
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{action('TipoFrequenciaController@lista')}}'">Voltar</button>
+
 </form>
 
 @stop

@@ -1,8 +1,8 @@
 @extends('layout.principal')
 @section('conteudo')
 
-<button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
-    onclick="location.href='{{route('turmas.novo')}}'">Adicionar Turma</button>
+<button type="button" class="btn btn-secondary" style="margin-bottom: 10px;"
+    onclick="location.href='{{action('TurmaController@lista')}}'">Voltar</button>
 
 @if(count($alunosTurma)==0)
 <div class="alert alert-danger">

@@ -4,6 +4,9 @@
 <button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
     onclick="location.href='{{action('HistoricoController@novoHistoricoPorAluno',$aluno_id)}}'">Adicionar
     Histórico</button>
+<button type="button" class="btn btn-secondary" style="margin-bottom: 10px;"
+    onclick="location.href='{{action('AlunoController@edita',$aluno_id)}}'">Voltar</button>
+
 
 @if(is_null($listaHistoricos))
 <div class="alert alert-primary">

@@ -16,9 +16,13 @@
     <input type="hidden" name="_token" value="{{{ csrf_token() }}}" />
     <div class="form-group">
         <label>Nível de Conhecimento de Japonês</label>
-        <input name="nivel_conhecimento_japones_descricao" class="form-control" value="{{ old('nivel_conhecimento_japones_descricao') }}" />
+        <input name="nivel_conhecimento_japones_descricao" class="form-control"
+            value="{{ old('nivel_conhecimento_japones_descricao') }}" />
     </div>
     <button class="btn btn-primary" type="submit">Cadastrar</button>
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{action('NivelConhecimentoJaponesController@lista')}}'">Voltar</button>
+
 </form>
 
 @stop

@@ -40,7 +40,7 @@ class TurmaController  extends Controller
             ->where('alunos.ativo', 1)
             ->where('turmas.turma_id', $turma_id)
             ->whereDate('matricula_data_ini', '<=', Carbon::now()->toDateString())
-            ->whereDate('matricula_data_fim', '>=', Carbon::now()->toDateString())
+            ->whereNull('matricula_data_fim')
             ->orderBy('alunos.aluno_nome')
             ->get();
 

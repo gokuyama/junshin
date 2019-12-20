@@ -19,6 +19,9 @@
         <input name="tipo_responsavel_descricao" class="form-control" value="{{ old('tipo_responsavel_descricao') }}" />
     </div>
     <button class="btn btn-primary" type="submit">Cadastrar</button>
+    <button type="button" class="btn btn-secondary"
+        onclick="location.href='{{action('TipoResponsavelController@lista')}}'">Voltar</button>
+
 </form>
 
 @stop

@@ -2,14 +2,14 @@
 @section('conteudo')
 
 <button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
-    onclick="location.href='{{action('ResponsavelController@novoResponsavelPorAluno',$listaResponsaveis[0]->aluno_id)}}'">Adicionar
+    onclick="location.href='{{action('ResponsavelController@novoResponsavelPorAluno',$aluno_id)}}'">Adicionar
     Responsável</button>
 
 <button type="button" class="btn btn-primary" style="margin-bottom: 10px;" data-toggle="modal"
     data-target="#localizarModal">Localizar Responsável</button>
 
 <button type="button" class="btn btn-secondary" style="margin-bottom: 10px;"
-    onclick="location.href='{{action('AlunoController@edita',$listaResponsaveis[0]->aluno_id)}}'">Voltar</button>
+    onclick="location.href='{{action('AlunoController@edita',$aluno_id)}}'">Voltar</button>
 
 @if(is_null($listaResponsaveis))
 <div class="alert alert-primary">

@@ -48,7 +48,9 @@ class ResponsavelController  extends Controller
             ->get();
 
         if (view()->exists('responsavel.listagemResponsavel')) {
-            return view('responsavel.listagemResponsavel')->with('listaResponsaveis', $listaResponsaveis);
+            return view('responsavel.listagemResponsavel')
+                ->with('listaResponsaveis', $listaResponsaveis)
+                ->with('aluno_id', $listaResponsaveis[0]->aluno_id);
         }
     }
 
@@ -63,7 +65,9 @@ class ResponsavelController  extends Controller
             ->get();
 
         if (view()->exists('responsavel.listagemResponsavel')) {
-            return view('responsavel.listagemResponsavel')->with('listaResponsaveis', $listaResponsaveis);
+            return view('responsavel.listagemResponsavel')
+                ->with('listaResponsaveis', $listaResponsaveis)
+                ->with('aluno_id', $aluno_id);
         }
     }
 
@@ -172,7 +176,9 @@ class ResponsavelController  extends Controller
 
         session()->flash('mensagemSucesso', "Responsável adicionado com sucesso");
         if (view()->exists('responsavel.listagemResponsavel')) {
-            return view('responsavel.listagemResponsavel')->with('listaResponsaveis', $listaResponsaveis);
+            return view('responsavel.listagemResponsavel')
+                ->with('listaResponsaveis', $listaResponsaveis)
+                ->with('aluno_id', $aluno_id);
         }
     }
 
@@ -195,7 +201,9 @@ class ResponsavelController  extends Controller
 
         session()->flash('mensagemSucesso', "Responsável excluído com sucesso");
         if (view()->exists('responsavel.listagemResponsavel')) {
-            return view('responsavel.listagemResponsavel')->with('listaResponsaveis', $listaResponsaveis);
+            return view('responsavel.listagemResponsavel')
+                ->with('listaResponsaveis', $listaResponsaveis)
+                ->with('aluno_id', $listaResponsaveis[0]->aluno_id);
         }
     }
 
@@ -278,7 +286,9 @@ class ResponsavelController  extends Controller
 
         session()->flash('mensagemSucesso', "Responsável alterado com sucesso");
         if (view()->exists('responsavel.listagemResponsavel')) {
-            return view('responsavel.listagemResponsavel')->with('listaResponsaveis', $listaResponsaveis);
+            return view('responsavel.listagemResponsavel')
+                ->with('listaResponsaveis', $listaResponsaveis)
+                ->with('aluno_id', $listaResponsaveis[0]->aluno_id);
         }
     }
 }

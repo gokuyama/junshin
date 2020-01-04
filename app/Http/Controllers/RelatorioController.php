@@ -61,16 +61,23 @@ class RelatorioController  extends Controller
         date_default_timezone_set('America/Sao_Paulo');
         $data_hoje = strftime('%d de %B de %Y', strtotime('today'));
 
-        $data = [
-            'aluno_nome' => $dados[0]->aluno_nome,
-            'turma_descricao' => $dados[0]->turma_descricao,
-            'responsaveis' => $responsaveis,
-            'data_hoje' => $data_hoje
-        ];
+        if (count($dados) > 0) {
+            $data = [
+                'aluno_nome' => $dados[0]->aluno_nome,
+                'turma_descricao' => $dados[0]->turma_descricao,
+                'responsaveis' => $responsaveis,
+                'data_hoje' => $data_hoje
+            ];
 
-        //Chama o relatório
-        $pdf = PDF::loadView('relatorio.declaracaoMatricula', $data);
-        return $pdf->download('declaracaoMatricula.pdf');
+            //Chama o relatório
+            $pdf = PDF::loadView('relatorio.declaracaoMatricula', $data);
+            return $pdf->download('declaracaoMatricula.pdf');
+        } else {
+            $aluno = Aluno::find($aluno_id);
+            session()->flash('mensagemErro', "Aluno sem matrícula");
+            return view('relatorio.listagemRelatoriosAlunos')
+                ->with('aluno', $aluno);
+        }
     }
 
     public function declaracaoAdimplencia($aluno_id)
@@ -95,18 +102,24 @@ class RelatorioController  extends Controller
         date_default_timezone_set('America/Sao_Paulo');
         $data_hoje = strftime('%d de %B de %Y', strtotime('today'));
 
-        $data = [
-            'aluno_nome' => $dados[0]->aluno_nome,
-            'turma_descricao' => $dados[0]->turma_descricao,
-            'responsaveis' => $responsaveis[0]->responsavel_nome,
-            'data_hoje' => $data_hoje,
-            'ano' => $dados[0]->ano
+        if (count($dados) > 0) {
+            $data = [
+                'aluno_nome' => $dados[0]->aluno_nome,
+                'turma_descricao' => $dados[0]->turma_descricao,
+                'responsaveis' => $responsaveis[0]->responsavel_nome,
+                'data_hoje' => $data_hoje,
+                'ano' => $dados[0]->ano
 
-        ];
-
-        //Chama o relatório
-        $pdf = PDF::loadView('relatorio.declaracaoAdimplencia', $data);
-        return $pdf->download('declaracaoAdimplencia.pdf');
+            ];
+            //Chama o relatório
+            $pdf = PDF::loadView('relatorio.declaracaoAdimplencia', $data);
+            return $pdf->download('declaracaoAdimplencia.pdf');
+        } else {
+            $aluno = Aluno::find($aluno_id);
+            session()->flash('mensagemErro', "Aluno sem matrícula");
+            return view('relatorio.listagemRelatoriosAlunos')
+                ->with('aluno', $aluno);
+        }
     }
 
 

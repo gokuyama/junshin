@@ -47,8 +47,8 @@ class RelatorioController  extends Controller
             ->select('matriculas.matricula_data_ini', 'matriculas.matricula_data_fim', 'turmas.turma_descricao', 'alunos.aluno_nome')
             ->where('matriculas.ativo', 1)
             ->where('alunos.aluno_id', $aluno_id)
-            ->where('matriculas.matricula_data_ini', '<=', Carbon::now(new DateTimeZone('America/Sao_Paulo')))
-            ->where('matriculas.matricula_data_fim', '>', Carbon::now(new DateTimeZone('America/Sao_Paulo')))
+            ->whereDate('matriculas.matricula_data_ini', '<=', Carbon::now()->toDateString())
+            ->whereNull('matriculas.matricula_data_fim')
             ->get();
 
         $responsaveis = DB::table('responsaveis')
@@ -68,12 +68,6 @@ class RelatorioController  extends Controller
             'data_hoje' => $data_hoje
         ];
 
-
-        //      return view('relatorio.declaracaoMatricula')->with('aluno_nome', $dados[0]->aluno_nome)
-        //    ->with('turma_descricao',$dados[0]->turma_descricao)
-        //  ->with('responsaveis',$responsaveis)
-        //->with('data_hoje',$data_hoje);
-
         //Chama o relatório
         $pdf = PDF::loadView('relatorio.declaracaoMatricula', $data);
         return $pdf->download('declaracaoMatricula.pdf');
@@ -87,8 +81,8 @@ class RelatorioController  extends Controller
             ->select(DB::raw('YEAR(matriculas.matricula_data_ini) as ano'), 'matriculas.matricula_data_fim', 'turmas.turma_descricao', 'alunos.aluno_nome')
             ->where('matriculas.ativo', 1)
             ->where('alunos.aluno_id', $aluno_id)
-            ->where('matriculas.matricula_data_ini', '<=', Carbon::now(new DateTimeZone('America/Sao_Paulo')))
-            ->where('matriculas.matricula_data_fim', '>', Carbon::now(new DateTimeZone('America/Sao_Paulo')))
+            ->whereDate('matriculas.matricula_data_ini', '<=', Carbon::now()->toDateString())
+            ->whereNull('matriculas.matricula_data_fim')
             ->get();
 
         $responsaveis = DB::table('responsaveis')
@@ -110,13 +104,6 @@ class RelatorioController  extends Controller
 
         ];
 
-
-        /*return view('relatorio.declaracaoAdimplencia')->with('aluno_nome', $dados[0]->aluno_nome)
-        ->with('turma_descricao',$dados[0]->turma_descricao)
-        ->with('responsaveis',$responsaveis[0]->responsavel_nome)
-        ->with('data_hoje',$data_hoje)
-        ->with('ano', $dados[0]->ano);
-*/
         //Chama o relatório
         $pdf = PDF::loadView('relatorio.declaracaoAdimplencia', $data);
         return $pdf->download('declaracaoAdimplencia.pdf');
@@ -132,8 +119,8 @@ class RelatorioController  extends Controller
             ->where('matriculas.ativo', 1)
             ->where('turmas.ativo', 1)
             ->where('alunos.ativo', 1)
-            ->whereDate('matricula_data_ini','<=', Carbon::now()->toDateString())
-            ->whereDate('matricula_data_fim','>=', Carbon::now()->toDateString())
+            ->whereDate('matriculas.matricula_data_ini', '<=', Carbon::now()->toDateString())
+            ->whereNull('matriculas.matricula_data_fim')
             ->where('turmas.turma_id', $turma_id)
             ->orderBy('alunos.aluno_nome')
             ->get();
@@ -158,12 +145,6 @@ class RelatorioController  extends Controller
             'dias_no_mes' => $diasNoMes,
             'diaFds' => $diaFds
         ];
-
-        /*return view('relatorio.listaChamada')
-        ->with('alunosTurma', $alunosTurma)
-        ->with('mes_hoje',$mes_hoje)
-        ->with('dias_no_mes',$diasNoMes)
-        ->with('diaFds',$diaFds);*/
 
         //Chama o relatório
         $pdf = PDF::loadView('relatorio.listaChamada', $data);

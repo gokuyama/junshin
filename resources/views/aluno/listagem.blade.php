@@ -48,10 +48,9 @@
                 <span class="fas fa-file-pdf"></span>
         </td>
         <td class="col-sm-1">
-            <a href="{{action('BoletoController@imprimeBoleto', $p->aluno_id)}}">
-                <span class="fa fa-barcode"></span>
+            <button type="button" class="fa fa-barcode" style="margin-bottom: 10px;" data-toggle="modal"
+                data-target="#selecionaMesModal"></button>
         </td>
-        </a>
     </tr>
     @endforeach
 </table>
@@ -91,4 +90,52 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="selecionaMesModal" tabindex="-1" role="dialog" aria-labelledby="selecionaMesModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="selecionaMesModalLabel">Selecione a Turma e o mês de competência</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="{{action('BoletoController@listaPorAluno')}}" method="get">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Turma</label>
+                        <select id="turma" class="form-control" name="turma">
+                            <option value="1">Curso</option>
+                            <option value="2">Maternal/Jardim</option>                            
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Mês</label>
+                        <select id="mesCompetencia" class="form-control" name="mesCompetencia">
+                            <option value="1">JANEIRO</option>
+                            <option value="2">FEVEREIRO</option>
+                            <option value="3">MARÇO</option>
+                            <option value="4">ABRIL</option>
+                            <option value="5">MAIO</option>
+                            <option value="6">JUNHO</option>
+                            <option value="7">JULHO</option>
+                            <option value="8">AGOSTO</option>
+                            <option value="9">SETEMBRO</option>
+                            <option value="10">OUTUBRO</option>
+                            <option value="11">NOVEMBRO</option>
+                            <option value="12">DEZEMBRO</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancela</button>
+                    <button type="submit" class="btn btn-primary">OK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @stop

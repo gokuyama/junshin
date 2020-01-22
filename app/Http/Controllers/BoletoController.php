@@ -50,7 +50,13 @@ class BoletoController  extends Controller
 
     public function listaPorAluno(SelecionaMesRequest $request)
     {
-        $params = Request::all();    
+        $params = Request::all();
+        if($params['turma']==1){
+            $turma_id = '= 1';  
+        }
+        else{
+            $turma_id = '> 1';
+        }  
         $listagemBoletos = DB::select('
         SELECT 
             alunos.aluno_nome,
@@ -69,17 +75,16 @@ class BoletoController  extends Controller
                 JOIN    mensalidades ON matriculas.matricula_id = mensalidades.matricula_id
                 JOIN    responsaveis ON alunos.aluno_id = responsaveis.aluno_id
                 JOIN    pagadores ON responsaveis.responsavel_id = pagadores.responsavel_id
-        WHERE    matriculas.matricula_data_ini > DATE_FORMAT(NOW(), "%Y-01-01")
-                AND matriculas.matricula_data_fim > NOW()
+                JOIN    turmas ON matriculas.turma_id = turmas.turma_id
+        WHERE    matriculas.matricula_data_fim is null
                 AND matriculas.ativo = 1
-                AND mensalidade_data_ini > DATE_FORMAT(NOW(), "%Y-01-01")
-                AND mensalidade_data_fim > NOW()
+                AND mensalidade_data_fim is null
                 AND mensalidades.ativo = 1
                 AND pagador_percentual > 0
-                AND pagador_data_ini > DATE_FORMAT(NOW(), "%Y-01-01")
-                AND pagador_data_fim IS NULL
+                AND pagador_data_fim is null
                 AND pagadores.ativo = 1
-                AND responsaveis.ativo = 1');
+                AND responsaveis.ativo = 1
+                AND turmas.tipo_turma_id '.$turma_id);
 
         $nossonumeroDb = DB::select('SELECT MAX(boleto_id) as boleto_id FROM boletos');
         $nossonumero = $nossonumeroDb[0]->boleto_id + 1;
@@ -121,14 +126,14 @@ class BoletoController  extends Controller
                 );
                 $boleto=$this->preencheBoleto($beneficiario, $b,  $nossonumero, $this::OUTPUT_SAVE);
                 $meses = $this::meses();
-                $mes = $meses[$params['mesCompetencia']];
-                $this->attachment_email('eduardo.uemura@gmail.com',$nossonumero, $b->nome_responsavel, $mes);
+                $mes = $meses[$params['mesCompetencia']-1];
+                //$this->attachment_email('eduardo.uemura@gmail.com',$nossonumero, $b->nome_responsavel, $mes);
                 $boletos[] = $boleto;
                 $nossonumero++;
             }
         }
         if(!empty($boletos)){
-            $this->geraRemessa($beneficiario, $remessaId, $boletos);
+           // $this->geraRemessa($beneficiario, $remessaId, $boletos);
         }
         //$this->processaRetorno();
 
@@ -176,14 +181,14 @@ class BoletoController  extends Controller
                 'numeroDocumento'        => $nossonumero,
                 'pagador'                => $pagador,
                 'beneficiario'           => $beneficiario,
-                'agencia'                => 1234,
-                'conta'                  => 123456,
-                'carteira'               => 'RG',
-                'codigoCliente'          => 1324992,
+                'agencia'                => 1565,
+                'conta'                  => 286003,
+                'carteira'               => '1',
+                'codigoCliente'          => 286003,
                 'descricaoDemonstrativo' => ['Teste demonstrativo'],
                 'instrucoes'             => ['Desconto de 10% até o vencimento'],
-                'aceite'                 => 'S',
-                'especieDoc'             => 'DM',
+                'aceite'                 => 'NAO',
+                'especieDoc'             => 'ME',
             ]
         );
         $pdf = new PdfCaixa();
@@ -204,11 +209,11 @@ class BoletoController  extends Controller
 
         $remessa = new \Eduardokum\LaravelBoleto\Cnab\Remessa\Cnab400\Banco\Caixa(
             [
-                'agencia'       => 1234,
+                'agencia'       => 1565,
                 'idRemessa'     => $remessaId,
-                'conta'         => 123456,
-                'carteira'      => 'RG',
-                'codigoCliente' => 1324992,
+                'conta'         => 286003,
+                'carteira'      => '01',
+                'codigoCliente' => 286003,
                 'beneficiario'  => $beneficiario,
             ]
         );

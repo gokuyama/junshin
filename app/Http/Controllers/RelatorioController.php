@@ -80,6 +80,23 @@ class RelatorioController  extends Controller
         }
     }
 
+    public function fichaMatriculaEducacaoInfantil()
+    {
+        //Chama o relatório
+        $pdf = PDF::loadView('relatorio.fichaMatriculaEdInfant');
+        //return view('relatorio.fichaMatriculaEdInfant');
+        return $pdf->download('fichaMatriculaEdInfant.pdf');
+    }
+
+    public function fichaMatriculaCursoJapones()
+    {
+        //Chama o relatório
+        $pdf = PDF::loadView('relatorio.fichaMatriculaCursoJap');
+        //return view('relatorio.fichaMatriculaCursoJap');
+        return $pdf->download('fichaMatriculaCursoJap.pdf');
+    }
+
+
     public function declaracaoAdimplencia($aluno_id)
     {
         $dados = DB::table('matriculas')

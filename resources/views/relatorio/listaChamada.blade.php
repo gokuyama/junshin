@@ -10,7 +10,7 @@
     <div>
         <h1>
             <!--<img style="display: inline-block;" src="C:\junshin\public\img\junshin_logo.png" alt="Logo do Junshin">-->
-            <img style="align-right" src="/img/junshin_logo.png">
+            <img style="align-right" src="http://secretaria.junshin.com.br/img/junshin_logo.png">
             ESCOLA JUNSHIN {{ now()->year }}
         </h1>
     </div>

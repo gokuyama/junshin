@@ -47,6 +47,19 @@
                 </ul>
             </li>
             @endif
+            @if (Session::get('manutencao')||Session::get('secretaria'))
+            <li><a href="#"><span class="fas fa-file"></span> Documentos em Branco</a>
+                <ul>
+                    <li><a href="{{action('RelatorioController@fichaMatriculaEducacaoInfantil')}}">Ficha de
+                            Matrícula-Educação Infantil</a>
+                    </li>
+                    <li><a href="{{action('RelatorioController@fichaMatriculaCursoJapones')}}">Ficha de
+                            Matrícula-Curso de Japonês</a>
+                    </li>
+                </ul>
+            </li>
+            @endif
+
             @if (Session::get('manutencao')||Session::get('administrador')||Session::get('balancete'))
             <li><a href="#"><span class="fas fa-money-check-alt"></span> Balancete</a>
                 <ul>

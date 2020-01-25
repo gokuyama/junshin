@@ -29,11 +29,18 @@
             </td>
         </tr>
     </table>
-    <table style="border-collapse: collapse;width:100%; border: 1px solid black; font-size:12px;">
+    <table style="border-collapse: collapse;width:100%; background-color: LightGray;">
+        <tr>
+            <td
+                style="border-collapse: collapse; vertical-align:top;font-family:arial; font-size:12px;border: 1px solid black;">
+                DADOS DO ALUNO </td>
+        </tr>
+    </table>
+    <table style="border-collapse: collapse;width:100%;">
         <tr>
             <td
                 style="border-collapse: collapse; width:90%; height:40px;vertical-align:top;font-family:arial; font-size:12px;border: 1px solid black;">
-                NOME DO ALUNO </td>
+                NOME</td>
             <td
                 style="border-collapse: collapse; width:10%; height:40px;vertical-align:top;font-family:arial; font-size:12px;border: 1px solid black;">
                 SEXO</td>
@@ -56,14 +63,14 @@
     <table style="border-collapse: collapse;width:100%;">
         <tr>
             <td
-                style="border-collapse: collapse;width:60%; height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                style="border-collapse: collapse;width:50%; height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 ENDEREÇO RESIDENCIAL
             </td>
             <td
-                style="border-collapse: collapse;width:10%; height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                style="border-collapse: collapse;width:20%; height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 CEP</td>
             <td
-                style="border-collapse: collapse;width:40%; height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                style="border-collapse: collapse;width:30%; height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 BAIRRO</td>
         </tr>
     </table>
@@ -82,83 +89,99 @@
                 E-MAIL</td>
         </tr>
     </table>
-    <table style="border-collapse: collapse;width:100%;">
-        <tr style="border-collapse: collapse;background-color: LightGray;">
-            <td
-                style="border-collapse: collapse;width:50%; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                FILIAÇÃO</td>
-            <td
-                style="border-collapse: collapse;width:25%; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                NACIONALIDADE</td>
-            <td
-                style="border-collapse: collapse;width:25%; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                RELIGIÃO</td>
-        </tr>
+    <table style="border-collapse: collapse;width:100%; background-color: LightGray;">
         <tr>
             <td
-                style="border-collapse: collapse;width:50%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                PAI</td>
-            <td
-                style="border-collapse: collapse;width:25%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-            </td>
-            <td
-                style="border-collapse: collapse;width:25%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-            </td>
-        </tr>
-        <tr>
-            <td
-                style="border-collapse: collapse;width:50%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                MÃE</td>
-            <td
-                style="border-collapse: collapse;width:25%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-            </td>
-            <td
-                style="border-collapse: collapse;width:25%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-            </td>
+                style="border-collapse: collapse; vertical-align:top;font-family:arial; font-size:12px;border: 1px solid black;">
+                DADOS DO PAI </td>
         </tr>
     </table>
     <table style="border-collapse: collapse;width:100%;">
-        <tr style="border-collapse: collapse;background-color: LightGray;">
+        <tr>
             <td
-                style="border-collapse: collapse;width:25%; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                NOME DA EMPRESA</td>
+                style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                NOME</td>
             <td
-                style="border-collapse: collapse;width:25%; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                NÍVEL DE INSTRUÇÃO</td>
+                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                NACIONALIDADE
+            </td>
             <td
-                style="border-collapse: collapse;width:25%; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                PROFISSÃO</td>
+                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                RELIGIÃO
+            </td>
+        </tr>
+        <tr>
             <td
-                style="border-collapse: collapse;width:25%; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                E-MAIL</td>
+            <td
+                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                ESTADO CIVIL
+            </td>
+            <td
+                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 CELULAR
             </td>
         </tr>
         <tr>
             <td
-                style="border-collapse: collapse;width:25%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                PAI</td>
+                style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                PROFISSÃO</td>
             <td
-                style="border-collapse: collapse;width:25%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                EMPRESA
             </td>
             <td
-                style="border-collapse: collapse;width:25%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                TEL.COM.
+            </td>
+        </tr>
+    </table>
+    <table style="border-collapse: collapse;width:100%;background-color: LightGray;">
+        <tr>
+            <td
+                style="border-collapse: collapse; vertical-align:top;font-family:arial; font-size:12px;border: 1px solid black;">
+                DADOS DA MÃE</td>
+        </tr>
+    </table>
+    <table style="border-collapse: collapse;width:100%;">
+        <tr>
+            <td
+                style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                NOME</td>
+            <td
+                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                NACIONALIDADE
             </td>
             <td
-                style="border-collapse: collapse;width:25%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                RELIGIÃO
             </td>
         </tr>
         <tr>
             <td
-                style="border-collapse: collapse;width:25%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                MÃE</td>
+                style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                E-MAIL</td>
             <td
-                style="border-collapse: collapse;width:25%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                ESTADO CIVIL
             </td>
             <td
-                style="border-collapse: collapse;width:25%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                CELULAR
+            </td>
+        </tr>
+        <tr>
+            <td
+                style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                PROFISSÃO</td>
+            <td
+                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                EMPRESA
             </td>
             <td
-                style="border-collapse: collapse;width:25%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+                TEL.COM.
             </td>
         </tr>
     </table>
@@ -222,28 +245,15 @@
                 style="border-collapse: collapse;width:10%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
             </td>
         </tr>
-        <tr>
-            <td
-                style="border-collapse: collapse;width:50%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                4</td>
-            <td
-                style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-            </td>
-            <td
-                style="border-collapse: collapse;width:10%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-            </td>
-            <td
-                style="border-collapse: collapse;width:10%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-            </td>
-        </tr>
     </table>
-    <table style="border-collapse: collapse;width:100%; border: 1px solid black; font-size:12px;">
+    <table style="border-collapse: collapse;width:100%; ">
         <tr>
-            <td style="border-collapse: collapse;height:40px;vertical-align:top;font-family:arial; font-size:12px;">
+            <td
+                style="border-collapse: collapse;height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 FREQUENTOU OUTRA ESCOLA? QUAL? </td>
         </tr>
     </table>
-    <table style="border-collapse: collapse;width:100%; border: 1px solid black; font-size:12px;">
+    <table style="border-collapse: collapse;width:100%; ">
         <tr>
             <td
                 style="border-collapse: collapse;width:80%;height:60px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">

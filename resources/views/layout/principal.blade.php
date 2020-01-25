@@ -47,7 +47,7 @@
                 </ul>
             </li>
             @endif
-            @if (Session::get('manutencao')||Session::get('secretaria'))
+            @if (Session::get('manutencao')||Session::get('administrador')||Session::get('secretaria'))
             <li><a href="#"><span class="fas fa-file"></span> Documentos em Branco</a>
                 <ul>
                     <li><a href="{{action('RelatorioController@fichaMatriculaEducacaoInfantil')}}">Ficha de

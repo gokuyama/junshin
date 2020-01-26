@@ -301,7 +301,7 @@
         <tr>
             <td
                 style="border-collapse: collapse;width:80%;height:50px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                ASSINATURA DO PAI OU RESPONSÁVEL </td>
+                ASSINATURA DO RESPONSÁVEL </td>
             <td
                 style="border-collapse: collapse;width:20%;height:50px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 DATA

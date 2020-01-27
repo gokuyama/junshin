@@ -107,6 +107,7 @@ Route::get('/matriculas/novo', ['as' => 'matriculas.novo', 'uses' => 'MatriculaC
 Route::get('/matriculas/edita/{matricula_id}', 'MatriculaController@edita');
 Route::get('/matriculas/altera/{matricula_id}', 'MatriculaController@altera');
 Route::get('/matriculas/exclui/{matricula_id}', 'MatriculaController@exclui');
+Route::get('/matriculas/finaliza/{matricula_id}', 'MatriculaController@finaliza');
 Route::get('/matriculas/localizaPorAluno/{aluno_id}', 'MatriculaController@localizaMatriculaPorAluno');
 Route::get('/matriculas/novaMatriculaPorAluno/{aluno_id}', 'MatriculaController@novaMatriculaPorAluno');
 

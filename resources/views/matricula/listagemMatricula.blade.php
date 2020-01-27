@@ -28,7 +28,7 @@
         <th class="col-1">Ações</th>
     </tr>
     @foreach ($listagemMatriculas as $p)
-    <tr class="{{ $p->matricula_data_fim != null ? 'table table-dark' : ''}}">
+    <tr class="{{ $p->matricula_data_fim <= date('Y-m-d H:i:s') ? 'table table-dark' : ''}}">
         <td class="col-sm-7">{{$p->turma_descricao}} </td>
         <td class="col-sm-2">{{date( 'd/m/Y' , strtotime($p->matricula_data_ini))}} </td>
         @if($p->matricula_data_fim != null)

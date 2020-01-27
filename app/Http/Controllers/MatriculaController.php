@@ -10,7 +10,7 @@ use junshin\Turma;
 use junshin\Aluno;
 use Request;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
+use DateTimeZone;
 
 class MatriculaController  extends Controller
 {
@@ -88,11 +88,14 @@ class MatriculaController  extends Controller
             $matriculaAnterior[0]->save();
         }
 
+        $ultimoDiaAno = Carbon::createFromDate(null, 12, 31)->startOfDay();
+
         DB::table('matriculas')->insert(
             [
                 'turma_id' => $turma_id,
                 'aluno_id' => $aluno_id,
                 'matricula_data_ini' => $matricula_dt_ini,
+                'matricula_data_fim' => $ultimoDiaAno,
                 'userid_insert' => $usuarioLogado
             ]
         );
@@ -110,6 +113,18 @@ class MatriculaController  extends Controller
         $matricula->userid_insert = $usuarioLogado;
         $matricula->save();
         session()->flash('mensagemSucesso', "Matrícula excluída com sucesso");
+        return $this->localizaMatriculaPorAluno($matricula['aluno_id']);
+    }
+
+    //exclui uma Matrícula
+    public function finaliza($matricula_id)
+    {
+        $usuarioLogado = \Auth::user()->username;
+        $matricula = Matricula::find($matricula_id);
+        $matricula->matricula_data_fim = Carbon::now(new DateTimeZone('America/Sao_Paulo'))->toDateTimeString();
+        $matricula->userid_insert = $usuarioLogado;
+        $matricula->save();
+        session()->flash('mensagemSucesso', "Matrícula finalizada com sucesso");
         return $this->localizaMatriculaPorAluno($matricula['aluno_id']);
     }
 
@@ -143,6 +158,7 @@ class MatriculaController  extends Controller
         $params = Request::all();
         $matricula = Matricula::find($matricula_id);
         $matricula_data_ini = $params['matricula_data_ini'];
+        $matricula_data_fim = $params['matricula_data_fim'];
         $aluno_id = $params['aluno_id'];
         $matricula_dt_ini = str_replace('/', '-', $matricula_data_ini);
         if ($matricula_dt_ini != null) {
@@ -150,7 +166,14 @@ class MatriculaController  extends Controller
         } else {
             $matricula_dt_ini = null;
         }
+        $matricula_dt_fim = str_replace('/', '-', $matricula_data_fim);
+        if ($matricula_dt_fim != null) {
+            $matricula_dt_fim = date("Y-m-d", strtotime($matricula_dt_fim));
+        } else {
+            $matricula_dt_fim = null;
+        }
         $params['matricula_data_ini'] = $matricula_dt_ini;
+        $params['matricula_data_fim'] = $matricula_dt_fim;
 
         //pega a matrícula anterior
         $matriculaAnterior = Matricula::where('ativo', 1)

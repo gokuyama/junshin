@@ -57,12 +57,15 @@
             </div>
             @endif
         </div>
-        @if($listagemMatriculas->matricula_data_fim == null)
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CadastrarModal">
+        @if($listagemMatriculas->matricula_data_fim >= date('Y-m-d H:i:s')) <button type="button"
+            class="btn btn-primary" data-toggle="modal" data-target="#CadastrarModal">
             Alterar
         </button>
         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ExcluirModal">
             Excluir
+        </button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#FinalizarModal">
+            Finalizar Matrícula
         </button>
         <button type="button" class="btn btn-secondary"
             onclick="location.href='{{action('MatriculaController@localizaMatriculaPorAluno', $listagemMatriculas->aluno_id)}}'">Voltar</button>
@@ -79,20 +82,19 @@
                             <th class="col-4">Fim</th>
                         </tr>
                         @foreach ($listaMensalidades as $mensalidade)
-                        <tr class="{{ $mensalidade->mensalidade_data_fim != null ? 'table table-dark' : ''}}">
+                        <tr
+                            class="{{ $mensalidade->mensalidade_data_fim <= date('Y-m-d H:i:s') ? 'table table-dark' : ''}}">
                             <td class="col-sm-4 money">{{$mensalidade->mensalidade_valor}}</td>
-                            <td class="col-sm-4">{{date( 'd/m/Y' , strtotime($mensalidade->mensalidade_data_ini))}}</td>
-                            @if($mensalidade->mensalidade_data_fim != null)
-                            <td class="col-sm-4">{{date( 'd/m/Y' , strtotime($mensalidade->mensalidade_data_fim))}}</td>
-                            @else
-                            <td class="col-sm-4"></td>
-                            @endif
+                            <td class="col-sm-4">{{date( 'd/m/Y' , strtotime($mensalidade->mensalidade_data_ini))}}
+                            </td>
+                            <td class="col-sm-4">{{date( 'd/m/Y' , strtotime($mensalidade->mensalidade_data_fim))}}
+                            </td>
                         </tr>
                         @endforeach
                     </table>
                 </td>
                 <td align="right" style="vertical-align: top;">
-                    @if($listagemMatriculas->matricula_data_fim == null)
+                    @if($listagemMatriculas->matricula_data_fim >= date('Y-m-d H:i:s'))
                     <button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
                         onclick="location.href='{{action('MensalidadeController@novo', $listagemMatriculas->matricula_id)}}'">
                         @if ($listaMensalidades->count() > 0)
@@ -113,13 +115,13 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="TituloModalCadastrar">Alterar Turma</h5>
+                    <h5 class="modal-title" id="TituloModalCadastrar">Alterar Matrícula</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Confirma a alteração da Turma?
+                    Confirma a alteração da Matrícula?
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Sim</button>
@@ -134,7 +136,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="TituloModalExcluir">Excluir Turma</h5>
+                    <h5 class="modal-title" id="TituloModalExcluir">Excluir Matrícula</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -151,6 +153,29 @@
             </div>
         </div>
     </div>
+    <!-- Finalizar Modal -->
+    <div class="modal fade" id="FinalizarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalFinalizar"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="TituloModalCadastrar">Finalizar Matrícula</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Essa opção somente deve ser usada caso o aluno saia da escola. Confirma?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary"
+                        onclick="location.href='{{action('MatriculaController@finaliza', $listagemMatriculas->matricula_id)}}'">Sim</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </form>
 <script>
 jQuery(function($) {

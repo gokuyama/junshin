@@ -33,7 +33,7 @@ class TipoResponsavelRequest extends FormRequest
         return [
             //'required' => 'The :attribute field can not be empty.',
             'tipo_responsavel_descricao.required' => 'O :attribute field não pode estar vazio.',
-
+            'max' => 'O campo :attribute não pode ter mais de :max caracteres.',
         ];
     }
 }

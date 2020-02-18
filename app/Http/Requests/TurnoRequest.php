@@ -33,7 +33,7 @@ class TurnoRequest extends FormRequest
         return [
             //'required' => 'The :attribute field can not be empty.',
             'turno_descricao.required' => 'O :attribute field não pode estar vazio.',
-
+            'max' => 'O campo :attribute não pode ter mais de :max caracteres.',
         ];
     }
 }

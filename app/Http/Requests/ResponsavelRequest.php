@@ -54,7 +54,8 @@ class ResponsavelRequest extends FormRequest
         return [
             'required' => 'O campo :attribute não pode ser vazio.',
             'date_format' => 'O campo Data de Nascimento está incorreto.',
-            'email' => 'O e-mail é inválido'
+            'email' => 'O e-mail é inválido',
+            'max' => 'O campo :attribute não pode ter mais de :max caracteres.',
         ];
     }
 }

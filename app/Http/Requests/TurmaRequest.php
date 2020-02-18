@@ -36,6 +36,7 @@ class TurmaRequest extends FormRequest
     {
         return [
             'required' => 'O campo :attribute não pode ser vazio.',
+            'max' => 'O campo :attribute não pode ter mais de :max caracteres.',
         ];
     }
 }

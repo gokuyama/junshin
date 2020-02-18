@@ -12,7 +12,7 @@ class AlunoRequest extends FormRequest
      * @return bool
      */
     public function authorize()
-              {
+    {
         return true;
     }
 
@@ -58,6 +58,7 @@ class AlunoRequest extends FormRequest
         return [
             'required' => 'O campo :attribute não pode ser vazio.',
             'date_format' => 'O campo Data de Nascimento está incorreto.',
+            'max' => 'O campo :attribute não pode ter mais de :max caracteres.',
         ];
     }
 }

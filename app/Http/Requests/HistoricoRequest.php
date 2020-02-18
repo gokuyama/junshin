@@ -24,10 +24,10 @@ class HistoricoRequest extends FormRequest
     public function rules()
     {
         return [
-        'aluno_id'=>'required',
-        'historico_instituicao_nome'=> 'required|max:45',
-        'historico_instituicao_ano'=> 'required|max:4',
-        'historico_instituicao_serie' => 'required'
+            'aluno_id' => 'required',
+            'historico_instituicao_nome' => 'required|max:45',
+            'historico_instituicao_ano' => 'required|max:4',
+            'historico_instituicao_serie' => 'required'
         ];
     }
 
@@ -35,6 +35,7 @@ class HistoricoRequest extends FormRequest
     {
         return [
             'required' => 'O campo :attribute não pode ser vazio.',
+            'max' => 'O campo :attribute não pode ter mais de :max caracteres.',
         ];
     }
 }

@@ -38,7 +38,7 @@ class MovimentacaoRequest extends FormRequest
             'movimentacao_data.required' => 'O campo data não pode estar vazio.',
             'movimentacao_valor.required' => 'O campo valor não pode estar vazio.',
             'movimentacao_observacao.required' => 'O campo observação não pode estar vazio.',
-
+            'max' => 'O campo :attribute não pode ter mais de :max caracteres.',
         ];
     }
 }

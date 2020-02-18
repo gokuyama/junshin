@@ -24,11 +24,11 @@ class MoradorRequest extends FormRequest
     public function rules()
     {
         return [
-        'aluno_id'=>'required',
-        'morador_nome'=> 'required|max:45',
-        'morador_vinculo'=> 'required|max:45',
-        'morador_data_nascimento' => 'required|date_format:d/m/Y',
-        'morador_sexo' => 'required|max:1'
+            'aluno_id' => 'required',
+            'morador_nome' => 'required|max:45',
+            'morador_vinculo' => 'required|max:45',
+            'morador_data_nascimento' => 'required|date_format:d/m/Y',
+            'morador_sexo' => 'required|max:1'
         ];
     }
 
@@ -36,7 +36,8 @@ class MoradorRequest extends FormRequest
     {
         return [
             'required' => 'O campo :attribute não pode ser vazio.',
-            'date_format' => 'O campo Data de Nascimento está incorreto.'
+            'date_format' => 'O campo Data de Nascimento está incorreto.',
+            'max' => 'O campo :attribute não pode ter mais de :max caracteres.',
         ];
     }
 }

@@ -34,7 +34,7 @@ class TipoMovimentacaoRequest extends FormRequest
         return [
             'required' => 'The :attribute field can not be empty.',
             'tipo_movimentacao_descricao.required' => 'O campo descrição não pode estar vazio.',
-
+            'max' => 'O campo :attribute não pode ter mais de :max caracteres.',
         ];
     }
 }

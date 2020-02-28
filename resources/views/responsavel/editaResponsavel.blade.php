@@ -131,7 +131,7 @@
             <div class="col-4">
                 <div class="form-group">
                     <label>Escolaridade</label>
-                    <select class="form-control" id="nivel_escolaridade_id" name="nivel_escolaridade_id">
+                    <select class="form-control" id="responsavel_escolaridade_id" name="responsavel_escolaridade_id">
                         <option value="">--</option>
                         @foreach ($niveisEscolaridade as $nivelEscolaridade)
                         <option value="{{ $nivelEscolaridade->nivel_escolaridade_id }}"

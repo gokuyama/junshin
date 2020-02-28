@@ -217,7 +217,6 @@ class ResponsavelController  extends Controller
         if (empty($responsavel)) {
             return "Esse responsável não existe";
         }
-
         if ($responsavel['responsavel_data_nascimento'] == '0000-00-00' || $responsavel['responsavel_data_nascimento'] == null) {
             $responsavel['responsavel_data_nascimento'] = '--';
         }
@@ -237,12 +236,13 @@ class ResponsavelController  extends Controller
         $responsavel = Responsavel::find($responsavel_id);
         $dataNascimento  = $params['responsavel_data_nascimento'];
         $format = 'Y/m/d';
-        $date = Carbon::createFromFormat('d/m/Y', $dataNascimento);
-        $params['responsavel_data_nascimento'] = $date;
-        $responsavel->update($params);
-        $responsavel->userid_insert = $usuarioLogado;
-        $responsavel->save();
-
+        if ($dataNascimento != null) {
+            $date = Carbon::createFromFormat('d/m/Y', $dataNascimento);
+            $params['responsavel_data_nascimento'] = $date;
+            $responsavel->update($params);
+            $responsavel->userid_insert = $usuarioLogado;
+            $responsavel->save();
+        }
         $pagadorOld = Pagador::where('responsavel_id', $responsavel_id)->where('pagador_data_fim', null)->get();
         $percentualNovo = $params['pagador_percentual'];
         if (

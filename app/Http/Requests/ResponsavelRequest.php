@@ -31,21 +31,21 @@ class ResponsavelRequest extends FormRequest
             'responsavel_telefone_firma' => 'max:20',
             'responsavel_ramal_firma' => 'max:10',
             'responsavel_celular' => 'max:20',
-            'responsavel_email' => 'max:45|email',
+            'responsavel_email' => '',
             'responsavel_nascionalidade' => 'max:45',
-            'responsavel_data_nascimento' => 'max:45|date_format:d/m/Y',
+            'responsavel_data_nascimento' => 'max:45',
             'responsavel_ordem_geracao' => 'max:11',
             'responsavel_religiao' => 'max:45',
             'responsavel_escolaridade_id' => 'max:11',
-            'pagador_percentual' => 'required|max:3',
-            'pagador_cpf' => 'required|cpf',
-            'pagador_rua' => 'required|max:45',
-            'pagador_numero' => 'required|max:10',
-            'pagador_complemento' => 'required|max:10',
-            'pagador_bairro' => 'required|max:45',
-            'pagador_cep' => 'required|max:10',
-            'pagador_cidade' => 'required|max:45',
-            'pagador_estado' => 'required|max:2'
+            'pagador_percentual' => 'max:3',
+            'pagador_cpf' => '',
+            'pagador_rua' => 'max:45',
+            'pagador_numero' => 'max:10',
+            'pagador_complemento' => 'max:10',
+            'pagador_bairro' => 'max:45',
+            'pagador_cep' => 'max:10',
+            'pagador_cidade' => 'max:45',
+            'pagador_estado' => 'max:2'
         ];
     }
 

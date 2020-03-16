@@ -35,10 +35,6 @@ class ResponsavelController  extends Controller
     public function localiza(LocalizaResponsavelRequest $request)
     {
         $params = Request::all();
-        //        $responsaveis = Responsavel::where('responsavel_nome',$params)->get();
-        //        $responsaveis = Responsavel::where('responsavel_nome','like','%'.$params['responsavel_nome_localiza'].'%')
-        //                      ->where('ativo',1)->get();
-
         $listaResponsaveis = DB::table('responsaveis')
             ->join('alunos', 'alunos.aluno_id', '=', 'responsaveis.aluno_id')
             ->select('responsaveis.responsavel_id', 'responsaveis.responsavel_nome', 'alunos.aluno_nome', 'alunos.aluno_id')
@@ -100,7 +96,6 @@ class ResponsavelController  extends Controller
         $usuarioLogado = \Auth::user()->username;
         $aluno_id = Request::input('aluno_id');
         $tipo_responsavel_id = Request::input('tipo_responsavel_id');
-        $responsavel_id = Request::input('responsavel_id');
         $responsavel_nome = Request::input('responsavel_nome');
         $responsavel_firma = Request::input('responsavel_firma');
         $responsavel_telefone_firma = Request::input('responsavel_telefone_firma');
@@ -235,14 +230,14 @@ class ResponsavelController  extends Controller
         $params = Request::all();
         $responsavel = Responsavel::find($responsavel_id);
         $dataNascimento  = $params['responsavel_data_nascimento'];
-        $format = 'Y/m/d';
         if ($dataNascimento != null) {
             $date = Carbon::createFromFormat('d/m/Y', $dataNascimento);
             $params['responsavel_data_nascimento'] = $date;
-            $responsavel->update($params);
-            $responsavel->userid_insert = $usuarioLogado;
-            $responsavel->save();
         }
+        $responsavel->update($params);
+        $responsavel->userid_insert = $usuarioLogado;
+        $responsavel->save();
+
         $pagadorOld = Pagador::where('responsavel_id', $responsavel_id)->where('pagador_data_fim', null)->get();
         $percentualNovo = $params['pagador_percentual'];
         if (

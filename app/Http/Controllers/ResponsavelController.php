@@ -208,7 +208,14 @@ class ResponsavelController  extends Controller
         $tiposResponsavel = TipoResponsavel::where('ativo', 1)->orderBy('tipo_responsavel_descricao')->get();
         $aluno = Aluno::where('ativo', 1)->where('aluno_id', $responsavel->aluno_id)->first();
         $niveisEscolaridade = NivelEscolaridade::where('ativo', 1)->orderBy('nivel_escolaridade_descricao')->get();
-        $pagadores = Pagador::where('responsavel_id', $responsavel_id)->where('pagador_data_fim', null)->get();
+        $maxId = Pagador::orderBy('pagador_id', 'desc')
+            ->where('responsavel_id', $responsavel_id)
+            ->value('pagador_id');
+
+        $pagadores = Pagador::where('responsavel_id', $responsavel_id)
+            ->where('pagador_data_fim', null)
+            ->where('pagador_id', $maxId)
+            ->get();
         if (empty($responsavel)) {
             return "Esse responsável não existe";
         }
@@ -237,8 +244,14 @@ class ResponsavelController  extends Controller
         $responsavel->update($params);
         $responsavel->userid_insert = $usuarioLogado;
         $responsavel->save();
+        $maxId = Pagador::orderBy('pagador_id', 'desc')
+            ->where('responsavel_id', $responsavel_id)
+            ->value('pagador_id');
 
-        $pagadorOld = Pagador::where('responsavel_id', $responsavel_id)->where('pagador_data_fim', null)->get();
+        $pagadorOld = Pagador::where('responsavel_id', $responsavel_id)
+            ->where('pagador_id', $maxId)
+            ->where('pagador_data_fim', null)->get();
+
         $percentualNovo = $params['pagador_percentual'];
         if (
             $percentualNovo != $pagadorOld[0]->pagador_percentual ||

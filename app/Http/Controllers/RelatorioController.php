@@ -80,6 +80,300 @@ class RelatorioController  extends Controller
         }
     }
 
+    public function fichaMatriculaEdInfantPreenchida($aluno_id)
+    {
+        $aluno = Aluno::find($aluno_id);
+
+        $responsaveis = DB::table('responsaveis')
+            ->join('alunos', 'alunos.aluno_id', '=', 'responsaveis.aluno_id')
+            ->where('responsaveis.ativo', 1)
+            ->where('alunos.aluno_id', $aluno_id)
+            ->get();
+
+        $nome_pai = '';
+        $nacionalidade_pai = '';
+        $religiao_pai = '';
+        $email_pai = '';
+        $celular_pai = '';
+        $empresa_pai = '';
+        $telefone_comercial_pai = '';
+
+        $nome_mae = '';
+        $nacionalidade_mae = '';
+        $religiao_mae = '';
+        $email_mae = '';
+        $celular_mae = '';
+        $empresa_mae = '';
+        $telefone_comercial_mae = '';
+
+        foreach ($responsaveis as $responsavel) {
+            //pai
+            if ($responsavel->tipo_responsavel_id == 1) {
+                $nome_pai = $responsavel->responsavel_nome;
+                $nacionalidade_pai = $responsavel->responsavel_nascionalidade;
+                $religiao_pai = $responsavel->responsavel_religiao;
+                $email_pai = $responsavel->responsavel_email;
+                $celular_pai = $responsavel->responsavel_celular;
+                $empresa_pai = $responsavel->responsavel_firma;
+                $telefone_comercial_pai = $responsavel->responsavel_telefone_firma;
+            }
+            //mãe
+            if ($responsavel->tipo_responsavel_id == 2) {
+                $nome_mae = $responsavel->responsavel_nome;
+                $nacionalidade_mae = $responsavel->responsavel_nascionalidade;
+                $religiao_mae = $responsavel->responsavel_religiao;
+                $email_mae = $responsavel->responsavel_email;
+                $celular_mae = $responsavel->responsavel_celular;
+                $empresa_mae = $responsavel->responsavel_firma;
+                $telefone_comercial_mae = $responsavel->responsavel_telefone_firma;
+            }
+        }
+
+        $moradores = DB::table('moradores')
+            ->join('alunos', 'alunos.aluno_id', '=', 'moradores.aluno_id')
+            ->where('moradores.ativo', 1)
+            ->where('alunos.aluno_id', $aluno_id)
+            ->get();
+
+        $morador1_nome = '';
+        $morador1_vinculo = '';
+        $morador1_sexo = '';
+
+        $morador2_nome = '';
+        $morador2_vinculo = '';
+        $morador2_sexo = '';
+
+        $morador3_nome = '';
+        $morador3_vinculo = '';
+        $morador3_sexo = '';
+
+        if (count($moradores)  > 0) {
+            $morador1_nome = $moradores[0]->morador_nome;
+            $morador1_vinculo = $moradores[0]->morador_vinculo;
+            $morador1_sexo = $moradores[0]->morador_sexo;
+        }
+
+        if (count($moradores)  > 1) {
+            $morador2_nome = $moradores[1]->morador_nome;
+            $morador2_vinculo = $moradores[1]->morador_vinculo;
+            $morador2_sexo = $moradores[1]->morador_sexo;
+        }
+
+        if (count($moradores)  > 2) {
+            $morador3_nome = $moradores[2]->morador_nome;
+            $morador3_vinculo = $moradores[2]->morador_vinculo;
+            $morador3_sexo = $moradores[2]->morador_sexo;
+        }
+
+        $outra_escola = '';
+        $escolas = DB::table('historico_instituicoes')
+            ->join('alunos', 'alunos.aluno_id', '=', 'historico_instituicoes.aluno_id')
+            ->where('historico_instituicoes.ativo', 1)
+            ->where('alunos.aluno_id', $aluno_id)
+            ->latest('historico_instituicao_id')->first();
+
+        if ($escolas != null) {
+            $outra_escola = $escolas->historico_instituicao_nome;
+        }
+
+        $data = [
+            'aluno_nome' => $aluno->aluno_nome,
+            'aluno_sexo' => $aluno->aluno_sexo,
+            'aluno_local_nascimento' => $aluno->aluno_local_nascimento,
+            'aluno_data_nascimento' => $aluno->aluno_data_nascimento,
+            'tipo_documento_id' => $aluno->tipo_documento_id,
+            'aluno_documento' => $aluno->aluno_documento,
+            'aluno_endereco_rua' => $aluno->aluno_endereco_rua,
+            'aluno_endereco_numero' => $aluno->aluno_endereco_numero,
+            'aluno_endereco_complemento' => $aluno->aluno_endereco_complemento,
+            'aluno_endereco_bairro' => $aluno->aluno_endereco_bairro,
+            'aluno_endereco_cep' => $aluno->aluno_endereco_cep,
+            'aluno_telefone_celular' => $aluno->aluno_telefone_celular,
+            'aluno_religiao' => $aluno->aluno_religiao,
+            'aluno_email' => $aluno->aluno_email,
+            'aluno_endereco_cep' => $aluno->aluno_endereco_cep,
+            'nome_pai' => $nome_pai,
+            'nacionalidade_pai' => $nacionalidade_pai,
+            'religiao_pai' => $religiao_pai,
+            'email_pai' => $email_pai,
+            'celular_pai' => $celular_pai,
+            'empresa_pai' => $empresa_pai,
+            'telefone_comercial_pai' => $telefone_comercial_pai,
+            'nome_mae' => $nome_mae,
+            'nacionalidade_mae' => $nacionalidade_mae,
+            'religiao_mae' => $religiao_mae,
+            'email_mae' => $email_mae,
+            'celular_mae' => $celular_mae,
+            'empresa_mae' => $empresa_mae,
+            'telefone_comercial_mae' => $telefone_comercial_mae,
+            'morador1_nome' => $morador1_nome,
+            'morador1_vinculo' => $morador1_vinculo,
+            'morador1_sexo' => $morador1_sexo,
+            'morador2_nome' => $morador2_nome,
+            'morador2_vinculo' => $morador2_vinculo,
+            'morador2_sexo' => $morador2_sexo,
+            'morador3_nome' => $morador3_nome,
+            'morador3_vinculo' => $morador3_vinculo,
+            'morador3_sexo' => $morador3_sexo,
+            'outra_escola' => $outra_escola
+        ];
+
+        //return view('relatorio.fichaMatriculaEdInfantPreenc', $data);
+
+        $pdf = PDF::loadView('relatorio.fichaMatriculaEdInfantPreenc', $data);
+        return $pdf->download('fichaMatriculaEdInfantPreenc.pdf');
+    }
+
+    public function fichaMatriculaCursoJapPreenchida($aluno_id)
+    {
+        $aluno = Aluno::find($aluno_id);
+
+        $nome_pai = '';
+        $nacionalidade_pai = '';
+        $religiao_pai = '';
+        $email_pai = '';
+        $celular_pai = '';
+        $empresa_pai = '';
+        $telefone_comercial_pai = '';
+
+        $nome_mae = '';
+        $nacionalidade_mae = '';
+        $religiao_mae = '';
+        $email_mae = '';
+        $celular_mae = '';
+        $empresa_mae = '';
+        $telefone_comercial_mae = '';
+
+        $responsaveis = DB::table('responsaveis')
+            ->join('alunos', 'alunos.aluno_id', '=', 'responsaveis.aluno_id')
+            ->where('responsaveis.ativo', 1)
+            ->where('alunos.aluno_id', $aluno_id)
+            ->get();
+
+        foreach ($responsaveis as $responsavel) {
+            //pai
+            if ($responsavel->tipo_responsavel_id == 1) {
+                $nome_pai = $responsavel->responsavel_nome;
+                $nacionalidade_pai = $responsavel->responsavel_nascionalidade;
+                $religiao_pai = $responsavel->responsavel_religiao;
+                $email_pai = $responsavel->responsavel_email;
+                $celular_pai = $responsavel->responsavel_celular;
+                $empresa_pai = $responsavel->responsavel_firma;
+                $telefone_comercial_pai = $responsavel->responsavel_telefone_firma;
+            }
+            //mãe
+            if ($responsavel->tipo_responsavel_id == 2) {
+                $nome_mae = $responsavel->responsavel_nome;
+                $nacionalidade_mae = $responsavel->responsavel_nascionalidade;
+                $religiao_mae = $responsavel->responsavel_religiao;
+                $email_mae = $responsavel->responsavel_email;
+                $celular_mae = $responsavel->responsavel_celular;
+                $empresa_mae = $responsavel->responsavel_firma;
+                $telefone_comercial_mae = $responsavel->responsavel_telefone_firma;
+            }
+        }
+
+        $moradores = DB::table('moradores')
+            ->join('alunos', 'alunos.aluno_id', '=', 'moradores.aluno_id')
+            ->where('moradores.ativo', 1)
+            ->where('alunos.aluno_id', $aluno_id)
+            ->get();
+
+        $morador1_nome = '';
+        $morador1_vinculo = '';
+        $morador1_sexo = '';
+
+        $morador2_nome = '';
+        $morador2_vinculo = '';
+        $morador2_sexo = '';
+
+        $morador3_nome = '';
+        $morador3_vinculo = '';
+        $morador3_sexo = '';
+
+        if (count($moradores)  > 0) {
+            $morador1_nome = $moradores[0]->morador_nome;
+            $morador1_vinculo = $moradores[0]->morador_vinculo;
+            $morador1_sexo = $moradores[0]->morador_sexo;
+        }
+
+        if (count($moradores)  > 1) {
+            $morador2_nome = $moradores[1]->morador_nome;
+            $morador2_vinculo = $moradores[1]->morador_vinculo;
+            $morador2_sexo = $moradores[1]->morador_sexo;
+        }
+
+        if (count($moradores)  > 2) {
+            $morador3_nome = $moradores[2]->morador_nome;
+            $morador3_vinculo = $moradores[2]->morador_vinculo;
+            $morador3_sexo = $moradores[2]->morador_sexo;
+        }
+
+        $outra_escola = '';
+        $escolas = DB::table('historico_instituicoes')
+            ->join('alunos', 'alunos.aluno_id', '=', 'historico_instituicoes.aluno_id')
+            ->where('historico_instituicoes.ativo', 1)
+            ->where('alunos.aluno_id', $aluno_id)
+            ->latest('historico_instituicao_id')->first();
+
+        if ($escolas != null) {
+            $outra_escola = $escolas->historico_instituicao_nome;
+        }
+
+        if ($aluno->aluno_ordem_geracao == 0) {
+            $aluno->aluno_ordem_geracao  = '';
+        }
+
+
+        $data = [
+            'aluno_nome' => $aluno->aluno_nome,
+            'aluno_sexo' => $aluno->aluno_sexo,
+            'aluno_local_nascimento' => $aluno->aluno_local_nascimento,
+            'aluno_data_nascimento' => $aluno->aluno_data_nascimento,
+            'tipo_documento_id' => $aluno->tipo_documento_id,
+            'aluno_documento' => $aluno->aluno_documento,
+            'aluno_endereco_rua' => $aluno->aluno_endereco_rua,
+            'aluno_endereco_numero' => $aluno->aluno_endereco_numero,
+            'aluno_endereco_complemento' => $aluno->aluno_endereco_complemento,
+            'aluno_endereco_bairro' => $aluno->aluno_endereco_bairro,
+            'aluno_endereco_cep' => $aluno->aluno_endereco_cep,
+            'aluno_telefone_celular' => $aluno->aluno_telefone_celular,
+            'aluno_religiao' => $aluno->aluno_religiao,
+            'aluno_email' => $aluno->aluno_email,
+            'aluno_endereco_cep' => $aluno->aluno_endereco_cep,
+            'aluno_ordem_geracao' => $aluno->aluno_ordem_geracao,
+            'nome_pai' => $nome_pai,
+            'nacionalidade_pai' => $nacionalidade_pai,
+            'religiao_pai' => $religiao_pai,
+            'email_pai' => $email_pai,
+            'celular_pai' => $celular_pai,
+            'empresa_pai' => $empresa_pai,
+            'telefone_comercial_pai' => $telefone_comercial_pai,
+            'nome_mae' => $nome_mae,
+            'nacionalidade_mae' => $nacionalidade_mae,
+            'religiao_mae' => $religiao_mae,
+            'email_mae' => $email_mae,
+            'celular_mae' => $celular_mae,
+            'empresa_mae' => $empresa_mae,
+            'telefone_comercial_mae' => $telefone_comercial_mae,
+            'morador1_nome' => $morador1_nome,
+            'morador1_vinculo' => $morador1_vinculo,
+            'morador1_sexo' => $morador1_sexo,
+            'morador2_nome' => $morador2_nome,
+            'morador2_vinculo' => $morador2_vinculo,
+            'morador2_sexo' => $morador2_sexo,
+            'morador3_nome' => $morador3_nome,
+            'morador3_vinculo' => $morador3_vinculo,
+            'morador3_sexo' => $morador3_sexo,
+            'outra_escola' => $outra_escola
+        ];
+
+        //return view('relatorio.fichaMatriculaCursoJapPreenc', $data);
+
+        $pdf = PDF::loadView('relatorio.fichaMatriculaCursoJapPreenc', $data);
+        return $pdf->download('fichaMatriculaCursoJapPreenc.pdf');
+    }
+
     public function fichaMatriculaEducacaoInfantil()
     {
         //Chama o relatório

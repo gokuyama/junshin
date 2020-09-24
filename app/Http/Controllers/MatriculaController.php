@@ -88,14 +88,14 @@ class MatriculaController  extends Controller
             $matriculaAnterior[0]->save();
         }
 
-        $ultimoDiaAno = Carbon::createFromDate(null, 12, 31)->startOfDay();
+        //$ultimoDiaAno = Carbon::createFromDate(null, 12, 31)->startOfDay();
 
         DB::table('matriculas')->insert(
             [
                 'turma_id' => $turma_id,
                 'aluno_id' => $aluno_id,
                 'matricula_data_ini' => $matricula_dt_ini,
-                'matricula_data_fim' => $ultimoDiaAno,
+                //'matricula_data_fim' => $ultimoDiaAno,
                 'userid_insert' => $usuarioLogado
             ]
         );

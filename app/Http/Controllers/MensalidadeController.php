@@ -36,7 +36,6 @@ class MensalidadeController  extends Controller
             $mensalidade_dt_ini = null;
         }
         $matricula_id = Request::input('matricula_id');
-        $ultimoDiaAno = Carbon::createFromDate(null, 12, 31)->startOfDay();
 
         //pega a mensalidade anterior
         $mensalidadeAnterior = Mensalidade::where('ativo', 1)
@@ -74,7 +73,6 @@ class MensalidadeController  extends Controller
             [
                 'matricula_id' => $matricula_id,
                 'mensalidade_data_ini' => $mensalidade_dt_ini,
-                'mensalidade_data_fim' => $ultimoDiaAno,
                 'mensalidade_valor' => str_replace(",", ".", str_replace(".", "", $mensalidade_valor)),
                 'userid_insert' => $usuarioLogado
             ]

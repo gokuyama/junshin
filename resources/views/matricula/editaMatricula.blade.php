@@ -19,10 +19,8 @@
             <div class="col-8">
                 <div class="form-group">
                     <label>Aluno</label>
-                    <input type="hidden" name="aluno_id" class="form-control"
-                        value="{{  $listagemMatriculas->aluno_id }}" />
-                    <input name="aluno_nome" class="form-control" value="{{ $listagemMatriculas->aluno_nome }}"
-                        disabled />
+                    <input type="hidden" name="aluno_id" class="form-control" value="{{  $listagemMatriculas->aluno_id }}" />
+                    <input name="aluno_nome" class="form-control" value="{{ $listagemMatriculas->aluno_nome }}" disabled />
                 </div>
             </div>
             <div class="col-4">
@@ -31,8 +29,7 @@
                     <select class="form-control" id="turma_id" name="turma_id">
                         <option value="">--</option>
                         @foreach ($turmas as $turma)
-                        <option value="{{ $turma->turma_id }}"
-                            {{ ($turma->turma_id == $listagemMatriculas->turma_id ? 'selected="selected"' : '') }}>
+                        <option value="{{ $turma->turma_id }}" {{ ($turma->turma_id == $listagemMatriculas->turma_id ? 'selected="selected"' : '') }}>
                             {{ $turma->turma_descricao }}</option>
                         @endforeach
                     </select>
@@ -43,75 +40,71 @@
             <div class="col-2">
                 <div class="form-group">
                     <label>Data Inicio</label>
-                    <input name="matricula_data_ini" class="form-control mask-date" id="matricula_data_ini"
-                        value="{{ date( 'd/m/Y' , strtotime($listagemMatriculas->matricula_data_ini)) }}" />
+                    <input name="matricula_data_ini" class="form-control mask-date" id="matricula_data_ini" value="{{ date( 'd/m/Y' , strtotime($listagemMatriculas->matricula_data_ini)) }}" />
                 </div>
             </div>
             @if($listagemMatriculas->matricula_data_fim != null)
             <div class="col-2">
                 <div class="form-group">
                     <label>Data Fim</label>
-                    <input name="matricula_data_fim" class="form-control mask-date"
-                        value="{{ date( 'd/m/Y' , strtotime($listagemMatriculas->matricula_data_fim)) }}" />
+                    <input name="matricula_data_fim" class="form-control mask-date" value="{{ date( 'd/m/Y' , strtotime($listagemMatriculas->matricula_data_fim)) }}" />
                 </div>
             </div>
             @endif
         </div>
-        @if($listagemMatriculas->matricula_data_fim >= date('Y-m-d H:i:s')) <button type="button"
-            class="btn btn-primary" data-toggle="modal" data-target="#CadastrarModal">
+        @if($listagemMatriculas->matricula_data_fim == null || ($listagemMatriculas->matricula_data_fim >= date('Y-m-d H:i:s') && $listagemMatriculas->matricula_data_ini <= date('Y-m-d H:i:s'))) <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CadastrarModal">
             Alterar
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ExcluirModal">
-            Excluir
-        </button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#FinalizarModal">
-            Finalizar Matrícula
-        </button>
-        <button type="button" class="btn btn-secondary"
-            onclick="location.href='{{action('MatriculaController@localizaMatriculaPorAluno', $listagemMatriculas->aluno_id)}}'">Voltar</button>
-        @endif
-        <br><br>
-        <h3>Mensalidade</h3>
-        <table style="width: 700px;">
-            <tr>
-                <td>
-                    <table class="table table-striped table-bordered table-hover">
-                        <tr>
-                            <th class="col-4">Valor</th>
-                            <th class="col-4">Inicio</th>
-                            <th class="col-4">Fim</th>
-                        </tr>
-                        @foreach ($listaMensalidades as $mensalidade)
-                        <tr
-                            class="{{ $mensalidade->mensalidade_data_fim <= date('Y-m-d H:i:s') ? 'table table-dark' : ''}}">
-                            <td class="col-sm-4 money">{{$mensalidade->mensalidade_valor}}</td>
-                            <td class="col-sm-4">{{date( 'd/m/Y' , strtotime($mensalidade->mensalidade_data_ini))}}
-                            </td>
-                            <td class="col-sm-4">{{date( 'd/m/Y' , strtotime($mensalidade->mensalidade_data_fim))}}
-                            </td>
-                        </tr>
-                        @endforeach
-                    </table>
-                </td>
-                <td align="right" style="vertical-align: top;">
-                    @if($listagemMatriculas->matricula_data_fim >= date('Y-m-d H:i:s'))
-                    <button type="button" class="btn btn-primary" style="margin-bottom: 10px;"
-                        onclick="location.href='{{action('MensalidadeController@novo', $listagemMatriculas->matricula_id)}}'">
-                        @if ($listaMensalidades->count() > 0)
-                        Alterar Mensalidade
-                        @else
-                        Incluir Mensalidade
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ExcluirModal">
+                Excluir
+            </button>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#FinalizarModal">
+                Finalizar Matrícula
+            </button>
+            <button type="button" class="btn btn-secondary" onclick="location.href='{{action('MatriculaController@localizaMatriculaPorAluno', $listagemMatriculas->aluno_id)}}'">Voltar</button>
+            @endif
+            <br><br>
+            <h3>Mensalidade</h3>
+            <table style="width: 700px;">
+                <tr>
+                    <td>
+                        <table class="table table-striped table-bordered table-hover">
+                            <tr>
+                                <th class="col-4">Valor</th>
+                                <th class="col-4">Inicio</th>
+                                <th class="col-4">Fim</th>
+                            </tr>
+                            @foreach ($listaMensalidades as $mensalidade)
+                            <tr class="{{ ($mensalidade->mensalidade_data_fim != null && $mensalidade->mensalidade_data_fim < date('Y-m-d H:i:s') || ($mensalidade->mensalidade_data_ini >= date('Y-m-d H:i:s'))) ? 'table table-dark' : ''}}">
+                                <td class="col-sm-4 money">{{$mensalidade->mensalidade_valor}}</td>
+                                <td class="col-sm-4">{{date( 'd/m/Y' , strtotime($mensalidade->mensalidade_data_ini))}}
+                                </td>
+                                @if($mensalidade->mensalidade_data_fim != null)
+                                <td class="col-sm-4"> {{date( 'd/m/Y' , strtotime($mensalidade->mensalidade_data_fim))}} </td>
+                                @else
+                                <td class="col-sm-4"> </td>
+                                @endif
+                            </tr>
+                            @endforeach
+                        </table>
+                    </td>
+                    <td align="right" style="vertical-align: top;">
+                        @if($listagemMatriculas->matricula_data_fim == null)
+                        <button type="button" class="btn btn-primary" style="margin-bottom: 10px;" onclick="location.href='{{action('MensalidadeController@novo', $listagemMatriculas->matricula_id)}}'">
+                            @if ($listaMensalidades->count() > 0)
+                            Alterar Mensalidade
+                            @else
+                            Incluir Mensalidade
+                            @endif
+                        </button>
                         @endif
-                    </button>
-                    @endif
-                </td>
-            </tr>
-        </table>
+                    </td>
+                </tr>
+            </table>
     </div>
 
     <!-- Cadastrar Modal -->
-    <div class="modal fade" id="CadastrarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCadastrar"
-        aria-hidden="true">
+    <div class="modal fade" id="CadastrarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCadastrar" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -131,8 +124,7 @@
         </div>
     </div>
     <!-- Excluir Modal -->
-    <div class="modal fade" id="ExcluirModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalExcluir"
-        aria-hidden="true">
+    <div class="modal fade" id="ExcluirModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalExcluir" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -145,8 +137,7 @@
                     Confirma a exclusão da Matrícula?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary"
-                        onclick="location.href='{{action('MatriculaController@exclui', $listagemMatriculas->matricula_id)}}'">Sim</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href='{{action('MatriculaController@exclui', $listagemMatriculas->matricula_id)}}'">Sim</button>
                     </a>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
                 </div>
@@ -154,8 +145,7 @@
         </div>
     </div>
     <!-- Finalizar Modal -->
-    <div class="modal fade" id="FinalizarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalFinalizar"
-        aria-hidden="true">
+    <div class="modal fade" id="FinalizarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalFinalizar" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -168,8 +158,7 @@
                     Essa opção somente deve ser usada caso o aluno saia da escola. Confirma?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary"
-                        onclick="location.href='{{action('MatriculaController@finaliza', $listagemMatriculas->matricula_id)}}'">Sim</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href='{{action('MatriculaController@finaliza', $listagemMatriculas->matricula_id)}}'">Sim</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
                 </div>
             </div>
@@ -178,11 +167,11 @@
 
 </form>
 <script>
-jQuery(function($) {
-    $(".mask-date").mask("99/99/9999");
-    $(".money").mask("#.##0,00", {
-        reverse: true
+    jQuery(function($) {
+        $(".mask-date").mask("99/99/9999");
+        $(".money").mask("#.##0,00", {
+            reverse: true
+        });
     });
-});
 </script>
 @stop

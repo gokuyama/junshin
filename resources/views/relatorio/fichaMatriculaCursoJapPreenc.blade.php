@@ -138,7 +138,7 @@
             <td style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 E-MAIL<br>{{$email_pai}}</td>
             <td style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                ESTADO CIVIL
+                ESTADO CIVIL<br>{{$estado_civil_pai}}
             </td>
             <td style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 CELULAR<br>{{$celular_pai}}
@@ -146,7 +146,7 @@
         </tr>
         <tr>
             <td style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                PROFISSÃO</td>
+                PROFISSÃO<br>{{$profissao_pai}}</td>
             <td style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 EMPRESA<br>{{$empresa_pai}}
             </td>
@@ -176,7 +176,7 @@
             <td style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 E-MAIL<br>{{$email_mae}}</td>
             <td style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                ESTADO CIVIL
+                ESTADO CIVIL<br>{{$estado_civil_mae}}
             </td>
             <td style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 CELULAR<br>{{$celular_mae}}
@@ -184,7 +184,7 @@
         </tr>
         <tr>
             <td style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                PROFISSÃO</td>
+                PROFISSÃO<br>{{$profissao_mae}}</td>
             <td style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 EMPRESA<br>{{$empresa_mae}}
             </td>

@@ -22,8 +22,7 @@
                     <select class="form-control" id="tipo_responsavel_id" name="tipo_responsavel_id">
                         <option value="">--</option>
                         @foreach ($tiposResponsavel as $tipoResponsavel)
-                        <option value="{{ $tipoResponsavel->tipo_responsavel_id }}"
-                            {{ ($tipoResponsavel->tipo_responsavel_id == $r->tipo_responsavel_id ? 'selected="selected"' : '') }}>
+                        <option value="{{ $tipoResponsavel->tipo_responsavel_id }}" {{ ($tipoResponsavel->tipo_responsavel_id == $r->tipo_responsavel_id ? 'selected="selected"' : '') }}>
                             {{ $tipoResponsavel->tipo_responsavel_descricao }}</option>
                         @endforeach
                     </select>
@@ -53,8 +52,7 @@
             <div class="col-2">
                 <div class="form-group">
                     <label>% Pgto Mensalidade</label>
-                    <input name="pagador_percentual" class="form-control"
-                        value="{{ $pagadores[0]->pagador_percentual }}" />
+                    <input name="pagador_percentual" class="form-control" value="{{ $pagadores[0]->pagador_percentual }}" />
                 </div>
             </div>
         </div>
@@ -68,15 +66,33 @@
             <div class="col-2">
                 <div class="form-group">
                     <label>Telefone da Firma</label>
-                    <input name="responsavel_telefone_firma" class="form-control"
-                        value="{{ $r->responsavel_telefone_firma }}" />
+                    <input name="responsavel_telefone_firma" class="form-control" value="{{ $r->responsavel_telefone_firma }}" />
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
                     <label>Ramal da Firma</label>
-                    <input name="responsavel_ramal_firma" class="form-control"
-                        value="{{ $r->responsavel_ramal_firma }}" />
+                    <input name="responsavel_ramal_firma" class="form-control" value="{{ $r->responsavel_ramal_firma }}" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group">
+                    <label>Profissão</label>
+                    <input name="responsavel_profissao" class="form-control" value="{{ $r->responsavel_profissao }}" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Estado Civil</label>
+                    <select class="form-control" id="responsavel_estado_civil_id" name="responsavel_estado_civil_id">
+                        <option value="">--</option>
+                        @foreach ($estadosCivil as $estadoCivil)
+                        <option value="{{ $estadoCivil->estado_civil_id }}" {{ ($estadoCivil->estado_civil_id == $r->responsavel_estado_civil_id ? 'selected="selected"' : '') }}>
+                            {{ $estadoCivil->estado_civil_descricao }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
         </div>
@@ -96,8 +112,7 @@
             <div class="col-4">
                 <div class="form-group">
                     <label>Nacionalidade</label>
-                    <input name="responsavel_nascionalidade" class="form-control"
-                        value="{{ $r->responsavel_nascionalidade }}" />
+                    <input name="responsavel_nascionalidade" class="form-control" value="{{ $r->responsavel_nascionalidade }}" />
                 </div>
             </div>
         </div>
@@ -108,16 +123,14 @@
                     @if($r->responsavel_data_nascimento == '--')
                     <input name="responsavel_data_nascimento" class="form-control" id="responsavel_data_nascimento" />
                     @else
-                    <input name="responsavel_data_nascimento" class="form-control" id="responsavel_data_nascimento"
-                        value="{{ date( 'd/m/Y' , strtotime($r->responsavel_data_nascimento)) }}" />
+                    <input name="responsavel_data_nascimento" class="form-control" id="responsavel_data_nascimento" value="{{ date( 'd/m/Y' , strtotime($r->responsavel_data_nascimento)) }}" />
                     @endif
                 </div>
             </div>
             <div class="col-1">
                 <div class="form-group">
                     <label>Geração</label>
-                    <input name="responsavel_ordem_geracao" class="form-control"
-                        value="{{ $r->responsavel_ordem_geracao }}" />
+                    <input name="responsavel_ordem_geracao" class="form-control" value="{{ $r->responsavel_ordem_geracao }}" />
                 </div>
             </div>
             <div class="col-5">
@@ -132,8 +145,7 @@
                     <select class="form-control" id="responsavel_escolaridade_id" name="responsavel_escolaridade_id">
                         <option value="">--</option>
                         @foreach ($niveisEscolaridade as $nivelEscolaridade)
-                        <option value="{{ $nivelEscolaridade->nivel_escolaridade_id }}"
-                            {{ ($nivelEscolaridade->nivel_escolaridade_id == $r->responsavel_escolaridade_id ? 'selected="selected"' : '') }}>
+                        <option value="{{ $nivelEscolaridade->nivel_escolaridade_id }}" {{ ($nivelEscolaridade->nivel_escolaridade_id == $r->responsavel_escolaridade_id ? 'selected="selected"' : '') }}>
                             {{ $nivelEscolaridade->nivel_escolaridade_descricao }}</option>
                         @endforeach
                     </select>
@@ -159,8 +171,7 @@
             <div class="col-2">
                 <div class="form-group">
                     <label>Complemento</label>
-                    <input name="pagador_complemento" class="form-control"
-                        value="{{ $pagadores[0]->pagador_complemento }}" />
+                    <input name="pagador_complemento" class="form-control" value="{{ $pagadores[0]->pagador_complemento }}" />
                 </div>
             </div>
             <div class="col-3">
@@ -224,12 +235,10 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ExcluirModal">
         Excluir
     </button>
-    <button type="button" class="btn btn-secondary"
-        onclick="location.href='{{action('ResponsavelController@localizaResponsavelPorAluno', $r->aluno_id)}}'">Voltar</button>
+    <button type="button" class="btn btn-secondary" onclick="location.href='{{action('ResponsavelController@localizaResponsavelPorAluno', $r->aluno_id)}}'">Voltar</button>
 
     <!-- Cadastrar Modal -->
-    <div class="modal fade" id="CadastrarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCadastrar"
-        aria-hidden="true">
+    <div class="modal fade" id="CadastrarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCadastrar" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -249,8 +258,7 @@
         </div>
     </div>
     <!-- Excluir Modal -->
-    <div class="modal fade" id="ExcluirModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalExcluir"
-        aria-hidden="true">
+    <div class="modal fade" id="ExcluirModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalExcluir" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -263,8 +271,7 @@
                     Confirma a exclusão do Responsável
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary"
-                        onclick="location.href='{{action('ResponsavelController@exclui', $r->responsavel_id)}}'">Sim</button>
+                    <button type="button" class="btn btn-primary" onclick="location.href='{{action('ResponsavelController@exclui', $r->responsavel_id)}}'">Sim</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
                 </div>
             </div>
@@ -272,12 +279,12 @@
     </div>
 </form>
 <script>
-jQuery(function($) {
-    $("#responsavel_data_nascimento").mask("99/99/9999");
-    $('.telefoneCelular').mask('(00) 00000-0000');
-    $('.telefoneFixo').mask('(00) 0000-0000');
-    $('#cpf').mask('000.000.000-00');
-    $('#cep').mask('00.000-000');
-});
+    jQuery(function($) {
+        $("#responsavel_data_nascimento").mask("99/99/9999");
+        $('.telefoneCelular').mask('(00) 00000-0000');
+        $('.telefoneFixo').mask('(00) 0000-0000');
+        $('#cpf').mask('000.000.000-00');
+        $('#cep').mask('00.000-000');
+    });
 </script>
 @stop

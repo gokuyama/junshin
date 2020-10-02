@@ -22,8 +22,7 @@
                     <select class="form-control" id="tipo_responsavel_id" name="tipo_responsavel_id">
                         <option value="">--</option>
                         @foreach ($tiposResponsavel as $tipoResponsavel)
-                        <option value="{{ $tipoResponsavel->tipo_responsavel_id }}"
-                            {{ ($tipoResponsavel->tipo_responsavel_id == old('tipo_responsavel_id') ? 'selected="selected"' : '') }}>
+                        <option value="{{ $tipoResponsavel->tipo_responsavel_id }}" {{ ($tipoResponsavel->tipo_responsavel_id == old('tipo_responsavel_id') ? 'selected="selected"' : '') }}>
                             {{ $tipoResponsavel->tipo_responsavel_descricao }}</option>
                         @endforeach
                     </select>
@@ -36,8 +35,7 @@
                     <select class="form-control" id="aluno_id" name="aluno_id">
                         <option value="">--</option>
                         @foreach ($alunos as $aluno)
-                        <option value="{{ $aluno->aluno_id }}"
-                            {{ ($aluno->aluno_id == old('aluno_id') ? 'selected="selected"' : '') }}>
+                        <option value="{{ $aluno->aluno_id }}" {{ ($aluno->aluno_id == old('aluno_id') ? 'selected="selected"' : '') }}>
                             {{ $aluno->aluno_nome }}</option>
                         @endforeach
                     </select>
@@ -80,24 +78,42 @@
             <div class="col-2">
                 <div class="form-group">
                     <label>Telefone da Firma</label>
-                    <input name="responsavel_telefone_firma" class="form-control telefoneFixo"
-                        value="{{ old('responsavel_telefone_firma') }}" />
+                    <input name="responsavel_telefone_firma" class="form-control telefoneFixo" value="{{ old('responsavel_telefone_firma') }}" />
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
                     <label>Ramal da Firma</label>
-                    <input name="responsavel_ramal_firma" class="form-control"
-                        value="{{ old('responsavel_ramal_firma') }}" />
+                    <input name="responsavel_ramal_firma" class="form-control" value="{{ old('responsavel_ramal_firma') }}" />
                 </div>
             </div>
         </div>
         <div class="row">
+            <div class="col-8">
+                <div class="form-group">
+                    <label>Profissão</label>
+                    <input name="responsavel_profissao" class="form-control" value="{{ old('responsavel_profissao') }}" />
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-group">
+                    <label>Estado Civil</label>
+                    <select class="form-control" id="responsavel_estado_civil_id" name="responsavel_estado_civil_id">
+                        <option value="">--</option>
+                        @foreach ($estadosCivil as $estadoCivil)
+                        <option value="{{ $estadoCivil->estado_civil_id }}" {{ ($estadoCivil->estado_civil_id == old('responsavel_estado_civil_id') ? 'selected="selected"' : '') }}>
+                            {{ $estadoCivil->estado_civil_descricao }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-2">
                 <div class="form-group">
                     <label>Celular</label>
-                    <input name="responsavel_celular" class="form-control telefoneCelular"
-                        value="{{ old('responsavel_celular') }}" />
+                    <input name="responsavel_celular" class="form-control telefoneCelular" value="{{ old('responsavel_celular') }}" />
                 </div>
             </div>
             <div class="col-6">
@@ -109,8 +125,7 @@
             <div class="col-4">
                 <div class="form-group">
                     <label>Nacionalidade</label>
-                    <input name="responsavel_nascionalidade" class="form-control"
-                        value="{{ old('responsavel_nascionalidade') }}" />
+                    <input name="responsavel_nascionalidade" class="form-control" value="{{ old('responsavel_nascionalidade') }}" />
                 </div>
             </div>
         </div>
@@ -118,15 +133,13 @@
             <div class="col-2">
                 <div class="form-group">
                     <label>Data de Nascimento</label>
-                    <input name="responsavel_data_nascimento" class="form-control" id="responsavel_data_nascimento"
-                        value="{{ old('responsavel_data_nascimento') }}" />
+                    <input name="responsavel_data_nascimento" class="form-control" id="responsavel_data_nascimento" value="{{ old('responsavel_data_nascimento') }}" />
                 </div>
             </div>
             <div class="col-1">
                 <div class="form-group">
                     <label>Geração</label>
-                    <input name="responsavel_ordem_geracao" class="form-control"
-                        value="{{ old('responsavel_ordem_geracao') }}" />
+                    <input name="responsavel_ordem_geracao" class="form-control" value="{{ old('responsavel_ordem_geracao') }}" />
                 </div>
             </div>
             <div class="col-5">
@@ -141,8 +154,7 @@
                     <select class="form-control" id="nivel_escolaridade_id" name="nivel_escolaridade_id">
                         <option value="">--</option>
                         @foreach ($niveisEscolaridade as $nivelEscolaridade)
-                        <option value="{{ $nivelEscolaridade->nivel_escolaridade_id }}"
-                            {{ ($nivelEscolaridade->nivel_escolaridade_id == old('nivel_escolaridade_id') ? 'selected="selected"' : '') }}>
+                        <option value="{{ $nivelEscolaridade->nivel_escolaridade_id }}" {{ ($nivelEscolaridade->nivel_escolaridade_id == old('nivel_escolaridade_id') ? 'selected="selected"' : '') }}>
                             {{ $nivelEscolaridade->nivel_escolaridade_descricao }}</option>
                         @endforeach
                     </select>
@@ -228,13 +240,11 @@
     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#CadastrarModal">
         Cadastrar
     </button>
-    <button type="button" class="btn btn-secondary"
-        onclick="location.href='{{action('ResponsavelController@localizaResponsavelPorAluno', $alunos[0]->aluno_id)}}'">Voltar</button>
+    <button type="button" class="btn btn-secondary" onclick="location.href='{{action('ResponsavelController@localizaResponsavelPorAluno', $alunos[0]->aluno_id)}}'">Voltar</button>
 
 
     <!-- Modal -->
-    <div class="modal fade" id="CadastrarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCadastrar"
-        aria-hidden="true">
+    <div class="modal fade" id="CadastrarModal" tabindex="-1" role="dialog" aria-labelledby="TituloModalCadastrar" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -256,12 +266,12 @@
 </form>
 
 <script>
-jQuery(function($) {
-    $("#responsavel_data_nascimento").mask("99/99/9999");
-    $('.telefoneCelular').mask('(00) 00000-0000');
-    $('.telefoneFixo').mask('(00) 0000-0000');
-    $('#cpf').mask('000.000.000-00');
-    $('#cep').mask('00.000-000');
-});
+    jQuery(function($) {
+        $("#responsavel_data_nascimento").mask("99/99/9999");
+        $('.telefoneCelular').mask('(00) 00000-0000');
+        $('.telefoneFixo').mask('(00) 0000-0000');
+        $('#cpf').mask('000.000.000-00');
+        $('#cep').mask('00.000-000');
+    });
 </script>
 @stop

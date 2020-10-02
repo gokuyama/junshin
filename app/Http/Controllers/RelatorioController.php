@@ -8,6 +8,7 @@ use junshin\Aluno;
 use PDF;
 use Carbon\Carbon;
 use DateTimeZone;
+use junshin\TipoEstadoCivil;
 
 class RelatorioController  extends Controller
 {
@@ -105,6 +106,10 @@ class RelatorioController  extends Controller
         $celular_mae = '';
         $empresa_mae = '';
         $telefone_comercial_mae = '';
+        $profissao_pai = '';
+        $profissao_mae = '';
+        $estadoCivilMae = '';
+        $estadoCivilPai = '';
 
         foreach ($responsaveis as $responsavel) {
             //pai
@@ -116,6 +121,14 @@ class RelatorioController  extends Controller
                 $celular_pai = $responsavel->responsavel_celular;
                 $empresa_pai = $responsavel->responsavel_firma;
                 $telefone_comercial_pai = $responsavel->responsavel_telefone_firma;
+                $profissao_pai = $responsavel->responsavel_profissao;
+                $estado_civil_pai_id = $responsavel->responsavel_estado_civil_id;
+                if ($estado_civil_pai_id != null) {
+                    $estado_civil_pai = TipoEstadoCivil::where('ativo', 1)->where('estado_civil_id', $estado_civil_pai_id)->orderBy('estado_civil_descricao')->get();
+                    $estadoCivilPai = $estado_civil_pai[0]->estado_civil_descricao;
+                } else {
+                    $estadoCivilPai = null;
+                }
             }
             //mãe
             if ($responsavel->tipo_responsavel_id == 2) {
@@ -126,8 +139,17 @@ class RelatorioController  extends Controller
                 $celular_mae = $responsavel->responsavel_celular;
                 $empresa_mae = $responsavel->responsavel_firma;
                 $telefone_comercial_mae = $responsavel->responsavel_telefone_firma;
+                $profissao_mae = $responsavel->responsavel_profissao;
+                $estado_civil_mae_id = $responsavel->responsavel_estado_civil_id;
+                if ($estado_civil_mae_id != null) {
+                    $estado_civil_mae = TipoEstadoCivil::where('ativo', 1)->where('estado_civil_id', $estado_civil_mae_id)->orderBy('estado_civil_descricao')->get();
+                    $estadoCivilMae = $estado_civil_mae[0]->estado_civil_descricao;
+                } else {
+                    $estadoCivilMae = null;
+                }
             }
         }
+
 
         $moradores = DB::table('moradores')
             ->join('alunos', 'alunos.aluno_id', '=', 'moradores.aluno_id')
@@ -199,6 +221,8 @@ class RelatorioController  extends Controller
             'celular_pai' => $celular_pai,
             'empresa_pai' => $empresa_pai,
             'telefone_comercial_pai' => $telefone_comercial_pai,
+            'profissao_pai' => $profissao_pai,
+            'estado_civil_pai' => $estadoCivilPai,
             'nome_mae' => $nome_mae,
             'nacionalidade_mae' => $nacionalidade_mae,
             'religiao_mae' => $religiao_mae,
@@ -206,6 +230,8 @@ class RelatorioController  extends Controller
             'celular_mae' => $celular_mae,
             'empresa_mae' => $empresa_mae,
             'telefone_comercial_mae' => $telefone_comercial_mae,
+            'profissao_mae' => $profissao_mae,
+            'estado_civil_mae' => $estadoCivilMae,
             'morador1_nome' => $morador1_nome,
             'morador1_vinculo' => $morador1_vinculo,
             'morador1_sexo' => $morador1_sexo,
@@ -243,6 +269,11 @@ class RelatorioController  extends Controller
         $celular_mae = '';
         $empresa_mae = '';
         $telefone_comercial_mae = '';
+        $profissao_pai = '';
+        $profissao_mae = '';
+        $estadoCivilMae = '';
+        $estadoCivilPai = '';
+
 
         $responsaveis = DB::table('responsaveis')
             ->join('alunos', 'alunos.aluno_id', '=', 'responsaveis.aluno_id')
@@ -260,6 +291,14 @@ class RelatorioController  extends Controller
                 $celular_pai = $responsavel->responsavel_celular;
                 $empresa_pai = $responsavel->responsavel_firma;
                 $telefone_comercial_pai = $responsavel->responsavel_telefone_firma;
+                $profissao_pai = $responsavel->responsavel_profissao;
+                $estado_civil_pai_id = $responsavel->responsavel_estado_civil_id;
+                if ($estado_civil_pai_id != null) {
+                    $estado_civil_pai = TipoEstadoCivil::where('ativo', 1)->where('estado_civil_id', $estado_civil_pai_id)->orderBy('estado_civil_descricao')->get();
+                    $estadoCivilPai = $estado_civil_pai[0]->estado_civil_descricao;
+                } else {
+                    $estadoCivilPai = null;
+                }
             }
             //mãe
             if ($responsavel->tipo_responsavel_id == 2) {
@@ -270,6 +309,14 @@ class RelatorioController  extends Controller
                 $celular_mae = $responsavel->responsavel_celular;
                 $empresa_mae = $responsavel->responsavel_firma;
                 $telefone_comercial_mae = $responsavel->responsavel_telefone_firma;
+                $profissao_mae = $responsavel->responsavel_profissao;
+                $estado_civil_mae_id = $responsavel->responsavel_estado_civil_id;
+                if ($estado_civil_mae_id != null) {
+                    $estado_civil_mae = TipoEstadoCivil::where('ativo', 1)->where('estado_civil_id', $estado_civil_mae_id)->orderBy('estado_civil_descricao')->get();
+                    $estadoCivilMae = $estado_civil_mae[0]->estado_civil_descricao;
+                } else {
+                    $estadoCivilMae = null;
+                }
             }
         }
 
@@ -348,6 +395,8 @@ class RelatorioController  extends Controller
             'email_pai' => $email_pai,
             'celular_pai' => $celular_pai,
             'empresa_pai' => $empresa_pai,
+            'profissao_pai' => $profissao_pai,
+            'estado_civil_pai' => $estadoCivilPai,
             'telefone_comercial_pai' => $telefone_comercial_pai,
             'nome_mae' => $nome_mae,
             'nacionalidade_mae' => $nacionalidade_mae,
@@ -356,6 +405,8 @@ class RelatorioController  extends Controller
             'celular_mae' => $celular_mae,
             'empresa_mae' => $empresa_mae,
             'telefone_comercial_mae' => $telefone_comercial_mae,
+            'profissao_mae' => $profissao_mae,
+            'estado_civil_mae' => $estadoCivilMae,
             'morador1_nome' => $morador1_nome,
             'morador1_vinculo' => $morador1_vinculo,
             'morador1_sexo' => $morador1_sexo,

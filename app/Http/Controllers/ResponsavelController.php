@@ -13,6 +13,7 @@ use junshin\Responsavel;
 use Request;
 use Carbon\Carbon;
 use DateTimeZone;
+use junshin\TipoEstadoCivil;
 
 class ResponsavelController  extends Controller
 {
@@ -72,11 +73,13 @@ class ResponsavelController  extends Controller
         $tiposResponsavel = TipoResponsavel::where('ativo', 1)->orderBy('tipo_responsavel_descricao')->get();
         $alunos = Aluno::where('ativo', 1)->orderBy('aluno_nome')->get();
         $niveisEscolaridade = NivelEscolaridade::where('ativo', 1)->orderBy('nivel_escolaridade_descricao')->get();
+        $estadosCivil = TipoEstadoCivil::where('ativo', 1)->orderBy('estado_civil_descricao')->get();
 
         return view('responsavel.formularioResponsavel')
             ->with('alunos', $alunos)
             ->with('niveisEscolaridade', $niveisEscolaridade)
-            ->with('tiposResponsavel', $tiposResponsavel);
+            ->with('tiposResponsavel', $tiposResponsavel)
+            ->with('estadosCivil', $estadosCivil);
     }
 
     public function novoResponsavelPorAluno($aluno_id)
@@ -84,11 +87,13 @@ class ResponsavelController  extends Controller
         $tiposResponsavel = TipoResponsavel::where('ativo', 1)->orderBy('tipo_responsavel_descricao')->get();
         $alunos = Aluno::where('ativo', 1)->where('aluno_id', $aluno_id)->get();
         $niveisEscolaridade = NivelEscolaridade::where('ativo', 1)->orderBy('nivel_escolaridade_descricao')->get();
+        $estadosCivil = TipoEstadoCivil::where('ativo', 1)->orderBy('estado_civil_descricao')->get();
 
         return view('responsavel.formularioResponsavel')
             ->with('alunos', $alunos)
             ->with('niveisEscolaridade', $niveisEscolaridade)
-            ->with('tiposResponsavel', $tiposResponsavel);
+            ->with('tiposResponsavel', $tiposResponsavel)
+            ->with('estadosCivil', $estadosCivil);
     }
 
     public function adiciona(ResponsavelRequest $request)
@@ -96,6 +101,8 @@ class ResponsavelController  extends Controller
         $usuarioLogado = \Auth::user()->username;
         $aluno_id = Request::input('aluno_id');
         $tipo_responsavel_id = Request::input('tipo_responsavel_id');
+        $responsavel_estado_civil_id = Request::input('responsavel_estado_civil_id');
+        $responsavel_profissao = Request::input('responsavel_profissao');
         $responsavel_nome = Request::input('responsavel_nome');
         $responsavel_firma = Request::input('responsavel_firma');
         $responsavel_telefone_firma = Request::input('responsavel_telefone_firma');
@@ -126,6 +133,8 @@ class ResponsavelController  extends Controller
         $responsavel_id = DB::table('responsaveis')->insertGetId(
             [
                 'tipo_responsavel_id' => $tipo_responsavel_id,
+                'responsavel_estado_civil_id' => $responsavel_estado_civil_id,
+                'responsavel_profissao' => $responsavel_profissao,
                 'aluno_id' => $aluno_id,
                 'responsavel_nome' => $responsavel_nome,
                 'responsavel_firma' => $responsavel_firma,
@@ -137,6 +146,7 @@ class ResponsavelController  extends Controller
                 'responsavel_data_nascimento' => $data_nascimento,
                 'responsavel_ordem_geracao' => $responsavel_ordem_geracao,
                 'responsavel_religiao' => $responsavel_religiao,
+                'responsavel_escolaridade_id' => $responsavel_escolaridade_id,
                 'responsavel_escolaridade_id' => $responsavel_escolaridade_id,
                 'userid_insert' => $usuarioLogado
             ]
@@ -208,6 +218,7 @@ class ResponsavelController  extends Controller
         $tiposResponsavel = TipoResponsavel::where('ativo', 1)->orderBy('tipo_responsavel_descricao')->get();
         $aluno = Aluno::where('ativo', 1)->where('aluno_id', $responsavel->aluno_id)->first();
         $niveisEscolaridade = NivelEscolaridade::where('ativo', 1)->orderBy('nivel_escolaridade_descricao')->get();
+        $estadosCivil = TipoEstadoCivil::where('ativo', 1)->orderBy('estado_civil_descricao')->get();
         $maxId = Pagador::orderBy('pagador_id', 'desc')
             ->where('responsavel_id', $responsavel_id)
             ->value('pagador_id');
@@ -228,7 +239,8 @@ class ResponsavelController  extends Controller
             ->with('aluno', $aluno)
             ->with('niveisEscolaridade', $niveisEscolaridade)
             ->with('tiposResponsavel', $tiposResponsavel)
-            ->with('pagadores', $pagadores);
+            ->with('pagadores', $pagadores)
+            ->with('estadosCivil', $estadosCivil);
     }
 
     public function altera(ResponsavelRequest $request, $responsavel_id)

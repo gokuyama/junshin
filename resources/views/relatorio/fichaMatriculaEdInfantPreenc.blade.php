@@ -16,7 +16,7 @@
                 <h1>ESCOLA JUNSHIN</h1>
             </td>
             <td style="border-collapse: collapse;white-space:nowrap; text-align: left; width:25%;">
-                <h4>Nº <br> ANO <br> TURNO <br> SÉRIE</h4>
+                <h4> ANO <br> TURNO <br> TURMA</h4>
             </td>
         </tr>
     </table>
@@ -43,12 +43,12 @@
     </table>
     <table style="border-collapse: collapse;width:100%;">
         <tr>
-            <td style="border-collapse: collapse;width:50%; height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+            <td style="border-collapse: collapse;width:40%; height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 MUNICÍPIO DE NASCIMENTO<br>{{$aluno_local_nascimento}}</td>
             <td style="border-collapse: collapse;width:25%; height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 DATA DE NASCIMENTO<br>{{ date( 'd/m/Y' , strtotime($aluno_data_nascimento)) }}
             </td>
-            <td style="border-collapse: collapse;width:25%; height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+            <td style="border-collapse: collapse;width:35%; height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 Nº DO RG ( {{$tipo_documento_id == 2 ? 'X' :''}} ) OU R.N. ( {{$tipo_documento_id == 3 ? 'X' :''}} )<br>{{$aluno_documento}}</td>
         </tr>
     </table>
@@ -96,7 +96,7 @@
             <td style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 E-MAIL<br>{{$email_pai}}</td>
             <td style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                ESTADO CIVIL
+                ESTADO CIVIL<br>{{$estado_civil_pai}}
             </td>
             <td style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 CELULAR<br>{{$celular_pai}}
@@ -104,7 +104,7 @@
         </tr>
         <tr>
             <td style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                PROFISSÃO</td>
+                PROFISSÃO<br>{{$profissao_pai}}</td>
             <td style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 EMPRESA<br>{{$empresa_pai}}
             </td>
@@ -134,7 +134,7 @@
             <td style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 E-MAIL<br>{{$email_mae}}</td>
             <td style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                ESTADO CIVIL
+                ESTADO CIVIL<br>{{$estado_civil_mae}}
             </td>
             <td style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 CELULAR<br>{{$celular_mae}}
@@ -142,7 +142,7 @@
         </tr>
         <tr>
             <td style="border-collapse: collapse;width:40%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                PROFISSÃO</td>
+                PROFISSÃO<br>{{$profissao_mae}}</td>
             <td style="border-collapse: collapse;width:30%; height:40px; vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 EMPRESA<br>{{$empresa_mae}}
             </td>

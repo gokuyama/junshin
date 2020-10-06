@@ -8,6 +8,7 @@ use junshin\Aluno;
 use PDF;
 use Carbon\Carbon;
 use DateTimeZone;
+use DateTime;
 use junshin\TipoEstadoCivil;
 
 class RelatorioController  extends Controller
@@ -371,12 +372,17 @@ class RelatorioController  extends Controller
             $aluno->aluno_ordem_geracao  = '';
         }
 
+        $dataNascimento = $aluno->aluno_data_nascimento;
+        $date = new DateTime($dataNascimento);
+        $interval = $date->diff(new DateTime(date('Y-m-d')));
+        $idade =  $interval->format('%Y anos');
 
         $data = [
             'aluno_nome' => $aluno->aluno_nome,
             'aluno_sexo' => $aluno->aluno_sexo,
             'aluno_local_nascimento' => $aluno->aluno_local_nascimento,
             'aluno_data_nascimento' => $aluno->aluno_data_nascimento,
+            'aluno_idade' => $idade,
             'tipo_documento_id' => $aluno->tipo_documento_id,
             'aluno_documento' => $aluno->aluno_documento,
             'aluno_endereco_rua' => $aluno->aluno_endereco_rua,

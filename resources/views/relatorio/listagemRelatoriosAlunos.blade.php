@@ -10,7 +10,7 @@
     <li><a href="{{action('RelatorioController@declaracaoAdimplencia',$aluno->aluno_id)}}"> Declaração de Adimplência
         </a>
     </li>
-    <li><a href="{{action('RelatorioController@fichaMatriculaEdInfantPreenchida',$aluno->aluno_id)}}"> Ficha de Matrícula Educação Infanti
+    <li><a href="{{action('RelatorioController@fichaMatriculaEdInfantPreenchida',$aluno->aluno_id)}}"> Ficha de Matrícula Educação Infantil
         </a>
     </li>
     <li><a href="{{action('RelatorioController@fichaMatriculaCursoJapPreenchida',$aluno->aluno_id)}}"> Ficha de Matrícula Curso de Japonês

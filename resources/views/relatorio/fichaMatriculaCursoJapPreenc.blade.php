@@ -47,7 +47,7 @@
                 DATA DE NASCIMENTO<br>{{ date( 'd/m/Y' , strtotime($aluno_data_nascimento)) }}
             </td>
             <td style="border-collapse: collapse;width:25%; height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
-                IDADE</td>
+                IDADE<br>{{$aluno_idade}} </td>
         </tr>
     </table>
     <table style="border-collapse: collapse;width:100%;">
@@ -240,9 +240,9 @@
     </table>
     <table style="border-collapse: collapse;width:100%;">
         <tr>
-            <td style="border-collapse: collapse;width:80%;height:50px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+            <td style="border-collapse: collapse;width:80%;height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 ASSINATURA DO RESPONSÁVEL </td>
-            <td style="border-collapse: collapse;width:20%;height:50px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
+            <td style="border-collapse: collapse;width:20%;height:40px;vertical-align:top;font-family:arial;border: 1px solid black; font-size:12px;">
                 DATA
             </td>
         </tr>

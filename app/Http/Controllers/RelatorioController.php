@@ -533,6 +533,29 @@ class RelatorioController  extends Controller
         return $pdf->download('chamada.pdf');
     }
 
+    public function contatoAlunos($turma_id)
+    {
+        $listaAlunos = DB::select('SELECT distinct al.aluno_nome, DATE_FORMAT(al.aluno_data_nascimento,"%d/%m/%Y") as data_nascimento,
+            al.aluno_telefone_fixo, tur.turma_descricao, tun.turno_descricao, (select GROUP_CONCAT(res1.responsavel_nome) from responsaveis res1 where res1.aluno_id = al.aluno_id) as responsaveis,
+            (select GROUP_CONCAT(res1.responsavel_celular) from responsaveis res1 where res1.aluno_id = al.aluno_id) as celulares
+            FROM alunos al, matriculas mat, turmas tur, turnos tun
+            where mat.aluno_id = al.aluno_id
+            and tur.turma_id = mat.turma_id
+            and tun.turno_id = tur.turno_id
+            and tur.turma_id = ' . $turma_id .
+            ' and tur.ativo = true');
+
+        $data = [
+            'listaAlunos' => $listaAlunos
+        ];
+
+        //Chama o relatório
+        $pdf = PDF::loadView('relatorio.contatoAlunos', $data);
+        $pdf->setPaper('A4', 'landscape');
+        //return view('relatorio.contatoAlunos');
+        return $pdf->download('contatoAlunos.pdf');
+    }
+
     public function printPDF()
     {
         // This  $data array will be passed to our PDF blade

@@ -121,6 +121,7 @@ Route::get('/relatorios/declaracao', ['as' => 'relatorio.declaracao', 'uses' => 
 Route::get('/relatorios/declaracaoMatricula/{aluno_id}', 'RelatorioController@declaracaoMatricula');
 Route::get('/relatorios/declaracaoAdimplencia/{aluno_id}', 'RelatorioController@declaracaoAdimplencia');
 Route::get('/relatorios/listaChamada/{turma_id}', 'RelatorioController@listaChamada');
+Route::get('/relatorios/contatoAlunos/{turma_id}', 'RelatorioController@contatoAlunos');
 Route::get('/relatorios/fichaMatriculaEdInfant', 'RelatorioController@fichaMatriculaEducacaoInfantil');
 Route::get('/relatorios/fichaMatriculaEdInfantPreenchida/{aluno_id}', 'RelatorioController@fichaMatriculaEdInfantPreenchida');
 Route::get('/relatorios/fichaMatriculaCursoJap', 'RelatorioController@fichaMatriculaCursoJapones');

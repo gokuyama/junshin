@@ -508,7 +508,10 @@ class RelatorioController  extends Controller
 
         setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
         date_default_timezone_set('America/Sao_Paulo');
-        $mes_hoje = strtoupper(strftime('%B - %Y', strtotime('today')));
+
+        $mes_hoje = strtoupper(strftime(getMonthBR(date('M', strtotime('today')))));
+        $mes_hoje = $mes_hoje . " - " . date("Y");
+        //$mes_hoje = strtoupper(strftime('%B - %Y', strtotime('today')));
 
         $diasNoMes = date("t");
         $AnoMes = strftime('%Y-%m-');
@@ -567,5 +570,52 @@ class RelatorioController  extends Controller
 
         $pdf = PDF::loadView('relatorio.pdf_view', $data);
         return $pdf->download('medium.pdf');
+    }
+}
+
+/**
+ * Retorna o mês inerente à data injetada em português
+ *
+ * @param string $data
+ * @return string 
+ */
+function getMonthBR(string $data)
+{
+    switch (date('M', strtotime($data))) {
+        case 'Jan':
+            return 'Janeiro';
+
+        case 'Feb':
+            return 'Fevereiro';
+
+        case 'Mar':
+            return 'Março';
+
+        case 'Apr':
+            return 'Abril';
+
+        case 'May':
+            return 'Maio';
+
+        case 'Jun':
+            return 'Junho';
+
+        case 'Jul':
+            return 'Julho';
+
+        case 'Aug':
+            return 'Agosto';
+
+        case 'Sep':
+            return 'Setembro';
+
+        case 'Oct':
+            return 'Outubro';
+
+        case 'Nov':
+            return 'Novembro';
+
+        case 'Dec':
+            return 'Dezembro';
     }
 }

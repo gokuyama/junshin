@@ -546,7 +546,12 @@ class RelatorioController  extends Controller
             and tur.turma_id = mat.turma_id
             and tun.turno_id = tur.turno_id
             and tur.turma_id = ' . $turma_id .
-            ' and tur.ativo = true');
+            ' and tur.ativo = true 
+            and al.ativo = true 
+            and mat.ativo = true 
+            and mat.matricula_data_ini <= sysdate() 
+            and mat.matricula_data_fim is null 
+            order by al.aluno_nome');
 
         $data = [
             'listaAlunos' => $listaAlunos

@@ -1,0 +1,9 @@
+1) instalar o PHP7.3 (https://www.cloudbooklet.com/how-to-install-php-7-3-on-ubuntu-18-04/)
+2) instalar o composer (https://getcomposer.org/)
+3) baixar o projeto do git
+4) instalar o Laravel (https://laravel.com/docs/10.x/installation)
+5) instalar o mysql (senha root: 1234)
+6) rodar o script para gerar as tabelas e dados
+7) instalar o DOM PDF (https://github.com/barryvdh/laravel-dompdf)
+8) Para o debug, usar o xDebug (https://imasters.com.br/back-end/configurando-debugger-php-no-vs-code)
+9) instalar a extensão no Chrome XDebug Helper

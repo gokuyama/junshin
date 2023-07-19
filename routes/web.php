@@ -20,6 +20,7 @@ Route::get('/', function () {
     $secretaria = false;
     $balancete = false;
     $professor = false;
+    $responsavel = false;
     if ($usuario) {
         $perfis = UserPorPerfil::where('user_id', $usuario->id)->where('ativo', 1)->get(['perfil_id']);
         if ($perfis->contains('perfil_id', '1')) {
@@ -42,12 +43,17 @@ Route::get('/', function () {
             $professor = true;
             Session::put('professor', $professor);
         }
+        if ($perfis->contains('perfil_id', '6')) {
+            $responsavel = true;
+            Session::put('responsavel', $responsavel);
+        }
         return view('home')
             ->with('manutencao', $manutencao)
             ->with('administrador', $administrador)
             ->with('secretaria', $secretaria)
             ->with('balancete', $balancete)
-            ->with('professor', $professor);
+            ->with('professor', $professor)
+            ->with('responsavel', $responsavel);
     } else {
         return view('home');
     }

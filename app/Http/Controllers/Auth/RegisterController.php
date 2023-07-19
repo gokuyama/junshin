@@ -59,6 +59,7 @@ class RegisterController extends Controller
             'secretaria' => [],
             'balancete' => [],
             'professor' => [],
+            'responsavel' => [],
         ]);
     }
 
@@ -120,7 +121,15 @@ class RegisterController extends Controller
                     ]
                 );
             }
-
+            if (array_key_exists("responsavel", $data)) {
+                DB::table('users_por_perfis')->insert(
+                    [
+                        'user_id' => $novoUsuario->id,
+                        'perfil_id' => $data['responsavel'],
+                        'userid_insert' => $usuarioLogado
+                    ]
+                );
+            }
             session()->flash('message', "Usuário {$novoUsuario->name} cadastrado com sucesso");
             return $usuario;
         } else {

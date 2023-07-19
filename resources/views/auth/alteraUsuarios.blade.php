@@ -63,6 +63,8 @@
                                     checked=checked @endif> Balancete<br>
                                 <input type="checkbox" id="professor" name="professor" value="5" @if($professor)
                                     checked=checked @endif> Professor<br>
+                                <input type="checkbox" id="responsavel" name="responsavel" value="6" @if($responsavel)
+                                checked=checked @endif> Responsável<br>
                             </div>
                         </div>
 

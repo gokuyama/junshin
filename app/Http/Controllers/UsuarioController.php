@@ -32,6 +32,7 @@ class UsuarioController  extends Controller
         $secretaria = false;
         $balancete = false;
         $professor = false;
+        $responsavel = false;
         $params = Request::all();
 
         $usuario = DB::table('users')->where('id', $params['id'])->first();
@@ -51,13 +52,17 @@ class UsuarioController  extends Controller
         if ($perfis->contains('perfil_id', '5')) {
             $professor = true;
         }
+        if ($perfis->contains('perfil_id', '6')) {
+            $responsavel = true;
+        }
         return view('auth.alteraUsuarios')
             ->with('usuario', $usuario)
             ->with('manutencao', $manutencao)
             ->with('administrador', $administrador)
             ->with('secretaria', $secretaria)
             ->with('balancete', $balancete)
-            ->with('professor', $professor);
+            ->with('professor', $professor)
+            ->with('responsavel', $responsavel);
     }
 
     public function alteraUsuario($userId)
@@ -71,6 +76,7 @@ class UsuarioController  extends Controller
         $secretaria = false;
         $balancete = false;
         $professor = false;
+        $responsavel = false;
 
         $nome = $params['name'];
         $email = $params['email'];
@@ -95,6 +101,9 @@ class UsuarioController  extends Controller
         }
         if ($perfis->contains('perfil_id', '5')) {
             $professor = true;
+        }
+        if ($perfis->contains('perfil_id', '6')) {
+            $responsavel = true;
         }
 
         //administrador
@@ -178,13 +187,35 @@ class UsuarioController  extends Controller
             session()->flash('message', 'O usuário foi alterado com sucesso!');
         }
 
+        //responsavel
+        if (array_key_exists('responsavel', $params) && !$responsavel) {
+            DB::table('users_por_perfis')->insert(
+                [
+                    'user_id' => $userId,
+                    'perfil_id' => 6,
+                    'userid_insert' => $usuarioLogado
+                ]
+            );
+            session()->flash('message', 'O usuário foi alterado com sucesso!');
+            $responsavel = true;
+        }
+        if (!array_key_exists('responsavel', $params) && $responsavel) {
+            $userPorPerfil = UserPorPerfil::where('ativo', 1)->where('user_id', $userId)->where('perfil_id', 6)->first();
+            $userPorPerfil->ativo = 0;
+            $userPorPerfil->userid_insert = $usuarioLogado;
+            $userPorPerfil->save();
+            $professor = false;
+            session()->flash('message', 'O usuário foi alterado com sucesso!');
+        }
+        
         return view('auth.alteraUsuarios')
             ->with('usuario', $usuario)
             ->with('manutencao', $manutencao)
             ->with('administrador', $administrador)
             ->with('secretaria', $secretaria)
             ->with('balancete', $balancete)
-            ->with('professor', $professor);
+            ->with('professor', $professor)
+            ->with('responsavel', $responsavel);
     }
 
     public function exclui($userId)

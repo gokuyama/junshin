@@ -100,6 +100,7 @@
                                 <input type="checkbox" id="secretaria" name="secretaria" value="3"> Secretaria<br>
                                 <input type="checkbox" id="balancete" name="balancete" value="4"> Balancete<br>
                                 <input type="checkbox" id="professor" name="professor" value="5"> Professor<br>
+                                <input type="checkbox" id="responsavel" name="responsavel" value="5"> Responsável<br>
                             </div>
                         </div>
 

@@ -1,6 +1,7 @@
 1) instalar o PHP7.3 (https://www.cloudbooklet.com/how-to-install-php-7-3-on-ubuntu-18-04/)
 2) instalar o composer (https://getcomposer.org/)
-3) baixar o projeto do git
+3) baixar o projeto do git (git clone https://github.com/gokuyama/junshin.git)
+3.1) dar o comando: composer update
 4) instalar o Laravel (https://laravel.com/docs/10.x/installation)
 5) instalar o mysql (senha root: 1234)
 6) rodar o script para gerar as tabelas e dados

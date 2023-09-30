@@ -71,20 +71,14 @@
         <div class="row">
             <div class="col-8">
                 <div class="form-group">
-                    <label>Firma</label>
+                    <label>Empresa</label>
                     <input name="responsavel_firma" class="form-control" value="{{ old('responsavel_firma') }}" />
                 </div>
             </div>
             <div class="col-2">
                 <div class="form-group">
-                    <label>Telefone da Firma</label>
+                    <label>Telefone da Empresa</label>
                     <input name="responsavel_telefone_firma" class="form-control telefoneFixo" value="{{ old('responsavel_telefone_firma') }}" />
-                </div>
-            </div>
-            <div class="col-2">
-                <div class="form-group">
-                    <label>Ramal da Firma</label>
-                    <input name="responsavel_ramal_firma" class="form-control" value="{{ old('responsavel_ramal_firma') }}" />
                 </div>
             </div>
         </div>
